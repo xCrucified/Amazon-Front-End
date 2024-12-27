@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { format } from "date-fns"
 import {
   Card,
   CardHeader,
@@ -26,9 +27,11 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { ChevronsUpDown, Check } from "lucide-react";
+import { ChevronsUpDown, Check, CalendarIcon } from "lucide-react";
 
 import { CountryCodes as countryCodes } from "@/lib/definitions";
+import { Calendar } from "../ui/calendar";
+import { DatePicker } from "../ui/date-picker";
 
 export default function SignupForm({
   className,
@@ -36,6 +39,8 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+
+  const [date, setDate] = React.useState<Date>();
 
   return (
     <div className={cn("flex flex-col gap-6 w-[1000px]", className)} {...props}>
@@ -50,7 +55,7 @@ export default function SignupForm({
           <form>
             <div className="grid gap-6">
               <div className="grid gap-6">
-                <div className="flex gap-6">
+                <div className="flex gap-3">
                   <div className="flex-grow grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
@@ -143,7 +148,7 @@ export default function SignupForm({
                 <div className="flex gap-6">
                   <div className="grid gap-2">
                     <Label htmlFor="birthDate">Birth Date</Label>
-                    <Input id="birthDate" type="date" />
+                    <DatePicker />
                   </div>
                   <div className="flex-grow grid gap-2">
                     <Label htmlFor="avatarPicture">Avatar Picture</Label>
