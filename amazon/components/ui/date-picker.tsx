@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { format, getMonth, getYear, set, setMonth, setYear } from "date-fns"
+import { format, getMonth, getYear, setMonth, setYear } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
