@@ -17,11 +17,12 @@ import { CountryCodes as countryCodes } from "@/lib/definitions";
 
 interface Props {
   className?: string;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const CountryPicker: React.FC<Props> = ({ className }) => {
+export const CountryPicker: React.FC<Props> = ({ className, value, setValue }) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
 
   return (
     <div className={cn("", className)}>

@@ -31,7 +31,8 @@ export default function SignupForm({
   const [email, setEmail] = React.useState("");
   const [avatarPicture, setAvatarPicture] = React.useState("");
   const [date, setDate] = React.useState<Date>(new Date());
-  const [phoneNumber, setPhoneNumber] = React.useState(""); // TODO: Add country code
+  const [countryCode, setCountryCode] = React.useState("");
+  const [phoneNumber, setPhoneNumber] = React.useState("");
 
   const showAll = () => {
     console.log(username);
@@ -40,7 +41,7 @@ export default function SignupForm({
     console.log(email);
     console.log(avatarPicture);
     console.log(date);
-    console.log(phoneNumber);
+    console.log('+' + countryCode + phoneNumber);
   };
 
   return (
@@ -144,7 +145,11 @@ export default function SignupForm({
                     </span>
                   </Label>
                   <div className="flex gap-1">
-                    <CountryPicker className="flex-grow" />
+                    <CountryPicker
+                      value={countryCode}
+                      setValue={setCountryCode}
+                      className="flex-grow"
+                    />
                     <Input
                       id="phoneNumber"
                       type="text"
