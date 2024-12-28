@@ -19,9 +19,11 @@ interface Props {
   className?: string;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  label: string;
+  setLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const CountryPicker: React.FC<Props> = ({ className, value, setValue }) => {
+export const CountryPicker: React.FC<Props> = ({ className, value, setValue, label, setLabel }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -34,8 +36,8 @@ export const CountryPicker: React.FC<Props> = ({ className, value, setValue }) =
             aria-expanded={open}
             className="w-full justify-between"
           >
-            {value
-              ? countryCodes.find((countryCode) => countryCode.label === value)
+            {label
+              ? countryCodes.find((countryCode) => countryCode.label === label)
                   ?.label
               : "Select country code..."}
             <ChevronsUpDown className="opacity-50" />
@@ -55,7 +57,8 @@ export const CountryPicker: React.FC<Props> = ({ className, value, setValue }) =
                     key={countryCode.id}
                     value={countryCode.label}
                     onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue);
+                      setLabel(currentValue === label ? "" : currentValue);
+                      setValue(countryCodes.find((countryCode) => countryCode.label === currentValue)?.value.toString() || "");
                       setOpen(false);
                     }}
                   >
@@ -63,7 +66,7 @@ export const CountryPicker: React.FC<Props> = ({ className, value, setValue }) =
                     <Check
                       className={cn(
                         "ml-auto",
-                        value === countryCode.id.toString()
+                        label === countryCode.id.toString()
                           ? "opacity-100"
                           : "opacity-0"
                       )}

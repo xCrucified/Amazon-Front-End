@@ -19,6 +19,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { signIn } from "next-auth/react";
 import { Trash } from "lucide-react";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { toast } from "sonner";
 
 const optionalLabel = "(optional)";
 
@@ -33,8 +41,8 @@ export default function SignupForm({
   const [avatarPicture, setAvatarPicture] = React.useState("");
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [date, setDate] = React.useState<Date>(new Date());
-  const [countryCode, setCountryCode] = React.useState("");
-  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [countryCodeValue, setCountryCodeValue] = React.useState("");
+  const [countryCodeLabel, setCountryCodeLabel] = React.useState("");
 
   const deleteImage = () => {
     setAvatarPicture("");
@@ -49,12 +57,33 @@ export default function SignupForm({
     console.log(confirmPassword);
     console.log(email);
     console.log(avatarPicture);
-    console.log(date);
-    console.log("+" + countryCode + phoneNumber);
+    console.log(date.toLocaleDateString());
+    const phoneNumber = (
+      document.getElementById("phoneNumber") as HTMLInputElement
+    )?.value;
+    console.log("+" + countryCodeValue + phoneNumber);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (countryCodeValue === "") {
+      toast("Please select a country code.", {
+        action: {
+          label: "Ok",
+          onClick: () => {
+            const picker = (
+              document.getElementById("countryCode") as HTMLInputElement
+            )?.value;
+          },
+        },
+      });
+      return;
+    }
+    showAll();
   };
 
   return (
-    <div className={cn("flex flex-col gap-6 w-[1000px]", className)} {...props}>
+    <div className={cn("flex flex-col gap-6 w-[1100px]", className)} {...props}>
       <Card className="w-[100%]">
         <CardHeader className="text-center">
           <CardTitle className="text-left text-xl">Sign Up</CardTitle>
@@ -63,7 +92,7 @@ export default function SignupForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               <div className="flex flex-grow gap-2">
                 <div className="grid flex-grow gap-2">
@@ -169,26 +198,39 @@ export default function SignupForm({
                   </Label>
                   <div className="flex gap-1">
                     <CountryPicker
-                      value={countryCode}
-                      setValue={setCountryCode}
+                      value={countryCodeValue}
+                      label={countryCodeLabel}
+                      setLabel={setCountryCodeLabel}
+                      setValue={setCountryCodeValue}
                       className="flex-grow"
                     />
-                    <Input
+                    <InputOTP
                       id="phoneNumber"
-                      type="text"
-                      placeholder="77 745 24 85"
-                      className="flex-grow"
-                      onChange={(event) => setPhoneNumber(event.target.value)}
-                    />
+                      maxLength={9}
+                      pattern={REGEXP_ONLY_DIGITS}
+                    >
+                      <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                      </InputOTPGroup>
+                      <InputOTPSeparator />
+                      <InputOTPGroup>
+                        <InputOTPSlot index={2} />
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                      </InputOTPGroup>
+                      <InputOTPSeparator />
+                      <InputOTPGroup>
+                        <InputOTPSlot index={5} />
+                        <InputOTPSlot index={6} />
+                        <InputOTPSlot index={7} />
+                        <InputOTPSlot index={8} />
+                      </InputOTPGroup>
+                    </InputOTP>
                   </div>
                 </div>
               </div>
-              <Button
-                className="w-full"
-                onClick={() => {
-                  showAll();
-                }}
-              >
+              <Button className="w-full" type="submit">
                 Sign Up
               </Button>
               <div className="text-center text-sm">
@@ -222,7 +264,7 @@ export default function SignupForm({
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        By clicking Sign Up, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
       </div>
     </div>
