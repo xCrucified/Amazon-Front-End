@@ -18,6 +18,7 @@ import { CountryPicker } from "@/components/ui/country-picker";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { signIn } from "next-auth/react";
+import { Trash } from "lucide-react";
 
 const optionalLabel = "(optional)";
 
@@ -30,9 +31,17 @@ export default function SignupForm({
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [avatarPicture, setAvatarPicture] = React.useState("");
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [date, setDate] = React.useState<Date>(new Date());
   const [countryCode, setCountryCode] = React.useState("");
   const [phoneNumber, setPhoneNumber] = React.useState("");
+
+  const deleteImage = () => {
+    setAvatarPicture("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   const showAll = () => {
     console.log(username);
@@ -41,7 +50,7 @@ export default function SignupForm({
     console.log(email);
     console.log(avatarPicture);
     console.log(date);
-    console.log('+' + countryCode + phoneNumber);
+    console.log("+" + countryCode + phoneNumber);
   };
 
   return (
@@ -100,8 +109,8 @@ export default function SignupForm({
                       required
                     />
                   </div>
-                  <div className="flex-grow grid gap-2">
-                    <Label htmlFor="avatarPicture">
+                  <div className="flex-grow flex flex-col">
+                    <Label htmlFor="avatarPicture" className="flex-grow">
                       Avatar Picture{" "}
                       <span className="text-muted-foreground">
                         {optionalLabel}
@@ -110,6 +119,8 @@ export default function SignupForm({
                     <Input
                       id="avatarPicture"
                       type="file"
+                      accept=".jpg,.jpeg,.png"
+                      ref={fileInputRef}
                       onChange={(event) => {
                         const file = event.target.files?.[0];
                         if (file) {
@@ -119,13 +130,25 @@ export default function SignupForm({
                     />
                   </div>
                 </div>
-                <Avatar className="flex self-center items-center justify-center w-[400px] h-[400px] ml-3">
-                  <AvatarImage
-                    src={avatarPicture}
-                    className="object-cover w-full h-full rounded-full antialiased "
-                  />
-                  <AvatarFallback>AP</AvatarFallback>
-                </Avatar>
+                <div className="flex flex-col items-center gap-3">
+                  <Avatar className="flex self-center items-center justify-center w-[360px] h-[360px] ml-3">
+                    <AvatarImage
+                      src={avatarPicture || undefined}
+                      className="object-cover w-full h-full rounded-full antialiased"
+                    />
+                    <AvatarFallback className="text-[22px]">
+                      Avatar Picture
+                    </AvatarFallback>
+                  </Avatar>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    disabled={!avatarPicture}
+                    onClick={() => deleteImage()}
+                  >
+                    <Trash /> Delete image
+                  </Button>
+                </div>
               </div>
               <div className="flex gap-1">
                 <div className="grid gap-2">
