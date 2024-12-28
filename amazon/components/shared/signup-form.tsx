@@ -25,7 +25,23 @@ export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [avatarPicture, setAvatarPicture] = React.useState("");
+  const [date, setDate] = React.useState<Date>(new Date());
+  const [phoneNumber, setPhoneNumber] = React.useState(""); // TODO: Add country code
+
+  const showAll = () => {
+    console.log(username);
+    console.log(password);
+    console.log(confirmPassword);
+    console.log(email);
+    console.log(avatarPicture);
+    console.log(date);
+    console.log(phoneNumber);
+  };
 
   return (
     <div className={cn("flex flex-col gap-6 w-[1000px]", className)} {...props}>
@@ -47,6 +63,7 @@ export default function SignupForm({
                       id="username"
                       type="text"
                       placeholder="Username"
+                      onChange={(event) => setUsername(event.target.value)}
                       required
                     />
                   </div>
@@ -56,6 +73,7 @@ export default function SignupForm({
                       id="password"
                       type="password"
                       placeholder="Password"
+                      onChange={(event) => setPassword(event.target.value)}
                       required
                     />
                   </div>
@@ -65,6 +83,9 @@ export default function SignupForm({
                       id="confirmPassword"
                       type="password"
                       placeholder="Confirm Password"
+                      onChange={(event) =>
+                        setConfirmPassword(event.target.value)
+                      }
                       required
                     />
                   </div>
@@ -74,6 +95,7 @@ export default function SignupForm({
                       id="email"
                       type="email"
                       placeholder="m@example.com"
+                      onChange={(event) => setEmail(event.target.value)}
                       required
                     />
                   </div>
@@ -112,7 +134,7 @@ export default function SignupForm({
                       {optionalLabel}
                     </span>
                   </Label>
-                  <DatePicker />
+                  <DatePicker date={date} setDate={setDate} />
                 </div>
                 <div className="flex-grow grid gap-2">
                   <Label htmlFor="phoneNumber">
@@ -128,11 +150,19 @@ export default function SignupForm({
                       type="text"
                       placeholder="77 745 24 85"
                       className="flex-grow"
+                      onChange={(event) => setPhoneNumber(event.target.value)}
                     />
                   </div>
                 </div>
               </div>
-              <Button className="w-full">Sign Up</Button>
+              <Button
+                className="w-full"
+                onClick={() => {
+                  showAll();
+                }}
+              >
+                Sign Up
+              </Button>
               <div className="text-center text-sm">
                 Already have an account?{" "}
                 <a href="/login" className="underline underline-offset-4">
@@ -156,7 +186,7 @@ export default function SignupForm({
                       fill="currentColor"
                     />
                   </svg>
-                  Continue with Google
+                  Google
                 </Button>
               </div>
             </div>
