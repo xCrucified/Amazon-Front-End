@@ -68,22 +68,8 @@ const items: Categs[] = [
     id: 11,
     title: "Books",
     href: "/books",
-  },
-  {
-    id: 12,
-    title: "Fashion",
-    href: "/fashion",
-  },
-  {
-    id: 13,
-    title: "Art",
-    href: "/art",
-  },
-  {
-    id: 14,
-    title: "History",
-    href: "/history",
-  },
+  }
+  
 ];
 
 export const Categories: React.FC<Props> = ({ className }) => {

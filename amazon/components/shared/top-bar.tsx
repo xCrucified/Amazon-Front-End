@@ -14,7 +14,7 @@ export const TopBar: React.FC<Props> = ({ className }) => {
         <div className="col-span-2 col-start-2 w-[85px] flex justify-center">
           <Button className="w-full">All</Button>
         </div>
-        <div className="col-span-6 flex justify-center">
+        <div className="col-span-6 flex justify-center whitespace-nowrap">
           <Categories />
         </div>
       </div>
