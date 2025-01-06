@@ -64,20 +64,16 @@ const items: Categs[] = [
     title: "Movies",
     href: "/movies",
   },
-  {
-    id: 11,
-    title: "Books",
-    href: "/books",
-  }
-  
 ];
 
 export const Categories: React.FC<Props> = ({ className }) => {
+
+
   return (
-    <div className={cn("flex gap-0.5", className)}>
+    <div className={cn("flex gap-0.5 flex-wrap", className)}>
       {items.map((item, index) => (
         <Link key={index} href={item.href}>
-          <Button className="w-20 h-10 text-white">{item.title}</Button>
+            <Button className="w-20 h-10 transition-all duration-124 transform hover:translate-y-1 hover:border-b hover:border-black">{item.title}</Button>
         </Link>
       ))}
     </div>

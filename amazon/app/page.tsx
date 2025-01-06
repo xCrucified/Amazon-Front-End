@@ -8,16 +8,14 @@ import React from "react";
 export default function Home() {
   return (
     <>
-      <TopBar />
+      <TopBar className="outline"/>
 
-      <Container>
-        <CarouselDisplay className={"z-0 blur-4"} />
+      <Container className="px-4 sm:px-6 lg:px-8">
+        <CarouselDisplay className="z-0 blur-4" />
       </Container>
 
-      <Container
-        className={"min-h-[calc(100vh-16px)] flex items-center justify-center p-2"}
-      >
-        <Main/>
+      <Container className="min-h-[calc(100vh-16px)] flex items-center justify-center p-2">
+        <Main />
       </Container>
 
       <Footer />
