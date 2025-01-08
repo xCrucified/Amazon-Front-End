@@ -1,5 +1,28 @@
 import { z } from "zod";
 
+export const usernameSchema = z
+  .string()
+  .min(3, { message: "Name must be at least 3 characters long." })
+  .trim();
+
+export const passwordSchema = z
+  .string()
+  .min(8, { message: "Be at least 8 characters long" })
+  .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
+  .regex(/[0-9]/, { message: "Contain at least one number." })
+  .regex(/[^a-zA-Z0-9]/, { message: "Contain at least one special character." })
+  .trim();
+
+export const emailSchema = z.string().email({ message: "Please enter a valid email." }).trim();
+
+export const birthdateSchema = z.date().refine(
+  (date) => {
+    const age = new Date().getFullYear() - date.getFullYear();
+    return age >= 14;
+  },
+  { message: "You must be at least 14 years old." }
+);
+
 export const CountryCodes = [
   { id: 1, value: "1", label: "United States +1" },
   { id: 2, value: "93", label: "Afghanistan +93" },
@@ -236,33 +259,5 @@ export const CountryCodes = [
   { id: 233, value: "681", label: "Wallis and Futuna +681" },
   { id: 234, value: "212", label: "Western Sahara +212" },
   { id: 235, value: "967", label: "Yemen +967" },
-  { id: 236, value: "260", label: "Zambia +260" }
+  { id: 236, value: "260", label: "Zambia +260" },
 ];
-
-export const SignupFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters long." })
-    .trim(),
-  email: z.string().email({ message: "Please enter a valid email." }).trim(),
-  password: z
-    .string()
-    .min(8, { message: "Be at least 8 characters long" })
-    .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-    .regex(/[0-9]/, { message: "Contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, {
-      message: "Contain at least one special character.",
-    })
-    .trim(),
-});
-
-export type FormState =
-  | {
-      errors?: {
-        name?: string[];
-        email?: string[];
-        password?: string[];
-      };
-      message?: string;
-    }
-  | undefined;
