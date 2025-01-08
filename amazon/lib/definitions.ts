@@ -1,27 +1,44 @@
 import { z } from "zod";
 
-export const usernameSchema = z
-  .string()
-  .min(3, { message: "Name must be at least 3 characters long." })
-  .trim();
-
-export const passwordSchema = z
-  .string()
-  .min(8, { message: "Be at least 8 characters long" })
-  .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-  .regex(/[0-9]/, { message: "Contain at least one number." })
-  .regex(/[^a-zA-Z0-9]/, { message: "Contain at least one special character." })
-  .trim();
-
-export const emailSchema = z.string().email({ message: "Please enter a valid email." }).trim();
-
-export const birthdateSchema = z.date().refine(
-  (date) => {
-    const age = new Date().getFullYear() - date.getFullYear();
-    return age >= 14;
-  },
-  { message: "You must be at least 14 years old." }
-);
+export const formSchema = z
+  .object({
+    username: z
+      .string()
+      .min(3, "Username must be 3 letters min")
+      .max(20, "Username must be 20 letters max"),
+    password: z
+      .string()
+      .min(8, { message: "Be at least 8 characters long" })
+      .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
+      .regex(/[0-9]/, { message: "Contain at least one number." })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: "Contain at least one special character.",
+      })
+      .trim(),
+    reenterPassword: z.string(),
+    avatarPicture: z.string().optional(),
+    email: z.string().email({ message: "Please enter a valid email." }).trim(),
+    birthDate: z
+      .date()
+      .refine(
+        (date) => {
+          const age = new Date().getFullYear() - date.getFullYear();
+          return age >= 14;
+        },
+        { message: "You must be at least 14 years old." }
+      )
+      .optional(),
+    phoneNumber: z
+      .string()
+      .regex(/^\d{9}$/, {
+        message: "Please enter a valid phone number. (9 digits)",
+      })
+      .optional(),
+  })
+  .refine((data) => data.password === data.reenterPassword, {
+    message: "Passwords do not match.",
+    path: ["reenterPassword"],
+  });
 
 export const CountryCodes = [
   { id: 1, value: "1", label: "United States +1" },

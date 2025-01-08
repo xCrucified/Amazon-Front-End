@@ -2,13 +2,22 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { formSchema } from "@/lib/definitions";
 import { toast } from "sonner";
-import { signIn } from "next-auth/react";
 
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,55 +29,7 @@ import {
 } from "@/components/ui/card";
 import { DatePicker } from "@/components/ui/date-picker";
 import { CountryPicker } from "@/components/ui/country-picker";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import ImagePicker from "@/components/ui/image-picker";
-
-const formSchema = z
-  .object({
-    username: z
-      .string()
-      .min(3, "Username must be 3 letters min")
-      .max(20, "Username must be 20 letters max"),
-    password: z
-      .string()
-      .min(8, { message: "Be at least 8 characters long" })
-      .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-      .regex(/[0-9]/, { message: "Contain at least one number." })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: "Contain at least one special character.",
-      })
-      .trim(),
-    reenterPassword: z.string(),
-    avatarPicture: z.string().optional(),
-    email: z.string().email({ message: "Please enter a valid email." }).trim(),
-    birthDate: z
-      .date()
-      .refine(
-        (date) => {
-          const age = new Date().getFullYear() - date.getFullYear();
-          return age >= 14;
-        },
-        { message: "You must be at least 14 years old." }
-      )
-      .optional(),
-    phoneNumber: z
-      .string()
-      .regex(/^\d{9}$/, {
-        message: "Please enter a valid phone number. (9 digits)",
-      })
-      .optional(),
-  })
-  .refine((data) => data.password === data.reenterPassword, {
-    message: "Passwords do not match.",
-    path: ["reenterPassword"],
-  });
 
 export default function SignupForm({
   className,
@@ -79,7 +40,6 @@ export default function SignupForm({
   const [reenterPassword, setReenterPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [selectedImage, setSelectedImage] = React.useState<string | null>("");
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [date, setDate] = React.useState<Date>(new Date());
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [countryCodeValue, setCountryCodeValue] = React.useState("");
@@ -250,10 +210,7 @@ export default function SignupForm({
                                   setValue={setCountryCodeValue}
                                   className="flex-grow"
                                 />
-                                <Input
-                                  id="phoneNumber"
-                                  type="text"
-                                />
+                                <Input id="phoneNumber" type="text" />
                               </div>
                             </FormControl>
                             <FormMessage />
