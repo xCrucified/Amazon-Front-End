@@ -27,23 +27,18 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { DatePicker } from "@/components/ui/date-picker";
-import { CountryPicker } from "@/components/ui/country-picker";
+import DatePicker from "@/components/ui/date-picker";
+import CountryPicker from "@/components/ui/country-picker";
 import ImagePicker from "@/components/ui/image-picker";
 
 export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [reenterPassword, setReenterPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [selectedImage, setSelectedImage] = React.useState<string | null>("");
   const [date, setDate] = React.useState<Date>(new Date());
-  const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [countryCodeValue, setCountryCodeValue] = React.useState("");
-  const [countryCodeLabel, setCountryCodeLabel] = React.useState("");
+  const [countryCodeValue, setCountryCodeValue] = React.useState(""); // +1
+  const [countryCodeLabel, setCountryCodeLabel] = React.useState(""); // United States +1
+  const [selectedImage, setSelectedImage] = React.useState<string | null>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,26 +53,29 @@ export default function SignupForm({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    toast.info("Creted account successfully: ");
-  }
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
 
-  const removeImage = () => {
-    setSelectedImage("");
-  };
+      if (response.ok) {
+        toast.success('User created successfully');
+
+      } else {
+        toast.error('User creation failed');
+      }
+    } catch (error) {
+      toast.error('An error occurred');
+    }
+  }
 
   const handleImageSelect = (image: string | null) => {
     setSelectedImage(image);
-  };
-
-  const showAll = () => {
-    console.log(username);
-    console.log(password);
-    console.log(reenterPassword);
-    console.log(email);
-    console.log(selectedImage);
-    console.log(date.toLocaleDateString());
-    console.log("+" + countryCodeValue + phoneNumber);
   };
 
   return (
@@ -93,8 +91,8 @@ export default function SignupForm({
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-6">
-                <div className="flex flex-grow gap-2">
-                  <div className="grid grid-cols-2 flex-grow gap-2">
+                <div className="flex gap-2">
+                  <div className="grid flex-grow gap-2">
                     <div className="flex-grow grid gap-1">
                       <FormField
                         control={form.control}
@@ -103,13 +101,7 @@ export default function SignupForm({
                           <FormItem>
                             <FormLabel>Username</FormLabel>
                             <FormControl>
-                              <Input
-                                type="text"
-                                onChange={(event) =>
-                                  setUsername(event.target.value)
-                                }
-                                required
-                              />
+                              <Input type="text" {...field} required />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -124,13 +116,7 @@ export default function SignupForm({
                           <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                              <Input
-                                type="password"
-                                onChange={(event) =>
-                                  setPassword(event.target.value)
-                                }
-                                required
-                              />
+                              <Input type="password" {...field} required />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -145,13 +131,7 @@ export default function SignupForm({
                           <FormItem>
                             <FormLabel>Re-enter Password</FormLabel>
                             <FormControl>
-                              <Input
-                                type="password"
-                                onChange={(event) =>
-                                  setReenterPassword(event.target.value)
-                                }
-                                required
-                              />
+                              <Input type="password" {...field} required />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -166,13 +146,7 @@ export default function SignupForm({
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input
-                                type="email"
-                                onChange={(event) =>
-                                  setEmail(event.target.value)
-                                }
-                                required
-                              />
+                              <Input type="email" {...field} required />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -187,7 +161,14 @@ export default function SignupForm({
                           <FormItem>
                             <FormLabel>Birth Date</FormLabel>
                             <FormControl>
-                              <DatePicker date={date} setDate={setDate} />
+                              <DatePicker
+                                date={date}
+                                {...field}
+                                setDate={(newDate) => {
+                                  setDate(newDate);
+                                  field.onChange(newDate);
+                                }}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -210,7 +191,7 @@ export default function SignupForm({
                                   setValue={setCountryCodeValue}
                                   className="flex-grow"
                                 />
-                                <Input id="phoneNumber" type="text" />
+                                <Input type="text" {...field} required />
                               </div>
                             </FormControl>
                             <FormMessage />
@@ -227,15 +208,15 @@ export default function SignupForm({
                     />
                     <Button
                       variant="outline"
-                      className="w-full"
+                      className="w-full flex-grow"
                       disabled={!selectedImage}
-                      onClick={() => removeImage()}
+                      onClick={() => setSelectedImage("")}
                     >
                       <Trash /> Delete image
                     </Button>
                   </div>
                 </div>
-                <Button className="w-full" type="submit">
+                <Button className="w-full h-full" type="submit">
                   Sign Up
                 </Button>
                 <div className="text-center text-sm">

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -36,9 +37,11 @@ const ImagePicker: React.FC<Props> = ({
       <input {...getInputProps()} />
       {selectedImage ? (
         <div className="w-full h-full">
-          <img
+          <Image
             src={selectedImage}
             alt="Selected"
+            width={0}
+            height={0}
             className="object-cover w-full h-full rounded-full antialiased"
           />
         </div>

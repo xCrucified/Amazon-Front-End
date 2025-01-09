@@ -9,11 +9,10 @@ datasource db {
 
 model User {
   id             Int        @id @default(autoincrement())
-  email          String     @unique
-  username       String?    @unique
-  avatarPicture  String?
+  username       String     @unique
   password       String
-  phoneNumber    String?    @unique
-  createdAt      DateTime   @default(now())
-  birthDate      DateTime?
+  email          String     @unique
+  birthDate      DateTime
+  phoneNumber    String     @unique
+  avatarPicture  String?
 }

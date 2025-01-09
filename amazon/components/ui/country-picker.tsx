@@ -23,7 +23,7 @@ interface Props {
   setLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const CountryPicker: React.FC<Props> = ({ className, value, setValue, label, setLabel }) => {
+const CountryPicker: React.FC<Props> = ({ className, value, setValue, label, setLabel }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -81,3 +81,5 @@ export const CountryPicker: React.FC<Props> = ({ className, value, setValue, lab
     </div>
   );
 };
+
+export default CountryPicker;
