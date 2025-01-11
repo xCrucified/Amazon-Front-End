@@ -9,15 +9,15 @@ export const formSchema = z
     password: z
       .string()
       .min(8, { message: "Be at least 8 characters long" })
-      .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-      .regex(/[0-9]/, { message: "Contain at least one number." })
+      .regex(/[a-zA-Z]/, { message: "Contain at least one letter" })
+      .regex(/[0-9]/, { message: "Contain at least one number" })
       .regex(/[^a-zA-Z0-9]/, {
-        message: "Contain at least one special character.",
+        message: "Contain at least one special character",
       })
       .trim(),
     reenterPassword: z.string(),
     avatarPicture: z.string().optional(),
-    email: z.string().email({ message: "Please enter a valid email." }).trim(),
+    email: z.string().email({ message: "Please enter a valid email" }).trim(),
     birthDate: z
       .date()
       .refine(
@@ -25,18 +25,16 @@ export const formSchema = z
           const age = new Date().getFullYear() - date.getFullYear();
           return age >= 14;
         },
-        { message: "You must be at least 14 years old." }
+        { message: "You must be at least 14 years old" }
       )
       .optional(),
-    phoneNumber: z
-      .string()
-      .regex(/^\d{9}$/, {
-        message: "Please enter a valid phone number. (9 digits)",
-      })
-      .optional(),
+    countryCode: z.string().nonempty("Please select country"),
+    phoneNumber: z.string().regex(/^\d{9}$/, {
+      message: "Please enter a valid phone number (9 digits)",
+    }),
   })
   .refine((data) => data.password === data.reenterPassword, {
-    message: "Passwords do not match.",
+    message: "Passwords do not match",
     path: ["reenterPassword"],
   });
 

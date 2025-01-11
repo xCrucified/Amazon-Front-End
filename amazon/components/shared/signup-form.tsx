@@ -49,34 +49,30 @@ export default function SignupForm({
       email: "",
       avatarPicture: "",
       birthDate: new Date(),
+      countryCode: "",
       phoneNumber: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch('/api/signup', {
-        method: 'POST',
+      const response = await fetch("/api/signup", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
       });
 
       if (response.ok) {
-        toast.success('User created successfully');
-
+        toast.success("User created successfully");
       } else {
-        toast.error('User creation failed');
+        toast.error("User creation failed");
       }
     } catch (error) {
-      toast.error('An error occurred');
+      toast.error("An error occurred");
     }
   }
-
-  const handleImageSelect = (image: string | null) => {
-    setSelectedImage(image);
-  };
 
   return (
     <div className={cn("flex flex-col gap-6 w-[1100px]", className)} {...props}>
@@ -164,9 +160,9 @@ export default function SignupForm({
                               <DatePicker
                                 date={date}
                                 {...field}
-                                setDate={(newDate) => {
-                                  setDate(newDate);
-                                  field.onChange(newDate);
+                                setDate={(date) => {
+                                  setDate(date);
+                                  field.onChange(date);
                                 }}
                               />
                             </FormControl>
@@ -176,45 +172,81 @@ export default function SignupForm({
                       />
                     </div>
                     <div className="flex-grow grid gap-2">
-                      <FormField
-                        control={form.control}
-                        name="phoneNumber"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
-                            <FormControl>
-                              <div className="flex gap-1">
+                      <FormLabel className="pt-1 pb-1">Phone Number</FormLabel>
+                      <div className="flex gap-1 flex-grow">
+                        <FormField
+                          control={form.control}
+                          name="countryCode"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
                                 <CountryPicker
-                                  value={countryCodeValue}
                                   label={countryCodeLabel}
                                   setLabel={setCountryCodeLabel}
-                                  setValue={setCountryCodeValue}
-                                  className="flex-grow"
+                                  setValue={(value) => {
+                                    setCountryCodeValue(value);
+                                    field.onChange(value);
+                                  }}
+                                  {...field}
+                                  value={countryCodeValue}
                                 />
-                                <Input type="text" {...field} required />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="phoneNumber"
+                          render={({ field }) => (
+                            <FormItem className="flex-grow">
+                              <FormControl>
+                                <Input
+                                  type="text"
+                                  className="flex-grow"
+                                  {...field}
+                                  required
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <ImagePicker
-                      selectedImage={selectedImage}
-                      className="w-[360px] h-[360px] flex items-center justify-center ml-3 border-2 border-dashed border-gray-300 rounded-full"
-                      onImageSelect={handleImageSelect}
-                    />
-                    <Button
-                      variant="outline"
-                      className="w-full flex-grow"
-                      disabled={!selectedImage}
-                      onClick={() => setSelectedImage("")}
-                    >
-                      <Trash /> Delete image
-                    </Button>
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="avatarPicture"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-3">
+                        <FormControl>
+                          <div className="flex flex-col gap-3">
+                            <ImagePicker
+                              selectedImage={selectedImage}
+                              className="w-[400px] h-[400px] flex items-center justify-center ml-3 border-2 border-dashed border-gray-300 rounded-full"
+                              {...field}
+                              onImageSelect={(image) => {
+                                setSelectedImage(image);
+                                field.onChange(image);
+                              }}
+                            />
+                            <Button
+                              variant="outline"
+                              className="w-full flex-grow"
+                              disabled={!selectedImage}
+                              onClick={() => {
+                                setSelectedImage("");
+                                field.onChange("");
+                              }}
+                            >
+                              <Trash /> Delete image
+                            </Button>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </div>
                 <Button className="w-full h-full" type="submit">
                   Sign Up

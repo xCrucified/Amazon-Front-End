@@ -23,7 +23,13 @@ interface Props {
   setLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CountryPicker: React.FC<Props> = ({ className, value, setValue, label, setLabel }) => {
+const CountryPicker: React.FC<Props> = ({
+  className,
+  value,
+  setValue,
+  label,
+  setLabel,
+}) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -58,7 +64,13 @@ const CountryPicker: React.FC<Props> = ({ className, value, setValue, label, set
                     value={countryCode.label}
                     onSelect={(currentValue) => {
                       setLabel(currentValue === label ? "" : currentValue);
-                      setValue(countryCodes.find((countryCode) => countryCode.label === currentValue)?.value.toString() || "");
+                      setValue(
+                        countryCodes
+                          .find(
+                            (countryCode) => countryCode.label === currentValue
+                          )
+                          ?.value.toString() || ""
+                      );
                       setOpen(false);
                     }}
                   >
