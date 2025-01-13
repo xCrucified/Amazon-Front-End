@@ -18,8 +18,11 @@ const ImagePicker: React.FC<Props> = ({
     (acceptedFiles: any[]) => {
       const file = acceptedFiles[0];
       if (file) {
-        const imageUrl = URL.createObjectURL(file);
-        onImageSelect(imageUrl);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          onImageSelect(reader.result as string);
+        };
+        reader.readAsDataURL(file);
       } else {
         onImageSelect(null);
       }

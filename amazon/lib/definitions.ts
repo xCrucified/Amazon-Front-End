@@ -1,11 +1,7 @@
 import { z } from "zod";
 
-export const formSchema = z
+export const passwordSchema = z
   .object({
-    username: z
-      .string()
-      .min(3, "Username must be 3 letters min")
-      .max(20, "Username must be 20 letters max"),
     password: z
       .string()
       .min(8, { message: "Be at least 8 characters long" })
@@ -16,27 +12,36 @@ export const formSchema = z
       })
       .trim(),
     reenterPassword: z.string(),
-    avatarPicture: z.string().optional(),
-    email: z.string().email({ message: "Please enter a valid email" }).trim(),
-    birthDate: z
-      .date()
-      .refine(
-        (date) => {
-          const age = new Date().getFullYear() - date.getFullYear();
-          return age >= 14;
-        },
-        { message: "You must be at least 14 years old" }
-      )
-      .optional(),
-    countryCode: z.string().nonempty("Please select country"),
-    phoneNumber: z.string().regex(/^\d{9}$/, {
-      message: "Please enter a valid phone number (9 digits)",
-    }),
   })
   .refine((data) => data.password === data.reenterPassword, {
     message: "Passwords do not match",
     path: ["reenterPassword"],
   });
+
+export const birthDatePhoneNumberSchema = z.object({
+  birthDate: z.date().refine(
+    (date) => {
+      const age = new Date().getFullYear() - date.getFullYear();
+      return age >= 14;
+    },
+    { message: "You must be at least 14 years old" }
+  ),
+  countryCode: z.string().nonempty("Please select country"),
+  phoneNumber: z
+    .string()
+    .regex(/^\d{9}$/, {
+      message: "Please enter a valid phone number (9 digits)",
+    })
+    .nonempty("Please enter phone number"),
+});
+
+export const usernameEmailSchema = z.object({
+  username: z
+    .string()
+    .min(3, "Username must be 3 letters min")
+    .max(20, "Username must be 20 letters max"),
+  email: z.string().email({ message: "Please enter a valid email" }).trim(),
+});
 
 export const CountryCodes = [
   { id: 1, value: "1", label: "United States +1" },

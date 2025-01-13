@@ -25,7 +25,6 @@ interface DatePickerProps {
   endYear?: number;
   date: Date;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
-  id?: string;
 }
 
 function DatePicker({
@@ -33,7 +32,6 @@ function DatePicker({
   endYear = getYear(new Date()) + 100,
   date,
   setDate,
-  id,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -74,7 +72,7 @@ function DatePicker({
   };
 
   return (
-    <div id={id}>
+    <div>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

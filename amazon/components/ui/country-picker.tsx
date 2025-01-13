@@ -49,7 +49,7 @@ const CountryPicker: React.FC<Props> = ({
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="w-full p-0">
           <Command>
             <CommandInput
               placeholder="Search country code..."
