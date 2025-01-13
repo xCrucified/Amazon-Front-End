@@ -6,11 +6,14 @@ interface Props {
   className?: string;
 }
 
-export const Main: React.FC<Props> = ({ className, ...props }) => {
+export const ProductCard: React.FC<Props> = ({ className, ...props }) => {
+  
+
+  
   return (
     <>
     <div className="flex flex-wrap gap-3">
-    <Card className={cn("w-[410px] h-[480px]", className)} {...props}>
+    <Card  className={cn("w-[410px] h-[480px]", className)} {...props}>
       <CardHeader>
         <CardTitle>Accordion</CardTitle>
       </CardHeader>
@@ -105,4 +108,4 @@ export const Main: React.FC<Props> = ({ className, ...props }) => {
   );
 };
 
-export default Main;
+export default ProductCard;
