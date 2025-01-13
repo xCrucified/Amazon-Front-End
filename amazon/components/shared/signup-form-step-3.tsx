@@ -26,12 +26,14 @@ import {
 } from "@/components/ui/card";
 import DatePicker from "../ui/date-picker";
 import CountryPicker from "../ui/country-picker";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter();
+  
   const getFromLocalStorage = async () => {
     const birthDateString = localStorage.getItem("birthDate") || "";
     const birthDate = birthDateString ? new Date(birthDateString) : new Date();
@@ -71,7 +73,7 @@ export default function SignupForm({
     localStorage.setItem("countryCode", values.countryCode);
     localStorage.setItem("countryCodeLabel", countryCodeLabel);
     localStorage.setItem("phoneNumber", values.phoneNumber);
-    redirect("/signup/step-4");
+    router.push("/signup/step-4");
   }
 
   return (
@@ -157,7 +159,7 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-                      redirect("/signup/step-2");
+                      router.push("/signup/step-2");
                     }}
                   >
                     Prev

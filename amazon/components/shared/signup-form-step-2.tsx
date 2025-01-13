@@ -24,7 +24,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface Values {
   name: "password" | "reenterPassword";
@@ -40,6 +40,8 @@ export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter();
+
   const getFromLocalStorage = async () => {
     const password = localStorage.getItem("password") || "";
     const reenterPassword = localStorage.getItem("reenterPassword") || "";
@@ -66,7 +68,7 @@ export default function SignupForm({
   async function onSubmit(values: z.infer<typeof passwordSchema>) {
     localStorage.setItem("password", values.password);
     localStorage.setItem("reenterPassword", values.reenterPassword);
-    redirect("/signup/step-3");
+    router.push("/signup/step-3");
   }
 
   return (
@@ -109,7 +111,7 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-                      redirect("/signup");
+                      router.push("/signup");
                     }}
                   >
                     Prev

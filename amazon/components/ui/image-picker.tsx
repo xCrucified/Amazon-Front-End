@@ -1,12 +1,13 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useCallback } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { useDropzone } from "react-dropzone";
 
 interface Props {
   className?: string;
-  selectedImage: string | null;
-  onImageSelect: (image: string | null) => void;
+  selectedImage: { base64: string; name: string | null };
+  onImageSelect: (imageData: { base64: string | null; name: string | null }) => void;
 }
 
 const ImagePicker: React.FC<Props> = ({
@@ -20,11 +21,16 @@ const ImagePicker: React.FC<Props> = ({
       if (file) {
         const reader = new FileReader();
         reader.onloadend = () => {
-          onImageSelect(reader.result as string);
+          const fileExtension = file.name.split(".").pop(); 
+          const uniqueName = `${uuidv4()}.${fileExtension}`; 
+  
+          console.log("Unique File Name:", uniqueName); 
+  
+          onImageSelect({ base64: reader.result as string, name: uniqueName });
         };
         reader.readAsDataURL(file);
       } else {
-        onImageSelect(null);
+        onImageSelect({ base64: null, name: null });
       }
     },
     [onImageSelect]
@@ -32,16 +38,19 @@ const ImagePicker: React.FC<Props> = ({
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: { "image/jpeg": [], "image/jpg": [], "image/png": [] },
+    accept: {
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/png": [".png"],
+    },
   });
 
   return (
     <div {...getRootProps()} className={cn("cursor-pointer", className)}>
       <input {...getInputProps()} />
-      {selectedImage ? (
+      {selectedImage.base64 ? (
         <div className="w-full h-full">
           <Image
-            src={selectedImage}
+            src={selectedImage.base64}
             alt="Selected"
             width={0}
             height={0}

@@ -14,7 +14,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ImagePicker from "@/components/ui/image-picker";
 
@@ -34,6 +34,7 @@ export default function SignupForm({
     const countryCode = localStorage.getItem("countryCode") || "";
     const countryCodeLabel = localStorage.getItem("countryCodeLabel") || "";
     const phoneNumber = localStorage.getItem("phoneNumber") || "";
+    const imagePath = localStorage.getItem("imagePath") || "";
     const avatarPicture = localStorage.getItem("avatarPicture") || "";
     return {
       username,
@@ -44,11 +45,15 @@ export default function SignupForm({
       countryCode,
       countryCodeLabel,
       phoneNumber,
+      imagePath,
       avatarPicture,
     };
   };
 
-  const [selectedImage, setSelectedImage] = React.useState<string | null>("");
+  const [selectedImage, setSelectedImage] = React.useState<{
+    base64: string;
+    name: string | null;
+  }>({ base64: "", name: null });
 
   const form = useForm();
 
@@ -58,11 +63,16 @@ export default function SignupForm({
     (async () => {
       const storedValues = await getFromLocalStorage();
       reset(storedValues);
-      setSelectedImage(storedValues.avatarPicture);
+      setSelectedImage({
+        base64: storedValues.imagePath,
+        name: storedValues.avatarPicture,
+      });
     })();
   }, [reset]);
 
   async function onSubmit() {
+    console.log(selectedImage.name);
+
     const storedValues = await getFromLocalStorage();
 
     const user = {
@@ -73,7 +83,7 @@ export default function SignupForm({
       birthDate: storedValues.birthDate,
       countryCode: storedValues.countryCode,
       phoneNumber: storedValues.phoneNumber,
-      avatarPicture: selectedImage,
+      avatarPicture: selectedImage.name,
     };
 
     try {
@@ -122,9 +132,19 @@ export default function SignupForm({
                             selectedImage={selectedImage}
                             className="w-[400px] h-[400px] flex items-center justify-center ml-3 border-2 border-dashed border-gray-300 rounded-full"
                             {...field}
-                            onImageSelect={(image) => {
-                              setSelectedImage(image);
-                              field.onChange(image);
+                            onImageSelect={(imageData: {
+                              base64: string | null;
+                              name: string | null;
+                            }) => {
+                              const { base64, name } = imageData;
+
+                              const payload = {
+                                fileName: name, // Pass file name for upload
+                                fileContent: base64, // Pass Base64 for preview/upload
+                              };
+
+                              setSelectedImage({ base64: base64 || "", name: name || "" }); // Update the preview
+                              field.onChange(name); // Update the field with the file name
                             }}
                           />
                           <Button
@@ -132,7 +152,7 @@ export default function SignupForm({
                             className="w-full flex-grow"
                             disabled={!selectedImage}
                             onClick={() => {
-                              setSelectedImage("");
+                              setSelectedImage({ base64: "", name: "" });
                               field.onChange("");
                             }}
                           >
@@ -150,10 +170,14 @@ export default function SignupForm({
                     onClick={(e) => {
                       e.preventDefault();
                       localStorage.setItem(
-                        "avatarPicture",
-                        selectedImage || ""
+                        "imagePath",
+                        selectedImage.base64 || ""
                       );
-                      redirect("/signup/step-3");
+                      localStorage.setItem(
+                        "avatarPicture",
+                        selectedImage.name || ""
+                      );
+                      router.push("/signup/step-3");
                     }}
                   >
                     Prev

@@ -26,7 +26,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface Values {
   name: "username" | "email";
@@ -43,6 +43,8 @@ export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter();
+
   const getFromLocalStorage = async () => {
     const username = localStorage.getItem("username") || "";
     const email = localStorage.getItem("email") || "";
@@ -69,7 +71,7 @@ export default function SignupForm({
   async function onSubmit(values: z.infer<typeof usernameEmailSchema>) {
     localStorage.setItem("username", values.username);
     localStorage.setItem("email", values.email);
-    redirect("/signup/step-2");
+    router.push("/signup/step-2");
   }
 
   return (
