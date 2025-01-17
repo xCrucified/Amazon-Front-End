@@ -22,9 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${nunito.variable}`}>
+      <body className={`${nunito.variable} bg-[#f5f5f5]`}>
         <div>
-          <Header />
+          <Header className="outline"/>
           {children}
         </div>
       </body>

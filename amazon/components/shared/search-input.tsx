@@ -1,25 +1,31 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Search } from "lucide-react";
 import React from "react";
+import { Button } from "../ui/button";
+import Image from "next/image";
 
-interface Props {
-  className?: string;
-}
-
-export const SearchInput = (className: Props) => {
+export const SearchInput = () => {
   return (
-    <>
-      <div className="flex flex-1 justify-between relative h-11 outline">
-        <Search className={cn(`absolute top-1/2 translate-y-[-50%] left-3 h-5 text-gray-400 ${className}`)} />
+    <div className="flex relative rounded-[8px] h-[48px] w-[920px]">
+      <div className="relative min-w-[100%] min-h-[100%] justify-center items-center">
         <input
-          className="outline-none w-full bg-gray-50 pl-11"
+          className="rounded-[8px] bg-transparent bg-white w-[100%] h-[100%] pr-12 focus:outline-none p-3 text-[#343a45]"
           type="text"
-          placeholder="search"
+          placeholder="Search Onyx"
         />
-        
+        <Button className="absolute right-0.5 top-1/2 transform -translate-y-1/2 items-center justify-center bg-[#343a45] hover:bg-[#343a45/90] h-11 w-11 rounded-tl-3xl">
+          <div className="flex justify-between items-center absolute right-[40px] gap-4">
+            <div className="text-black">⌘+K</div>
+            <Image
+              src={"./assets/images/Vector1.svg"}
+              alt={""}
+              width={128}
+              height={128}
+              className="w-[36px]"
+            />
+          </div>
+        </Button>
       </div>
-    </>
+    </div>
   );
 };

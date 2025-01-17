@@ -9,7 +9,7 @@ interface Props {
 export const CarouselDisplay: React.FC<Props> = ({}) => {
   return (
     <Carousel>
-      <div className="max-h-[320px] max-w-[1280px]">
+      <div className="h-[488px]">
         <Image
           src="/assets/images/Banner.jpg"
           alt="Slide 1"

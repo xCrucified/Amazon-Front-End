@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <TopBar className="outline"/>
 
-      <Container className="px-4 sm:px-6 lg:px-8">
+      <Container className="px-4 sm:px-6 lg:px-8 border-red-800 border-2">
         <CarouselDisplay className="z-0 blur-4"/>
       </Container>
 
