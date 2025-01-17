@@ -43,6 +43,14 @@ export const usernameEmailSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }).trim(),
 });
 
+export const loginSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email" }).trim(),
+  password: z
+    .string()
+    .nonempty("Please enter password")
+    .trim(),
+});
+
 export async function getFromLocalStorage() {
   const username = localStorage.getItem("username") || "";
   const email = localStorage.getItem("email") || "";
@@ -67,7 +75,7 @@ export async function getFromLocalStorage() {
     imagePath,
     avatarPicture,
   };
-};
+}
 
 export const CountryCodes = [
   { id: 1, value: "1", label: "United States +1" },
