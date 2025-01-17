@@ -71,7 +71,7 @@ export default function SignupForm({
   async function onSubmit(values: z.infer<typeof usernameEmailSchema>) {
     localStorage.setItem("username", values.username);
     localStorage.setItem("email", values.email);
-    router.push("/signup/step-2");
+    router.push("/signup/password");
   }
 
   return (

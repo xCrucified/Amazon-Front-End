@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 import prisma from "./prisma";
+import bcrypt from "bcryptjs";
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -39,3 +40,13 @@ export const authConfig: NextAuthOptions = {
     })
   ]
 };
+
+export async function hashPassword(password: string) {
+  const saltRounds = 10; 
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
+}
+
+export async function verifyPassword(password: string, hashedPassword: string) {
+  return await bcrypt.compare(password, hashedPassword);
+}

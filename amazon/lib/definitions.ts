@@ -43,6 +43,32 @@ export const usernameEmailSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }).trim(),
 });
 
+export async function getFromLocalStorage() {
+  const username = localStorage.getItem("username") || "";
+  const email = localStorage.getItem("email") || "";
+  const password = localStorage.getItem("password") || "";
+  const reenterPassword = localStorage.getItem("reenterPassword") || "";
+  const birthDateString = localStorage.getItem("birthDate") || "";
+  const birthDate = birthDateString ? new Date(birthDateString) : new Date();
+  const countryCode = localStorage.getItem("countryCode") || "";
+  const countryCodeLabel = localStorage.getItem("countryCodeLabel") || "";
+  const phoneNumber = localStorage.getItem("phoneNumber") || "";
+  const imagePath = localStorage.getItem("imagePath") || "";
+  const avatarPicture = localStorage.getItem("avatarPicture") || "";
+  return {
+    username,
+    email,
+    password,
+    reenterPassword,
+    birthDate,
+    countryCode,
+    countryCodeLabel,
+    phoneNumber,
+    imagePath,
+    avatarPicture,
+  };
+};
+
 export const CountryCodes = [
   { id: 1, value: "1", label: "United States +1" },
   { id: 2, value: "93", label: "Afghanistan +93" },

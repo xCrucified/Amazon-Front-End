@@ -33,7 +33,7 @@ export default function SignupForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
-  
+
   const getFromLocalStorage = async () => {
     const birthDateString = localStorage.getItem("birthDate") || "";
     const birthDate = birthDateString ? new Date(birthDateString) : new Date();
@@ -73,7 +73,7 @@ export default function SignupForm({
     localStorage.setItem("countryCode", values.countryCode);
     localStorage.setItem("countryCodeLabel", countryCodeLabel);
     localStorage.setItem("phoneNumber", values.phoneNumber);
-    router.push("/signup/step-4");
+    router.push("/signup/avatar-picture", );
   }
 
   return (
@@ -159,7 +159,24 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-                      router.push("/signup/step-2");
+                      const currentValues = form.getValues();
+                      localStorage.setItem(
+                        "birthDate",
+                        currentValues.birthDate.toISOString()
+                      );
+                      localStorage.setItem(
+                        "countryCode",
+                        currentValues.countryCode
+                      );
+                      localStorage.setItem(
+                        "countryCodeLabel",
+                        countryCodeLabel
+                      );
+                      localStorage.setItem(
+                        "phoneNumber",
+                        currentValues.phoneNumber
+                      );
+                      router.push("/signup/password");
                     }}
                   >
                     Prev

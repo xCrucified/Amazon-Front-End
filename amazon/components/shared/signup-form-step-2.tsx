@@ -68,7 +68,7 @@ export default function SignupForm({
   async function onSubmit(values: z.infer<typeof passwordSchema>) {
     localStorage.setItem("password", values.password);
     localStorage.setItem("reenterPassword", values.reenterPassword);
-    router.push("/signup/step-3");
+    router.push("/signup/account-info");
   }
 
   return (
@@ -111,6 +111,12 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
+                      const currentValues = form.getValues();
+                      localStorage.setItem("password", currentValues.password);
+                      localStorage.setItem(
+                        "reenterPassword",
+                        currentValues.reenterPassword
+                      );
                       router.push("/signup");
                     }}
                   >

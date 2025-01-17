@@ -17,6 +17,8 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ImagePicker from "@/components/ui/image-picker";
+import { getFromLocalStorage } from "@/lib/definitions";
+import { hashPassword } from "@/lib/auth";
 
 export default function SignupForm({
   className,
@@ -24,62 +26,20 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const getFromLocalStorage = async () => {
-    const username = localStorage.getItem("username") || "";
-    const email = localStorage.getItem("email") || "";
-    const password = localStorage.getItem("password") || "";
-    const reenterPassword = localStorage.getItem("reenterPassword") || "";
-    const birthDateString = localStorage.getItem("birthDate") || "";
-    const birthDate = birthDateString ? new Date(birthDateString) : new Date();
-    const countryCode = localStorage.getItem("countryCode") || "";
-    const countryCodeLabel = localStorage.getItem("countryCodeLabel") || "";
-    const phoneNumber = localStorage.getItem("phoneNumber") || "";
-    const imagePath = localStorage.getItem("imagePath") || "";
-    const avatarPicture = localStorage.getItem("avatarPicture") || "";
-    return {
-      username,
-      email,
-      password,
-      reenterPassword,
-      birthDate,
-      countryCode,
-      countryCodeLabel,
-      phoneNumber,
-      imagePath,
-      avatarPicture,
-    };
-  };
-
   const [selectedImage, setSelectedImage] = React.useState<{
-    base64: string;
+    url: string;
     name: string | null;
-  }>({ base64: "", name: null });
+  }>({ url: "", name: null });
 
   const form = useForm();
 
-  const { reset } = form;
-
-  React.useEffect(() => {
-    (async () => {
-      const storedValues = await getFromLocalStorage();
-      reset(storedValues);
-      setSelectedImage({
-        base64: storedValues.imagePath,
-        name: storedValues.avatarPicture,
-      });
-    })();
-  }, [reset]);
-
   async function onSubmit() {
-    console.log(selectedImage.name);
-
     const storedValues = await getFromLocalStorage();
 
     const user = {
       username: storedValues.username,
       email: storedValues.email,
-      password: storedValues.password,
-      reenterPassword: storedValues.reenterPassword,
+      passwordHash: await hashPassword(storedValues.password),
       birthDate: storedValues.birthDate,
       countryCode: storedValues.countryCode,
       phoneNumber: storedValues.phoneNumber,
@@ -96,13 +56,16 @@ export default function SignupForm({
       });
 
       if (response.ok) {
-        toast.success("User created successfully");
         localStorage.clear();
+        toast.success("User created successfully");
         router.push("/");
       } else {
-        toast.error("User creation failed");
+        router.push("/signup")
+        localStorage.clear();
+        toast.error("505: Internal server error");
       }
     } catch (error) {
+      localStorage.clear();
       console.log(error);
       toast.error("An error occurred");
     }
@@ -130,29 +93,28 @@ export default function SignupForm({
                         <div className="flex flex-col gap-3">
                           <ImagePicker
                             selectedImage={selectedImage}
-                            className="w-[400px] h-[400px] flex items-center justify-center ml-3 border-2 border-dashed border-gray-300 rounded-full"
                             {...field}
                             onImageSelect={(imageData: {
-                              base64: string | null;
+                              url: string | null;
                               name: string | null;
                             }) => {
-                              const { base64, name } = imageData;
-
-                              const payload = {
-                                fileName: name, // Pass file name for upload
-                                fileContent: base64, // Pass Base64 for preview/upload
-                              };
-
-                              setSelectedImage({ base64: base64 || "", name: name || "" }); // Update the preview
-                              field.onChange(name); // Update the field with the file name
+                              const { url, name } = imageData;
+                              setSelectedImage({
+                                url: url || "",
+                                name: name || null,
+                              });
+                              field.onChange(name);
                             }}
                           />
                           <Button
                             variant="outline"
                             className="w-full flex-grow"
-                            disabled={!selectedImage}
-                            onClick={() => {
-                              setSelectedImage({ base64: "", name: "" });
+                            disabled={!selectedImage.url}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              localStorage.removeItem("imagePath");
+                              localStorage.removeItem("avatarPicture");
+                              setSelectedImage({ url: "", name: null });
                               field.onChange("");
                             }}
                           >
@@ -169,15 +131,9 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-                      localStorage.setItem(
-                        "imagePath",
-                        selectedImage.base64 || ""
-                      );
-                      localStorage.setItem(
-                        "avatarPicture",
-                        selectedImage.name || ""
-                      );
-                      router.push("/signup/step-3");
+                      localStorage.removeItem("imagePath");
+                      localStorage.removeItem("avatarPicture");
+                      router.push("/signup/account-info");
                     }}
                   >
                     Prev
