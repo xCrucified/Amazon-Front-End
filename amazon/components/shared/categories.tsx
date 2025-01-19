@@ -70,7 +70,7 @@ export const Categories: React.FC<Props> = ({ className }) => {
 
 
   return (
-    <div className={cn("flex gap-0.5 flex-wrap", className)}>
+    <div className={cn("flex gap-0.5", className)}>
       {items.map((item, index) => (
         <Link key={index} href={item.href}>
             <Button className="w-20 h-10 transition-all duration-124 transform hover:translate-y-1 hover:border-b hover:border-black">{item.title}</Button>

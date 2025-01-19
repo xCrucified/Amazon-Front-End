@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/shared/header";
+import UpperHeader from "@/components/shared/upper-header";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],
@@ -24,7 +25,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.variable} bg-[#f5f5f5]`}>
         <div>
-          <Header className="outline"/>
+          <UpperHeader />
+          <Header />
           {children}
         </div>
       </body>
