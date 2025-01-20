@@ -8,7 +8,6 @@ interface UserDataState {
   birthDate: string;
   countryCode: string;
   countryCodeLabel: string;
-  isSelectedCC: boolean;
   phoneNumber: string;
 }
 
@@ -20,7 +19,6 @@ const initialState: UserDataState = {
   birthDate: new Date().toISOString(),
   countryCode: "",
   countryCodeLabel: "Select country code...",
-  isSelectedCC: false,
   phoneNumber: "",
 };
 
@@ -49,15 +47,18 @@ const textFieldSlice = createSlice({
     setCountryCodeLabel: (state, action: PayloadAction<string>) => {
       state.countryCodeLabel = action.payload;
     },
-    setIsSelectedCC: (state, action: PayloadAction<boolean>) => {
-      state.isSelectedCC = action.payload
-    },
     setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.phoneNumber = action.payload;
     },
     clearData: (state) => {
       state.username = "";
       state.email = "";
+      state.password = "";
+      state.rPassword = "";
+      state.birthDate = new Date().toISOString();
+      state.countryCode = "";
+      state.countryCodeLabel = "Select country code...";
+      state.phoneNumber = "";
     },
   },
 });
@@ -70,7 +71,6 @@ export const {
   setBirthdate,
   setCountryCode,
   setCountryCodeLabel,
-  setIsSelectedCC,
   setPhoneNumber,
   clearData,
 } = textFieldSlice.actions;

@@ -19,7 +19,6 @@ import { RootState } from "@/app/store/store";
 import {
   setCountryCode,
   setCountryCodeLabel,
-  setIsSelectedCC,
 } from "@/app/store/slices/signupSlice";
 
 interface Props {
@@ -29,10 +28,6 @@ interface Props {
 
 const CountryPicker: React.FC<Props> = ({ className }) => {
   const [open, setOpen] = React.useState(false);
-
-  const isSelected = useSelector(
-    (state: RootState) => state.example.isSelectedCC
-  );
   const label = useSelector(
     (state: RootState) => state.example.countryCodeLabel
   );
@@ -48,7 +43,7 @@ const CountryPicker: React.FC<Props> = ({ className }) => {
             aria-expanded={open}
             className="w-full justify-between"
           >
-            {isSelected ? label : "Select country code..."}
+            {label}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -68,15 +63,13 @@ const CountryPicker: React.FC<Props> = ({ className }) => {
                     onSelect={() => {
                       if (countryCode.label === label) {
                         dispatch(setCountryCode(""));
-                        dispatch(setCountryCodeLabel(""));
-                        dispatch(setIsSelectedCC(false));
+                        dispatch(setCountryCodeLabel("Select country code..."));
                       } else {
                         const labelS = countryCodes.find(
                           (countryCodeS) => countryCodeS.id === countryCode.id
                         )!;
                         dispatch(setCountryCode(labelS.value));
                         dispatch(setCountryCodeLabel(labelS.label));
-                        dispatch(setIsSelectedCC(true));
                       }
                       setOpen(false);
                     }}
