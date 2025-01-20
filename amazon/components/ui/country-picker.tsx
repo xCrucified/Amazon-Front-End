@@ -16,7 +16,10 @@ import {
 import { CountryCodes as countryCodes } from "@/lib/definitions";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
-import { setCountryCodeLabel } from "@/app/store/slices/signupSlice";
+import {
+  setCountryCode,
+  setCountryCodeLabel,
+} from "@/app/store/slices/signupSlice";
 
 interface Props {
   className?: string;
@@ -62,18 +65,16 @@ const CountryPicker: React.FC<Props> = ({ className }) => {
                     value={countryCode.label}
                     onSelect={() => {
                       if (countryCode.label === label) {
+                        dispatch(setCountryCode(""));
                         dispatch(setCountryCodeLabel(""));
                         setIsSelected(false);
                       } else {
+                        const labelS = countryCodes.find(
+                          (countryCodeS) => countryCodeS.id === countryCode.id
+                        )!;
+                        dispatch(setCountryCode(labelS.value));
+                        dispatch(setCountryCodeLabel(labelS.label));
                         setIsSelected(true);
-                        dispatch(
-                          setCountryCodeLabel(
-                            countryCodes.find(
-                              (countryCodeS) =>
-                                countryCodeS.id === countryCode.id
-                            )!.label
-                          )
-                        );
                       }
                       setOpen(false);
                     }}
