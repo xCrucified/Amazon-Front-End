@@ -11,11 +11,11 @@ export const passwordSchema = z
         message: "Contain at least one special character",
       })
       .trim(),
-    reenterPassword: z.string(),
+    rPassword: z.string(),
   })
-  .refine((data) => data.password === data.reenterPassword, {
+  .refine((data) => data.password === data.rPassword, {
     message: "Passwords do not match",
-    path: ["reenterPassword"],
+    path: ["RPassword"],
   });
 
 export const birthDatePhoneNumberSchema = z.object({

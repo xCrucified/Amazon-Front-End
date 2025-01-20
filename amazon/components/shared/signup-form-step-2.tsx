@@ -7,6 +7,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { passwordSchema } from "@/lib/definitions";
 
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { setPassword, setRPassword } from "@/app/store/slices/signupSlice";
+
 import {
   Form,
   FormControl,
@@ -24,17 +29,6 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
-
-interface Values {
-  name: "password" | "reenterPassword";
-  label: "Password" | "Re-enter password";
-}
-
-const values: Values[] = [
-  { name: "password", label: "Password" },
-  { name: "reenterPassword", label: "Re-enter password" },
-];
 
 export default function SignupForm({
   className,
@@ -42,32 +36,21 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const getFromLocalStorage = async () => {
-    const password = localStorage.getItem("password") || "";
-    const reenterPassword = localStorage.getItem("reenterPassword") || "";
-    return { password, reenterPassword };
-  };
+  const password = useSelector((state: RootState) => state.example.password);
+  const rPassword = useSelector((state: RootState) => state.example.rPassword);
+  const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
-      password: "",
-      reenterPassword: "",
+      password: password,
+      rPassword: rPassword,
     },
   });
 
-  const { reset } = form;
-
-  React.useEffect(() => {
-    (async () => {
-      const storedValues = await getFromLocalStorage();
-      reset(storedValues);
-    })();
-  }, [reset]);
-
   async function onSubmit(values: z.infer<typeof passwordSchema>) {
-    localStorage.setItem("password", values.password);
-    localStorage.setItem("reenterPassword", values.reenterPassword);
+    dispatch(setPassword(values.password));
+    dispatch(setRPassword(values.rPassword));
     router.push("/signup/account-info");
   }
 
@@ -82,41 +65,54 @@ export default function SignupForm({
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-2">
-                {values.map(({ name, label }) => (
-                  <div key={name} className="flex-grow grid gap-2">
-                    <FormField
-                      control={form.control}
-                      name={name}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{label}</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="password"
-                              {...field}
-                              value={form.getValues(name)}
-                              onChange={(e) => field.onChange(e.target.value)}
-                              required
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                ))}
+                <div className="flex-grow grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            {...field}
+                            onChange={(e) => field.onChange(e.target.value)}
+                            required
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex-grow grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="rPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Re-enter password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            {...field}
+                            onChange={(e) => field.onChange(e.target.value)}
+                            required
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <div className="flex justify-end gap-2 pt-3">
                   <Button
                     variant="outline"
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-                      const currentValues = form.getValues();
-                      localStorage.setItem("password", currentValues.password);
-                      localStorage.setItem(
-                        "reenterPassword",
-                        currentValues.reenterPassword
-                      );
+                      dispatch(setPassword(form.getValues().password));
+                      dispatch(setRPassword(form.getValues().rPassword));
                       router.push("/signup");
                     }}
                   >

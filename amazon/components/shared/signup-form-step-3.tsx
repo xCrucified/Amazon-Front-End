@@ -24,9 +24,11 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import DatePicker from "../ui/date-picker";
-import CountryPicker from "../ui/country-picker";
+import DatePicker from "@/components/ui/date-picker";
+import CountryPicker from "@/components/ui/country-picker";
 import { useRouter } from "next/navigation";
+import { RootState } from "@/app/store/store";
+import { useSelector } from "react-redux";
 
 export default function SignupForm({
   className,
@@ -34,46 +36,31 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const getFromLocalStorage = async () => {
-    const birthDateString = localStorage.getItem("birthDate") || "";
-    const birthDate = birthDateString ? new Date(birthDateString) : new Date();
-    const countryCode = localStorage.getItem("countryCode") || "";
-    const countryCodeLabel = localStorage.getItem("countryCodeLabel") || "";
-    const phoneNumber = localStorage.getItem("phoneNumber") || "";
-    return { birthDate, countryCode, countryCodeLabel, phoneNumber };
-  };
+  const [date, setDate] = React.useState<Date>(
+    new Date(useSelector((state: RootState) => state.example.birthDate)) ||
+      new Date()
+  );
+  const [countryCodeValue, setCountryCodeValue] = React.useState(
+    useSelector((state: RootState) => state.example.countryCode) || ""
+  );
+  const [countryCodeLabel, setCountryCodeLabel] = React.useState(
+    useSelector((state: RootState) => state.example.countryCodeLabel) || "Select country code..."
+  );
+  const phoneNumber = useSelector(
+    (state: RootState) => state.example.phoneNumber
+  );
 
   const form = useForm<z.infer<typeof birthDatePhoneNumberSchema>>({
     resolver: zodResolver(birthDatePhoneNumberSchema),
     defaultValues: {
-      birthDate: new Date(),
-      countryCode: "",
-      phoneNumber: "",
+      birthDate: date,
+      countryCode: countryCodeValue,
+      phoneNumber: phoneNumber,
     },
   });
 
-  const [date, setDate] = React.useState<Date>(new Date());
-  const [countryCodeValue, setCountryCodeValue] = React.useState(""); // +1
-  const [countryCodeLabel, setCountryCodeLabel] = React.useState(""); // United States +1
-
-  const { reset } = form;
-
-  React.useEffect(() => {
-    (async () => {
-      const storedValues = await getFromLocalStorage();
-      reset(storedValues);
-      setDate(storedValues.birthDate);
-      setCountryCodeValue(storedValues.countryCode);
-      setCountryCodeLabel(storedValues.countryCodeLabel);
-    })();
-  }, [reset]);
-
   async function onSubmit(values: z.infer<typeof birthDatePhoneNumberSchema>) {
-    localStorage.setItem("birthDate", values.birthDate.toISOString());
-    localStorage.setItem("countryCode", values.countryCode);
-    localStorage.setItem("countryCodeLabel", countryCodeLabel);
-    localStorage.setItem("phoneNumber", values.phoneNumber);
-    router.push("/signup/avatar-picture", );
+    router.push("/signup/avatar-picture");
   }
 
   return (
@@ -118,8 +105,6 @@ export default function SignupForm({
                         <FormLabel>Country code</FormLabel>
                         <FormControl>
                           <CountryPicker
-                            label={countryCodeLabel}
-                            setLabel={setCountryCodeLabel}
                             setValue={(value) => {
                               setCountryCodeValue(value);
                               field.onChange(value);
@@ -159,23 +144,7 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-                      const currentValues = form.getValues();
-                      localStorage.setItem(
-                        "birthDate",
-                        currentValues.birthDate.toISOString()
-                      );
-                      localStorage.setItem(
-                        "countryCode",
-                        currentValues.countryCode
-                      );
-                      localStorage.setItem(
-                        "countryCodeLabel",
-                        countryCodeLabel
-                      );
-                      localStorage.setItem(
-                        "phoneNumber",
-                        currentValues.phoneNumber
-                      );
+
                       router.push("/signup/password");
                     }}
                   >

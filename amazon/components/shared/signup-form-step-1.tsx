@@ -8,6 +8,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usernameEmailSchema } from "@/lib/definitions";
 
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { setUsername, setEmail } from "@/app/store/slices/signupSlice";
+
 import {
   Form,
   FormControl,
@@ -26,18 +31,6 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-interface Values {
-  name: "username" | "email";
-  label: "Username" | "Email";
-  type: "text" | "email";
-}
-
-const values: Values[] = [
-  { name: "username", label: "Username", type: "text" },
-  { name: "email", label: "Email", type: "email" },
-];
 
 export default function SignupForm({
   className,
@@ -45,32 +38,21 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const getFromLocalStorage = async () => {
-    const username = localStorage.getItem("username") || "";
-    const email = localStorage.getItem("email") || "";
-    return { username, email };
-  };
+  const username = useSelector((state: RootState) => state.example.username);
+  const email = useSelector((state: RootState) => state.example.email);
+  const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof usernameEmailSchema>>({
     resolver: zodResolver(usernameEmailSchema),
     defaultValues: {
-      username: "",
-      email: "",
+      username: username,
+      email: email,
     },
   });
 
-  const { reset } = form;
-
-  React.useEffect(() => {
-    (async () => {
-      const storedValues = await getFromLocalStorage();
-      reset(storedValues);
-    })();
-  }, [reset]);
-
   async function onSubmit(values: z.infer<typeof usernameEmailSchema>) {
-    localStorage.setItem("username", values.username);
-    localStorage.setItem("email", values.email);
+    dispatch(setUsername(values.username));
+    dispatch(setEmail(values.email));
     router.push("/signup/password");
   }
 
@@ -85,29 +67,48 @@ export default function SignupForm({
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-2">
-                {values.map(({ name, label, type }) => (
-                  <div key={name} className="flex-grow grid gap-2">
-                    <FormField
-                      control={form.control}
-                      name={name}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{label}</FormLabel>
-                          <FormControl>
-                            <Input
-                              type={type}
-                              {...field}
-                              value={form.getValues(name)}
-                              onChange={(e) => field.onChange(e.target.value)}
-                              required
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                ))}
+                <div className="flex-grow grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            {...field}
+                            value={form.getValues("username")}
+                            onChange={(e) => {
+                              field.onChange(e.target.value);
+                            }}
+                            required
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            {...field}
+                            value={form.getValues("email")}
+                            onChange={(e) => field.onChange(e.target.value)}
+                            required
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <Button className="w-full mt-3" type="submit">
                   Sign Up
                 </Button>
@@ -151,8 +152,9 @@ export default function SignupForm({
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-        By clicking Sign Up, you agree to our <Link href="#">Terms of Service</Link>{" "}
-        and <Link href="#">Privacy Policy</Link>.
+        By clicking Sign Up, you agree to our{" "}
+        <Link href="#">Terms of Service</Link> and{" "}
+        <Link href="#">Privacy Policy</Link>.
       </div>
     </div>
   );

@@ -14,23 +14,24 @@ import {
 } from "./command";
 
 import { CountryCodes as countryCodes } from "@/lib/definitions";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { setCountryCodeLabel } from "@/app/store/slices/signupSlice";
 
 interface Props {
   className?: string;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  label: string;
-  setLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CountryPicker: React.FC<Props> = ({
-  className,
-  value,
-  setValue,
-  label,
-  setLabel,
-}) => {
+const CountryPicker: React.FC<Props> = ({ className }) => {
   const [open, setOpen] = React.useState(false);
+  const [isSelected, setIsSelected] = React.useState(false);
+
+  const label = useSelector(
+    (state: RootState) => state.example.countryCodeLabel
+  );
+  const dispatch = useDispatch();
 
   return (
     <div className={cn("", className)}>
@@ -42,10 +43,7 @@ const CountryPicker: React.FC<Props> = ({
             aria-expanded={open}
             className="w-full justify-between"
           >
-            {label
-              ? countryCodes.find((countryCode) => countryCode.label === label)
-                  ?.label
-              : "Select country code..."}
+            {isSelected ? label : "Select country code..."}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -62,15 +60,21 @@ const CountryPicker: React.FC<Props> = ({
                   <CommandItem
                     key={countryCode.id}
                     value={countryCode.label}
-                    onSelect={(currentValue) => {
-                      setLabel(currentValue === label ? "" : currentValue);
-                      setValue(
-                        countryCodes
-                          .find(
-                            (countryCode) => countryCode.label === currentValue
+                    onSelect={() => {
+                      if (countryCode.label === label) {
+                        dispatch(setCountryCodeLabel(""));
+                        setIsSelected(false);
+                      } else {
+                        setIsSelected(true);
+                        dispatch(
+                          setCountryCodeLabel(
+                            countryCodes.find(
+                              (countryCodeS) =>
+                                countryCodeS.id === countryCode.id
+                            )!.label
                           )
-                          ?.value.toString() || ""
-                      );
+                        );
+                      }
                       setOpen(false);
                     }}
                   >
