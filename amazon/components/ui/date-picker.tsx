@@ -3,6 +3,9 @@
 import * as React from "react";
 import { format, getMonth, getYear, setMonth, setYear } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { setBirthdate } from "@/app/store/slices/signupSlice";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,17 +26,17 @@ import {
 interface DatePickerProps {
   startYear?: number;
   endYear?: number;
-  date: Date;
-  setDate: React.Dispatch<React.SetStateAction<Date>>;
+  value: string;
 }
 
 function DatePicker({
   startYear = getYear(new Date()) - 100,
   endYear = getYear(new Date()) + 100,
-  date,
-  setDate,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
+
+  const date = useSelector((state: RootState) => state.example.birthDate);
+  const dispatch = useDispatch();
 
   const months = [
     "January",
@@ -49,6 +52,7 @@ function DatePicker({
     "November",
     "December",
   ];
+
   const years = Array.from(
     { length: endYear - startYear + 1 },
     (_, i) => startYear + i
@@ -56,17 +60,17 @@ function DatePicker({
 
   const handleMonthChange = (month: string) => {
     const newDate = setMonth(date, months.indexOf(month));
-    setDate(newDate);
+    dispatch(setBirthdate(new Date(newDate).toISOString()));
   };
 
   const handleYearChange = (year: string) => {
     const newDate = setYear(date, parseInt(year));
-    setDate(newDate);
+    dispatch(setBirthdate(new Date(newDate).toISOString()));
   };
 
   const handleSelect = (selectedData: Date | undefined) => {
     if (selectedData) {
-      setDate(selectedData);
+      dispatch(setBirthdate(new Date(selectedData).toISOString()));
       setOpen(false);
     }
   };
@@ -121,11 +125,10 @@ function DatePicker({
           </div>
           <Calendar
             mode="single"
-            selected={date}
+            selected={new Date(date)}
             onSelect={handleSelect}
             initialFocus
-            month={date}
-            onMonthChange={setDate}
+            month={new Date(date)}
           />
         </PopoverContent>
       </Popover>

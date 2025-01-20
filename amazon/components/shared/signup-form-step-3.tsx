@@ -36,15 +36,9 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const [date, setDate] = React.useState<Date>(
-    new Date(useSelector((state: RootState) => state.example.birthDate)) ||
-      new Date()
-  );
-  const [countryCodeValue, setCountryCodeValue] = React.useState(
-    useSelector((state: RootState) => state.example.countryCode) || ""
-  );
-  const [countryCodeLabel, setCountryCodeLabel] = React.useState(
-    useSelector((state: RootState) => state.example.countryCodeLabel) || "Select country code..."
+  const date = useSelector((state: RootState) => state.example.birthDate);
+  const countryCodeValue = useSelector(
+    (state: RootState) => state.example.countryCode
   );
   const phoneNumber = useSelector(
     (state: RootState) => state.example.phoneNumber
@@ -53,7 +47,7 @@ export default function SignupForm({
   const form = useForm<z.infer<typeof birthDatePhoneNumberSchema>>({
     resolver: zodResolver(birthDatePhoneNumberSchema),
     defaultValues: {
-      birthDate: date,
+      birthDate: new Date(date),
       countryCode: countryCodeValue,
       phoneNumber: phoneNumber,
     },
@@ -83,12 +77,8 @@ export default function SignupForm({
                         <FormLabel>Birth Date</FormLabel>
                         <FormControl>
                           <DatePicker
-                            date={date}
                             {...field}
-                            setDate={(date) => {
-                              setDate(date);
-                              field.onChange(date);
-                            }}
+                            value={date}                          
                           />
                         </FormControl>
                         <FormMessage />
@@ -104,14 +94,7 @@ export default function SignupForm({
                       <FormItem>
                         <FormLabel>Country code</FormLabel>
                         <FormControl>
-                          <CountryPicker
-                            setValue={(value) => {
-                              setCountryCodeValue(value);
-                              field.onChange(value);
-                            }}
-                            {...field}
-                            value={countryCodeValue}
-                          />
+                          <CountryPicker {...field} value={countryCodeValue} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

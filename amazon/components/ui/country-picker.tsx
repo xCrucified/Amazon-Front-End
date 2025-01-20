@@ -19,18 +19,20 @@ import { RootState } from "@/app/store/store";
 import {
   setCountryCode,
   setCountryCodeLabel,
+  setIsSelectedCC,
 } from "@/app/store/slices/signupSlice";
 
 interface Props {
   className?: string;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CountryPicker: React.FC<Props> = ({ className }) => {
   const [open, setOpen] = React.useState(false);
-  const [isSelected, setIsSelected] = React.useState(false);
 
+  const isSelected = useSelector(
+    (state: RootState) => state.example.isSelectedCC
+  );
   const label = useSelector(
     (state: RootState) => state.example.countryCodeLabel
   );
@@ -67,14 +69,14 @@ const CountryPicker: React.FC<Props> = ({ className }) => {
                       if (countryCode.label === label) {
                         dispatch(setCountryCode(""));
                         dispatch(setCountryCodeLabel(""));
-                        setIsSelected(false);
+                        dispatch(setIsSelectedCC(false));
                       } else {
                         const labelS = countryCodes.find(
                           (countryCodeS) => countryCodeS.id === countryCode.id
                         )!;
                         dispatch(setCountryCode(labelS.value));
                         dispatch(setCountryCodeLabel(labelS.label));
-                        setIsSelected(true);
+                        dispatch(setIsSelectedCC(true));
                       }
                       setOpen(false);
                     }}
