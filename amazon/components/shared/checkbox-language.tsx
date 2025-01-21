@@ -26,7 +26,6 @@ const items: Language[] = [
     { id: 7, name: "Korean" },
     { id: 8, name: "Italian" },
     { id: 9, name: "Portuguese" },
-    { id: 10, name: "Russian" },
 ];
 
 
@@ -34,7 +33,7 @@ export const ComboboxLanguage: React.FC<Props> = ({ className }) => {
   return (
     <div className={className}>
       <Select>
-        <SelectTrigger className="max-w-[130px] font-bold">
+        <SelectTrigger className="max-w-[130px] text-lg">
           <SelectValue placeholder={items[0].name}/>
         </SelectTrigger>
         <SelectContent>

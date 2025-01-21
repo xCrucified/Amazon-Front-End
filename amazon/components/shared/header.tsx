@@ -13,7 +13,7 @@ interface Props {
 export const Header: React.FC<Props> = ({ className }) => {
   return (
     <Container
-      className={cn("flex justify-between items-center p-3", className)}
+      className={cn("flex justify-between items-center p-6", className)}
     >
       {/* left side */}
       <div className="bg-[#FFF] radius-[8px] bg-inherit">
@@ -28,7 +28,7 @@ export const Header: React.FC<Props> = ({ className }) => {
             height={100}
             alt="logo"
           />
-          <p className="text-lg bg-inherit text-[#343a45]">Onyx</p>
+          <p className="text-xl bg-inherit text-[#343a45] font-thin">Onyx</p>
         </Button>
       </div>
 

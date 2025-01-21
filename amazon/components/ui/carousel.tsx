@@ -26,7 +26,7 @@ export default function Carousel({
     return () => clearInterval(slideInterval);
   }, [autoSlide, autoSlideInterval, next]);
   return (
-    <div className="overflow-hidden relative">
+    <div className="overflow-hidden relative outline rounded-[40px]">
       <div
         className="flex transition-transform ease-out duration-500"
         style={{ transform: `translateX(-${curr * 100}%)` }}
@@ -38,13 +38,13 @@ export default function Carousel({
         ))}{" "}
       </div>
 
-      <div className="absolute bottom-4 right-0 left-0">
+      <div className="absolute bottom-[27px] right-[180px]">
         <div className="flex items-center justify-center gap-2">
           {slides.map((_, i) => (
             <div
               key={i}
-              className={`transition-all w-3 h-3 bg-white rounded-full ${
-                curr === i ? "p-2" : "bg-opacity-50"
+              className={`transition-all w-2 h-2 bg-black rounded-full  ${
+                curr === i ? "bg-black" : "bg-opacity-50"
               }`}
             />
           ))}

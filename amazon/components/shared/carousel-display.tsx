@@ -9,24 +9,22 @@ interface Props {
 export const CarouselDisplay: React.FC<Props> = ({}) => {
   return (
     <Carousel>
-      <div className="h-[488px]">
+      <div className="flex h-[488px] w-[1492px]">
         <Image
-          src="/assets/images/Banner.jpg"
+          src="/assets/images/427412.png"
           alt="Slide 1"
           objectFit={"cover"}
-          width={1}
-          height={1}
-          layout="responsive"
+          width={1488}
+          height={488}
         />
       </div>
-      <div className="max-h-[320px] min-w-[100%]">
+      <div className="flex h-[488px] w-[1492px]">
         <Image
-          src="/assets/images/banner-ads-examples-aws.webp"
+          src="/assets/images/427412.png"
           alt="Slide 2"
           objectFit={"cover"}
-          width={1}
-          height={1}
-          layout="responsive"
+          width={1488}
+          height={488}
         />
       </div>
     </Carousel>

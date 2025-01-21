@@ -12,11 +12,11 @@ export default function Home() {
         <TopBar />
       </Container>
 
-      <Container className="px-4 sm:px-6 lg:px-8 outline">
-        <CarouselDisplay className="z-0 blur-4" />
+      <Container className="relative p-6">
+        <CarouselDisplay />
       </Container>
 
-      <Container className="min-h-[calc(100vh-16px)] flex items-center justify-center p-2">
+      <Container className="min-h-[calc(100vh-16px)]">
         <ProductCard />
       </Container>
 
