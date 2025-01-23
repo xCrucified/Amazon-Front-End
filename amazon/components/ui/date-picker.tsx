@@ -27,11 +27,14 @@ interface DatePickerProps {
   startYear?: number;
   endYear?: number;
   value: string;
+  onChange: (value: Date) => void;
 }
 
 function DatePicker({
   startYear = getYear(new Date()) - 100,
   endYear = getYear(new Date()) + 100,
+  value,
+  onChange,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -71,6 +74,7 @@ function DatePicker({
   const handleSelect = (selectedData: Date | undefined) => {
     if (selectedData) {
       dispatch(setBirthdate(new Date(selectedData).toISOString()));
+      onChange(selectedData);
       setOpen(false);
     }
   };

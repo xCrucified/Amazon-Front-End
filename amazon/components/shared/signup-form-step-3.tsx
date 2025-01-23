@@ -78,7 +78,11 @@ export default function SignupForm({
                       <FormItem>
                         <FormLabel>Birth Date</FormLabel>
                         <FormControl>
-                          <DatePicker {...field} value={date} />
+                          <DatePicker
+                            {...field}
+                            value={date}
+                            onChange={(e) => field.onChange(e)}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -97,7 +101,7 @@ export default function SignupForm({
                             {...field}
                             value={countryCodeValue}
                             onChange={(e) => {
-                              field.onChange(e); 
+                              field.onChange(e);
                             }}
                           />
                         </FormControl>
