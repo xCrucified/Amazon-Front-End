@@ -2,8 +2,12 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { hashPassword } from "@/lib/auth";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { clearData, clearImage } from "@/store/slices/signupSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -17,33 +21,39 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ImagePicker from "@/components/ui/image-picker";
-import { getFromLocalStorage } from "@/lib/definitions";
-import { hashPassword } from "@/lib/auth";
 
 export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const [selectedImage, setSelectedImage] = React.useState<{
-    url: string;
-    name: string | null;
-  }>({ url: "", name: null });
+  const username = useSelector((state: RootState) => state.example.username);
+  const email = useSelector((state: RootState) => state.example.email);
+  const password = useSelector((state: RootState) => state.example.password);
+  const birthDate = useSelector((state: RootState) => state.example.birthDate);
+  const countryCode = useSelector(
+    (state: RootState) => state.example.countryCode
+  );
+  const phoneNumber = useSelector(
+    (state: RootState) => state.example.phoneNumber
+  );
+  const selectedImage = useSelector(
+    (state: RootState) => state.example.avatarPicture
+  );
 
   const form = useForm();
 
   async function onSubmit() {
-    const storedValues = await getFromLocalStorage();
-
     const user = {
-      username: storedValues.username,
-      email: storedValues.email,
-      passwordHash: await hashPassword(storedValues.password),
-      birthDate: storedValues.birthDate,
-      countryCode: storedValues.countryCode,
-      phoneNumber: storedValues.phoneNumber,
-      avatarPicture: selectedImage.name,
+      username: username,
+      email: email,
+      passwordHash: await hashPassword(password),
+      birthDate: birthDate,
+      countryCode: countryCode,
+      phoneNumber: phoneNumber,
+      avatarPicture: selectedImage,
     };
 
     try {
@@ -56,17 +66,16 @@ export default function SignupForm({
       });
 
       if (response.ok) {
-        localStorage.clear();
+        dispatch(clearData());
         toast.success("User created successfully");
         router.push("/");
       } else {
-        router.push("/signup")
-        localStorage.clear();
-        toast.error("505: Internal server error");
+        console.error(response.statusText);
+        toast.error(response.statusText);
+        router.push("/signup");
       }
     } catch (error) {
-      localStorage.clear();
-      console.log(error);
+      console.error(error);
       toast.error("An error occurred");
     }
   }
@@ -92,29 +101,18 @@ export default function SignupForm({
                       <FormControl>
                         <div className="flex flex-col gap-3">
                           <ImagePicker
-                            selectedImage={selectedImage}
                             {...field}
-                            onImageSelect={(imageData: {
-                              url: string | null;
-                              name: string | null;
-                            }) => {
-                              const { url, name } = imageData;
-                              setSelectedImage({
-                                url: url || "",
-                                name: name || null,
-                              });
-                              field.onChange(name);
+                            onChange={(e) => {
+                              field.onChange(e);
                             }}
                           />
                           <Button
                             variant="outline"
                             className="w-full flex-grow"
-                            disabled={!selectedImage.url}
+                            disabled={selectedImage === ""}
                             onClick={(e) => {
                               e.preventDefault();
-                              localStorage.removeItem("imagePath");
-                              localStorage.removeItem("avatarPicture");
-                              setSelectedImage({ url: "", name: null });
+                              dispatch(clearImage());
                               field.onChange("");
                             }}
                           >
@@ -131,8 +129,6 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-                      localStorage.removeItem("imagePath");
-                      localStorage.removeItem("avatarPicture");
                       router.push("/signup/account-info");
                     }}
                   >

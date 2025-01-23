@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { set } from "date-fns";
 
 interface UserDataState {
   username: string;
@@ -9,6 +10,8 @@ interface UserDataState {
   countryCode: string;
   countryCodeLabel: string;
   phoneNumber: string;
+  avatarPicture: string;
+  avatarPictureUrl: string;
 }
 
 const initialState: UserDataState = {
@@ -20,6 +23,8 @@ const initialState: UserDataState = {
   countryCode: "",
   countryCodeLabel: "Select country code...",
   phoneNumber: "",
+  avatarPicture: "",
+  avatarPictureUrl: "",
 };
 
 const fieldSlice = createSlice({
@@ -50,8 +55,27 @@ const fieldSlice = createSlice({
     setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.phoneNumber = action.payload;
     },
+    setAvatarPicture: (state, action: PayloadAction<string>) => {
+      state.avatarPicture = action.payload;
+    },
+    setAvatarPictureUrl: (state, action: PayloadAction<string>) => {
+      state.avatarPictureUrl = action.payload;
+    },
     clearData: (state) => {
-      state = initialState;
+      state.username = "";
+      state.email = "";
+      state.password = "";
+      state.rPassword = "";
+      state.birthDate = new Date().toISOString();
+      state.countryCode = "";
+      state.countryCodeLabel = "Select country code...";
+      state.phoneNumber = "";
+      state.avatarPicture = "";
+      state.avatarPictureUrl = "";
+    },
+    clearImage: (state) => {
+      state.avatarPicture = "";
+      state.avatarPictureUrl = "";
     },
   },
 });
@@ -65,6 +89,9 @@ export const {
   setCountryCode,
   setCountryCodeLabel,
   setPhoneNumber,
+  setAvatarPicture,
+  setAvatarPictureUrl,
   clearData,
+  clearImage,
 } = fieldSlice.actions;
 export default fieldSlice.reducer;

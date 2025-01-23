@@ -6,21 +6,28 @@ import { useDropzone } from "react-dropzone";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "@/lib/utils";
 import { Button } from "./button";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearImage,
+  setAvatarPicture,
+  setAvatarPictureUrl,
+} from "@/store/slices/signupSlice";
+import { RootState } from "@/store/store";
 
 interface Props {
   className?: string;
-  selectedImage: { url: string; name: string | null };
-  onImageSelect: (imageData: {
-    url: string | null;
-    name: string | null;
-  }) => void;
+  onChange: (value: string) => void;
 }
 
-const ImagePicker: React.FC<Props> = ({
-  className,
-  selectedImage,
-  onImageSelect,
-}) => {
+const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
+  const selectedImage = useSelector(
+    (state: RootState) => state.example.avatarPicture
+  );
+  const selectedImageUrl = useSelector(
+    (state: RootState) => state.example.avatarPictureUrl
+  );
+  const dispatch = useDispatch();
+
   const [croppedImagePreview, setCroppedImagePreview] = useState<string | null>(
     null
   );
@@ -29,23 +36,23 @@ const ImagePicker: React.FC<Props> = ({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-      if (file) {
-        const fileExtension = file.name.split(".").pop();
-        const uniqueName = `${uuidv4()}.${fileExtension}`;
-        const fileUrl = URL.createObjectURL(file);
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      const fileExtension = file.name.split(".").pop();
+      const uniqueName = `${uuidv4()}.${fileExtension}`;
+      const fileUrl = URL.createObjectURL(file);
 
-        setImageForCrop(fileUrl);
+      setImageForCrop(fileUrl);
 
-        onImageSelect({ url: null, name: uniqueName });
-      } else {
-        onImageSelect({ url: null, name: null });
-      }
-    },
-    [onImageSelect]
-  );
+      dispatch(setAvatarPicture(uniqueName));
+      dispatch(setAvatarPictureUrl(fileUrl));
+      onChange(uniqueName);
+    } else {
+      dispatch(clearImage());
+      onChange("");
+    }
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -55,7 +62,7 @@ const ImagePicker: React.FC<Props> = ({
     },
   });
 
-  const onCropComplete = async (croppedArea: any, croppedAreaPixels: any) => {
+  const onCropComplete = async (croppedAreaPixels: any) => {
     if (imageForCrop) {
       const croppedImage = await getCroppedImg(imageForCrop, croppedAreaPixels);
       if (croppedImage) {
@@ -87,10 +94,6 @@ const ImagePicker: React.FC<Props> = ({
               variant="secondary"
               onClick={(e) => {
                 e.preventDefault();
-                onImageSelect({
-                  url: croppedImagePreview,
-                  name: selectedImage.name,
-                });
                 setImageForCrop(null);
                 setCroppedImagePreview(null);
               }}
@@ -116,9 +119,9 @@ const ImagePicker: React.FC<Props> = ({
           className="w-full h-full cursor-pointer flex flex-col justify-center border border-input rounded-md"
         >
           <input {...getInputProps()} />
-          {selectedImage.url ? (
+          {selectedImage !== "" ? (
             <Image
-              src={selectedImage.url}
+              src={selectedImageUrl}
               alt="Selected"
               className="w-full h-full rounded-md object-cover"
               width={0}
