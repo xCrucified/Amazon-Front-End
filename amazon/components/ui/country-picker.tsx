@@ -1,0 +1,99 @@
+import * as React from "react";
+
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { Button } from "./button";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "./command";
+
+import { CountryCodes as countryCodes } from "@/lib/definitions";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import {
+  setCountryCode,
+  setCountryCodeLabel,
+} from "@/store/slices/signupSlice";
+
+interface Props {
+  className?: string;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const CountryPicker: React.FC<Props> = ({ className, value, onChange }) => {
+  const [open, setOpen] = React.useState(false);
+  const label = useSelector(
+    (state: RootState) => state.example.countryCodeLabel
+  );
+  const dispatch = useDispatch();
+
+  const handleSelect = (countryCode: { id: number; label: string; value: string }) => {
+    if (countryCode.label === label) {
+      dispatch(setCountryCode(""));
+      dispatch(setCountryCodeLabel("Select country code..."));
+      onChange(""); // Notify the parent of the change
+    } else {
+      dispatch(setCountryCode(countryCode.value));
+      dispatch(setCountryCodeLabel(countryCode.label));
+      onChange(countryCode.value); // Notify the parent of the change
+    }
+    setOpen(false);
+  };
+
+  return (
+    <div className={cn("", className)}>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+          >
+            {label}
+            <ChevronsUpDown className="opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-full p-0">
+          <Command>
+            <CommandInput
+              placeholder="Search country code..."
+              className="h-9"
+            />
+            <CommandList>
+              <CommandEmpty>No country code found.</CommandEmpty>
+              <CommandGroup>
+                {countryCodes.map((countryCode) => (
+                  <CommandItem
+                    key={countryCode.id}
+                    value={countryCode.label} 
+                    onSelect={() => handleSelect(countryCode)}
+                  >
+                    {countryCode.label}
+                    <Check
+                      className={cn(
+                        "ml-auto",
+                        label === countryCode.id.toString()
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+};
+
+export default CountryPicker;

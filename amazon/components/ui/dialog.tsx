@@ -112,8 +112,13 @@ export {
   Dialog,
   DialogPortal,
   DialogOverlay,
+<<<<<<< HEAD
   DialogClose,
   DialogTrigger,
+=======
+  DialogTrigger,
+  DialogClose,
+>>>>>>> origin/registration
   DialogContent,
   DialogHeader,
   DialogFooter,
