@@ -24,14 +24,28 @@ import {
 interface Props {
   className?: string;
   value: string;
+  onChange: (value: string) => void;
 }
 
-const CountryPicker: React.FC<Props> = ({ className }) => {
+const CountryPicker: React.FC<Props> = ({ className, value, onChange }) => {
   const [open, setOpen] = React.useState(false);
   const label = useSelector(
     (state: RootState) => state.example.countryCodeLabel
   );
   const dispatch = useDispatch();
+
+  const handleSelect = (countryCode: { id: number; label: string; value: string }) => {
+    if (countryCode.label === label) {
+      dispatch(setCountryCode(""));
+      dispatch(setCountryCodeLabel("Select country code..."));
+      onChange(""); // Notify the parent of the change
+    } else {
+      dispatch(setCountryCode(countryCode.value));
+      dispatch(setCountryCodeLabel(countryCode.label));
+      onChange(countryCode.value); // Notify the parent of the change
+    }
+    setOpen(false);
+  };
 
   return (
     <div className={cn("", className)}>
@@ -59,20 +73,8 @@ const CountryPicker: React.FC<Props> = ({ className }) => {
                 {countryCodes.map((countryCode) => (
                   <CommandItem
                     key={countryCode.id}
-                    value={countryCode.label}
-                    onSelect={() => {
-                      if (countryCode.label === label) {
-                        dispatch(setCountryCode(""));
-                        dispatch(setCountryCodeLabel("Select country code..."));
-                      } else {
-                        const labelS = countryCodes.find(
-                          (countryCodeS) => countryCodeS.id === countryCode.id
-                        )!;
-                        dispatch(setCountryCode(labelS.value));
-                        dispatch(setCountryCodeLabel(labelS.label));
-                      }
-                      setOpen(false);
-                    }}
+                    value={countryCode.label} 
+                    onSelect={() => handleSelect(countryCode)}
                   >
                     {countryCode.label}
                     <Check

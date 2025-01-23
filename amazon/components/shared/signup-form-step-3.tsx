@@ -28,7 +28,8 @@ import DatePicker from "@/components/ui/date-picker";
 import CountryPicker from "@/components/ui/country-picker";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/app/store/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCountryCode, setPhoneNumber } from "@/app/store/slices/signupSlice";
 
 export default function SignupForm({
   className,
@@ -43,6 +44,7 @@ export default function SignupForm({
   const phoneNumber = useSelector(
     (state: RootState) => state.example.phoneNumber
   );
+  const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof birthDatePhoneNumberSchema>>({
     resolver: zodResolver(birthDatePhoneNumberSchema),
@@ -76,10 +78,7 @@ export default function SignupForm({
                       <FormItem>
                         <FormLabel>Birth Date</FormLabel>
                         <FormControl>
-                          <DatePicker
-                            {...field}
-                            value={date}                          
-                          />
+                          <DatePicker {...field} value={date} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -94,7 +93,13 @@ export default function SignupForm({
                       <FormItem>
                         <FormLabel>Country code</FormLabel>
                         <FormControl>
-                          <CountryPicker {...field} value={countryCodeValue} />
+                          <CountryPicker
+                            {...field}
+                            value={countryCodeValue}
+                            onChange={(e) => {
+                              field.onChange(e); 
+                            }}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -113,6 +118,10 @@ export default function SignupForm({
                             type="text"
                             className="flex-grow"
                             {...field}
+                            onChange={(e) => {
+                              dispatch(setPhoneNumber(e.target.value));
+                              field.onChange(e.target.value);
+                            }}
                             required
                           />
                         </FormControl>
@@ -127,7 +136,6 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-
                       router.push("/signup/password");
                     }}
                   >
