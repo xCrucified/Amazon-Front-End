@@ -10,8 +10,8 @@ import { usernameEmailSchema } from "@/lib/definitions";
 
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
-import { setUsername, setEmail } from "@/app/store/slices/signupSlice";
+import { RootState } from "@/store/store";
+import { setUsername, setEmail } from "@/store/slices/signupSlice";
 
 import {
   Form,

@@ -9,8 +9,8 @@ import { passwordSchema } from "@/lib/definitions";
 
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
-import { setPassword, setRPassword } from "@/app/store/slices/signupSlice";
+import { RootState } from "@/store/store";
+import { setPassword, setRPassword } from "@/store/slices/signupSlice";
 
 import {
   Form,

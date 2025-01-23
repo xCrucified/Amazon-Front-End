@@ -27,9 +27,9 @@ import {
 import DatePicker from "@/components/ui/date-picker";
 import CountryPicker from "@/components/ui/country-picker";
 import { useRouter } from "next/navigation";
-import { RootState } from "@/app/store/store";
+import { RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setCountryCode, setPhoneNumber } from "@/app/store/slices/signupSlice";
+import { setCountryCode, setPhoneNumber } from "@/store/slices/signupSlice";
 
 export default function SignupForm({
   className,

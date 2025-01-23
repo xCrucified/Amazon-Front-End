@@ -15,11 +15,11 @@ import {
 
 import { CountryCodes as countryCodes } from "@/lib/definitions";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
+import { RootState } from "@/store/store";
 import {
   setCountryCode,
   setCountryCodeLabel,
-} from "@/app/store/slices/signupSlice";
+} from "@/store/slices/signupSlice";
 
 interface Props {
   className?: string;

@@ -4,8 +4,8 @@ import * as React from "react";
 import { format, getMonth, getYear, setMonth, setYear } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
-import { setBirthdate } from "@/app/store/slices/signupSlice";
+import { RootState } from "@/store/store";
+import { setBirthdate } from "@/store/slices/signupSlice";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

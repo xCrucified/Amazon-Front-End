@@ -22,8 +22,8 @@ const initialState: UserDataState = {
   phoneNumber: "",
 };
 
-const textFieldSlice = createSlice({
-  name: "textField",
+const fieldSlice = createSlice({
+  name: "field",
   initialState,
   reducers: {
     setUsername: (state, action: PayloadAction<string>) => {
@@ -51,14 +51,7 @@ const textFieldSlice = createSlice({
       state.phoneNumber = action.payload;
     },
     clearData: (state) => {
-      state.username = "";
-      state.email = "";
-      state.password = "";
-      state.rPassword = "";
-      state.birthDate = new Date().toISOString();
-      state.countryCode = "";
-      state.countryCodeLabel = "Select country code...";
-      state.phoneNumber = "";
+      state = initialState;
     },
   },
 });
@@ -73,5 +66,5 @@ export const {
   setCountryCodeLabel,
   setPhoneNumber,
   clearData,
-} = textFieldSlice.actions;
-export default textFieldSlice.reducer;
+} = fieldSlice.actions;
+export default fieldSlice.reducer;
