@@ -33,9 +33,9 @@ export default function SignupForm({
   const email = useSelector((state: RootState) => state.example.email);
   const password = useSelector((state: RootState) => state.example.password);
   const birthDate = useSelector((state: RootState) => state.example.birthDate);
-  const countryCode = useSelector(
+  const countryCode = Number.parseInt(useSelector(
     (state: RootState) => state.example.countryCode
-  );
+  ));
   const phoneNumber = useSelector(
     (state: RootState) => state.example.phoneNumber
   );
@@ -55,6 +55,8 @@ export default function SignupForm({
       phoneNumber: phoneNumber,
       avatarPicture: selectedImage,
     };
+
+    console.log(user);   
 
     try {
       const response = await fetch("/api/signup", {

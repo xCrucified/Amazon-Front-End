@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
-  let {
+  const {
     username,
     email,
     passwordHash,
@@ -24,10 +24,11 @@ export async function POST(req: NextRequest) {
         avatarPicture,
       },
     });
+    
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "User creation failed" },
+      { error: error },
       { status: 500 }
     );
   }

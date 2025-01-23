@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
-  let { email } = await req.json();
+  const { email } = await req.json();
 
   try {
     const user = await prisma.user.findUnique({
@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-<<<<<<< HEAD
 import Header from "@/components/shared/header";
 import UpperHeader from "@/components/shared/upper-header";
-=======
-import { Toaster } from "@/components/ui/sonner";
+import { Nunito } from "next/font/google";
 import ReduxProvider from "@/components/shared/ReduxProvider";
->>>>>>> origin/registration
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const nunito = Nunito({
+  subsets: ["latin", "cyrillic"],
+  variable: '--font-nunito',
+  weight: ['400', '500', '600', '700', '800', '900']
 });
 
 export const metadata: Metadata = {
@@ -31,21 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-<<<<<<< HEAD
       <body className={`${nunito.variable} bg-[#f5f5f5]`}>
+      <ReduxProvider>
         <div>
           <UpperHeader />
           <Header />
-=======
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ReduxProvider>
->>>>>>> origin/registration
           {children}
-          <Toaster />
-        </ReduxProvider>
-      </body>
+        </div>
+        </ReduxProvider>     
+        </body>
     </html>
   );
 }

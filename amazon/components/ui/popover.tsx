@@ -9,11 +9,8 @@ const Popover = PopoverPrimitive.Root
 
 const PopoverTrigger = PopoverPrimitive.Trigger
 
-<<<<<<< HEAD
-=======
 const PopoverAnchor = PopoverPrimitive.Anchor
 
->>>>>>> origin/registration
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
@@ -33,8 +30,4 @@ const PopoverContent = React.forwardRef<
 ))
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
 
-<<<<<<< HEAD
-export { Popover, PopoverTrigger, PopoverContent }
-=======
 export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor }
->>>>>>> origin/registration

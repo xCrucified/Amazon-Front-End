@@ -9,38 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@hookform/resolvers": "^3.10.0",
-    "@phosphor-icons/react": "^2.1.7",
-    "@radix-ui/react-alert-dialog": "^1.1.4",
-=======
     "@hookform/resolvers": "^3.9.1",
     "@prisma/client": "^6.2.1",
+    "@radix-ui/react-alert-dialog": "^1.1.5",
     "@radix-ui/react-avatar": "^1.1.2",
->>>>>>> origin/registration
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-popover": "^1.1.4",
     "@radix-ui/react-select": "^2.1.4",
     "@radix-ui/react-slot": "^1.1.1",
-<<<<<<< HEAD
-    "@radix-ui/react-switch": "^1.1.2",
-    "@radix-ui/react-toast": "^1.2.4",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "cmdk": "^1.0.0",
-    "embla-carousel": "^8.5.1",
-    "embla-carousel-autoplay": "^8.5.1",
-    "embla-carousel-react": "^8.5.1",
-    "lucide-react": "^0.469.0",
-    "next": "15.1.2",
-    "react": "^18.3.1",
-    "react-carousel": "^4.3.0",
-    "react-dom": "^18.3.1",
-    "react-hook-form": "^7.54.2",
-    "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7",
-=======
     "@reduxjs/toolkit": "^2.5.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -65,7 +42,6 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.5",
->>>>>>> origin/registration
     "zod": "^3.24.1"
   },
   "devDependencies": {

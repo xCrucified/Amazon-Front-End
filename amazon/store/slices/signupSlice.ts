@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { set } from "date-fns";
 
 interface UserDataState {
   username: string;
