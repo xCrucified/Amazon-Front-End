@@ -33,7 +33,7 @@ export const ComboboxLanguage: React.FC<Props> = ({ className }) => {
   return (
     <div className={className}>
       <Select>
-        <SelectTrigger className="max-w-[130px] text-lg">
+        <SelectTrigger className="max-w-[135px] text-lg border-none">
           <SelectValue placeholder={items[0].name}/>
         </SelectTrigger>
         <SelectContent>

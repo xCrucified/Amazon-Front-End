@@ -32,7 +32,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
             width={20}
             height={20}
           />
-          <ComboboxLanguage />
+          <ComboboxLanguage className="text-white"/>
         </div>
       </Container>
     </div>
