@@ -19,7 +19,8 @@ export async function POST(req: NextRequest) {
         passwordHash,
         email,
         birthDate: new Date(birthDate),
-        phoneNumber: "+" + countryCode + phoneNumber,
+        countryCode,
+        phoneNumber,
         avatarPicture,
       },
     });

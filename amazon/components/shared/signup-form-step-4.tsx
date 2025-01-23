@@ -72,7 +72,7 @@ export default function SignupForm({
       } else {
         console.error(response.statusText);
         toast.error(response.statusText);
-        router.push("/signup");
+        // router.push("/signup");
       }
     } catch (error) {
       console.error(error);
