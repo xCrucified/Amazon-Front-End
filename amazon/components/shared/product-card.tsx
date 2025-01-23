@@ -7,9 +7,6 @@ interface Props {
 }
 
 export const ProductCard: React.FC<Props> = ({ className, ...props }) => {
-  
-
-  
   return (
     <>
     <div className="flex flex-wrap gap-3">
@@ -19,7 +16,6 @@ export const ProductCard: React.FC<Props> = ({ className, ...props }) => {
       </CardHeader>
       <CardContent className="grid gap-4">
         <div>
-            
         </div>
       </CardContent>
     </Card>

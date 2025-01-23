@@ -26,16 +26,21 @@ export default function Carousel({
     return () => clearInterval(slideInterval);
   }, [autoSlide, autoSlideInterval, next]);
   return (
-    <div className="overflow-hidden relative outline rounded-[40px]">
+    
+    <div className="overflow-hidden relative rounded-[40px]">
+      
       <div
         className="flex transition-transform ease-out duration-500"
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
         {slides.map((slide, index) => (
           <div key={index} className="w-full flex-shrink-0">
-            {slide}
+            <div className="w-[100%]">
+              <div className="absolute w-[324px] h-[47px] bg-[#f5f5f5] rounded-[-100px]" id="border-topText"></div>
+            </div>
+              {slide}
           </div>
-        ))}{" "}
+        ))}
       </div>
 
       <div className="absolute bottom-[27px] right-[180px]">
