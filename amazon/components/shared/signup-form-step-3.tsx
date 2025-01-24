@@ -29,7 +29,7 @@ import CountryPicker from "@/components/ui/country-picker";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setCountryCode, setPhoneNumber } from "@/store/slices/signupSlice";
+import { setPhoneNumber } from "@/store/slices/signupSlice";
 
 export default function SignupForm({
   className,
@@ -55,7 +55,7 @@ export default function SignupForm({
     },
   });
 
-  async function onSubmit(values: z.infer<typeof birthDatePhoneNumberSchema>) {
+  async function onSubmit() {
     router.push("/signup/avatar-picture");
   }
 
@@ -99,7 +99,6 @@ export default function SignupForm({
                         <FormControl>
                           <CountryPicker
                             {...field}
-                            value={countryCodeValue}
                             onChange={(e) => {
                               field.onChange(e);
                             }}

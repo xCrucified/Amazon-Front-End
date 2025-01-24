@@ -33,7 +33,6 @@ interface DatePickerProps {
 function DatePicker({
   startYear = getYear(new Date()) - 100,
   endYear = getYear(new Date()) + 100,
-  value,
   onChange,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);

@@ -23,26 +23,29 @@ import {
 
 interface Props {
   className?: string;
-  value: string;
   onChange: (value: string) => void;
 }
 
-const CountryPicker: React.FC<Props> = ({ className, value, onChange }) => {
+const CountryPicker: React.FC<Props> = ({ className, onChange }) => {
   const [open, setOpen] = React.useState(false);
   const label = useSelector(
     (state: RootState) => state.example.countryCodeLabel
   );
   const dispatch = useDispatch();
 
-  const handleSelect = (countryCode: { id: number; label: string; value: string }) => {
+  const handleSelect = (countryCode: {
+    id: number;
+    label: string;
+    value: string;
+  }) => {
     if (countryCode.label === label) {
       dispatch(setCountryCode(""));
       dispatch(setCountryCodeLabel("Select country code..."));
-      onChange(""); // Notify the parent of the change
+      onChange("");
     } else {
       dispatch(setCountryCode(countryCode.value));
       dispatch(setCountryCodeLabel(countryCode.label));
-      onChange(countryCode.value); // Notify the parent of the change
+      onChange(countryCode.value);
     }
     setOpen(false);
   };
@@ -73,7 +76,7 @@ const CountryPicker: React.FC<Props> = ({ className, value, onChange }) => {
                 {countryCodes.map((countryCode) => (
                   <CommandItem
                     key={countryCode.id}
-                    value={countryCode.label} 
+                    value={countryCode.label}
                     onSelect={() => handleSelect(countryCode)}
                   >
                     {countryCode.label}
