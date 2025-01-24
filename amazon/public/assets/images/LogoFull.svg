@@ -1,6 +1,4 @@
-const Logo = () => {
-  return (
-    <svg
+<svg
       width="206"
       height="64"
       viewBox="0 0 206 64"
@@ -35,7 +33,3 @@ const Logo = () => {
         </clipPath>
       </defs>
     </svg>
-  );
-};
-
-export default Logo;
