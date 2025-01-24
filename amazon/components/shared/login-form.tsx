@@ -11,7 +11,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "@/lib/definitions";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,12 +27,15 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
 import { verifyPassword } from "@/lib/auth";
+import { useState } from "react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -45,7 +55,7 @@ export function LoginForm({
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
       });
@@ -67,18 +77,82 @@ export function LoginForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+    <div className={cn("flex flex-col", className)} {...props}>
+      <Card className="border-none shadow-none">
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>
-            Login with your Apple or Google account
-          </CardDescription>
+          <CardTitle className="text-[23px] font-bold">
+            Sign in or create account
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-[32px] pt-0">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-3">
+                <div className="grid gap-3">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel className="">
+                          Enter mobile number or email
+                        </FormLabel>
+                        <FormControl>
+                          <input
+                            className="bg-gray-200 rounded-lg focus:ring-0 focus:outline-none border-0 p-[8px] h-[36px] text-[12px]"
+                            {...field}
+                            type="email"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {isPasswordVisible ? (
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center justify-between">
+                            <FormLabel>Password</FormLabel>
+                            <Link
+                              href="#"
+                              className="ml-auto text-sm underline-offset-4 hover:underline"
+                            >
+                              Forgot your password?
+                            </Link>
+                          </div>
+                          <FormControl>
+                            <Input {...field} type="password" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  ) : (
+                    <Button className="bg-[#5A6C8D] rounded-lg hover:bg-[#222935]">Continue</Button>
+                  )}
+                  <div className="text-[13px]">
+                    By continuing, you agree to Onyx's{" "}
+                    <Link href="/terms-of-service" className="underline text-[#37569E] hover:text-[#222935]">Conditions of Use</Link> and{" "}
+                    <Link href="/privacy-policy" className="underline text-[#37569E] hover:text-[#222935]">Privacy Notice</Link>
+                  </div>
+                  <Button type="submit" className="w-full">
+                    Login
+                  </Button>
+                </div>
+                {/* <div className="text-center text-sm">
+                  Don&apos;t have an account?{" "}
+                  <a href="/signup" className="underline underline-offset-4">
+                    Sign up
+                  </a>
+                </div>
+                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                  <span className="relative z-10 bg-background px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
                 <div className="flex flex-col gap-3">
                   <Button variant="outline" className="w-full" disabled>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -102,66 +176,12 @@ export function LoginForm({
                     </svg>
                     Login with Google
                   </Button>
-                </div>
-                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                  <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-                <div className="grid gap-3">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="">Email</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="email" required />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="flex items-center justify-between">
-                          <FormLabel>Password</FormLabel>
-                          <Link
-                            href="#"
-                            className="ml-auto text-sm underline-offset-4 hover:underline"
-                          >
-                            Forgot your password?
-                          </Link>
-                        </div>
-                        <FormControl>
-                          <Input {...field} type="password" required />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" className="w-full">
-                    Login
-                  </Button>
-                </div>
-                <div className="text-center text-sm">
-                  Don&apos;t have an account?{" "}
-                  <a href="/signup" className="underline underline-offset-4">
-                    Sign up
-                  </a>
-                </div>
+                </div> */}
               </div>
             </form>
           </Form>
         </CardContent>
       </Card>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </div>
     </div>
   );
 }

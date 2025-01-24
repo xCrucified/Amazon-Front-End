@@ -20,7 +20,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
 
         <div className="w-[220px] text-white flex gap-1">
           <label>New customer?</label>
-          <Link href="/signup" className="border-b-[1.5px] border-dotted">
+          <Link href="/login" className="border-b-[1.5px] border-dotted">
             Start here.
           </Link>
         </div>
