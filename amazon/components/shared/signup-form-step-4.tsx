@@ -42,6 +42,7 @@ export default function SignupForm({
   const selectedImage = useSelector(
     (state: RootState) => state.example.avatarPicture
   );
+  const isSelected = useSelector((state: RootState) => state.example.isSelected);
 
   const form = useForm();
 
@@ -111,7 +112,7 @@ export default function SignupForm({
                           <Button
                             variant="outline"
                             className="w-full flex-grow"
-                            disabled={selectedImage === ""}
+                            disabled={!isSelected}
                             onClick={(e) => {
                               e.preventDefault();
                               dispatch(clearImage());

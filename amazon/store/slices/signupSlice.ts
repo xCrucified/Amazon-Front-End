@@ -11,6 +11,7 @@ interface UserDataState {
   phoneNumber: string;
   avatarPicture: string;
   avatarPictureUrl: string;
+  isSelected: boolean;
 }
 
 const initialState: UserDataState = {
@@ -24,6 +25,7 @@ const initialState: UserDataState = {
   phoneNumber: "",
   avatarPicture: "",
   avatarPictureUrl: "",
+  isSelected: false,
 };
 
 const fieldSlice = createSlice({
@@ -60,6 +62,9 @@ const fieldSlice = createSlice({
     setAvatarPictureUrl: (state, action: PayloadAction<string>) => {
       state.avatarPictureUrl = action.payload;
     },
+    setSelected: (state, action: PayloadAction<boolean>) => {
+      state.isSelected = action.payload;
+    },
     clearData: (state) => {
       state.username = "";
       state.email = "";
@@ -71,10 +76,12 @@ const fieldSlice = createSlice({
       state.phoneNumber = "";
       state.avatarPicture = "";
       state.avatarPictureUrl = "";
+      state.isSelected = false;
     },
     clearImage: (state) => {
       state.avatarPicture = "";
       state.avatarPictureUrl = "";
+      state.isSelected = false;
     },
   },
 });
@@ -90,6 +97,7 @@ export const {
   setPhoneNumber,
   setAvatarPicture,
   setAvatarPictureUrl,
+  setSelected,
   clearData,
   clearImage,
 } = fieldSlice.actions;
