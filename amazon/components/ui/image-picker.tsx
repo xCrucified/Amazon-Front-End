@@ -11,6 +11,7 @@ import {
   clearImage,
   setAvatarPicture,
   setAvatarPictureUrl,
+  setSelected,
 } from "@/store/slices/signupSlice";
 import { RootState } from "@/store/store";
 
@@ -20,9 +21,9 @@ interface Props {
 }
 
 const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
-  const selectedImage = useSelector(
-    (state: RootState) => state.example.avatarPicture
-  );
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const isSelected = useSelector((state: RootState) => state.example.isSelected);
   const selectedImageUrl = useSelector(
     (state: RootState) => state.example.avatarPictureUrl
   );
@@ -37,6 +38,8 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
   const [zoom, setZoom] = useState(1);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    dispatch(setSelected(false));
+
     const file = acceptedFiles[0];
     if (file) {
       const fileExtension = file.name.split(".").pop();
@@ -44,9 +47,7 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
       const fileUrl = URL.createObjectURL(file);
 
       setImageForCrop(fileUrl);
-
-      dispatch(setAvatarPicture(uniqueName));
-      dispatch(setAvatarPictureUrl(fileUrl));
+      setSelectedImage(uniqueName);
       onChange(uniqueName);
     } else {
       dispatch(clearImage());
@@ -62,7 +63,7 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
     },
   });
 
-  const onCropComplete = async (croppedAreaPixels: any) => {
+  const onCropComplete = async (croppedArea: any, croppedAreaPixels: any) => {
     if (imageForCrop) {
       const croppedImage = await getCroppedImg(imageForCrop, croppedAreaPixels);
       if (croppedImage) {
@@ -94,6 +95,9 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
               variant="secondary"
               onClick={(e) => {
                 e.preventDefault();
+                dispatch(setAvatarPicture(selectedImage!));
+                dispatch(setAvatarPictureUrl(croppedImagePreview!));
+                dispatch(setSelected(true));
                 setImageForCrop(null);
                 setCroppedImagePreview(null);
               }}
@@ -105,6 +109,8 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
               variant="secondary"
               onClick={(e) => {
                 e.preventDefault();
+                dispatch(setAvatarPicture(""));
+                if (!isSelected) { dispatch(setSelected(true)); }
                 setImageForCrop(null);
                 setCroppedImagePreview(null);
               }}
@@ -119,7 +125,7 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
           className="w-full h-full cursor-pointer flex flex-col justify-center border border-input rounded-md"
         >
           <input {...getInputProps()} />
-          {selectedImage !== "" ? (
+          {selectedImageUrl && selectedImageUrl !== "" ? (
             <Image
               src={selectedImageUrl}
               alt="Selected"
