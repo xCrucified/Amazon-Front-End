@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { signIn } from "next-auth/react";
 import {
   Form,
   FormControl,
@@ -134,7 +133,7 @@ export function LoginForm({
                     <Button className="bg-[#5A6C8D] rounded-lg hover:bg-[#222935]">Continue</Button>
                   )}
                   <div className="text-[13px]">
-                    By continuing, you agree to Onyx's{" "}
+                    By continuing, you agree to Onyx&apos;s{" "}
                     <Link href="/terms-of-service" className="underline text-[#37569E] hover:text-[#222935]">Conditions of Use</Link> and{" "}
                     <Link href="/privacy-policy" className="underline text-[#37569E] hover:text-[#222935]">Privacy Notice</Link>
                   </div>
