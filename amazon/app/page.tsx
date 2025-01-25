@@ -1,8 +1,7 @@
 import CarouselDisplay from "@/components/shared/carousel-display";
 import { Container } from "@/components/shared/container";
 import Footer from "@/components/shared/footer";
-
-import ProductCard from "@/components/shared/product-card";
+import Main from "@/components/shared/main";
 import { TopBar } from "@/components/shared/top-bar";
 import React from "react";
 
@@ -18,7 +17,7 @@ export default function Home() {
       </Container>
 
       <Container className="min-h-[calc(100vh-16px)]">
-        <ProductCard />
+        <Main />
       </Container>
 
       <Footer />

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 
 interface CarouselProps {
@@ -27,7 +28,34 @@ export default function Carousel({
   }, [autoSlide, autoSlideInterval, next]);
   return (
     <>
-      <div className="absolute flex ml-[133px] w-[419px] bottom-[23.5px] h-[39px] z-50 bg-[#f5f5f5] rounded-tl-[25px] rounded-tr-[25px] rounded-bl-[-25px]"></div>
+      <div className="absolute bottom-[23.5px] z-50 w-[100%]">
+        <Image
+          src="/assets/images/Subtract.svg"
+          alt="Rectangle"
+          width={419}
+          height={39}
+          className="ml-[133px]"
+        />
+      </div>
+      <div className="absolute z-50 right-6">
+        <Image
+          src="/assets/images/banner_top_panel.svg"
+          alt="Rectangle"
+          width={294}
+          height={43}
+          className="ml-[133px]"
+        />
+      </div>
+      <div className="absolute z-50 right-6 top-16">
+        <Image
+          src="/assets/images/banner_bottom-top.svg"
+          alt="Rectangle"
+          width={351}
+          height={1}
+          className="ml-[133px]"
+        />
+      </div>
+
       <div className="overflow-hidden relative rounded-[40px]">
         <div
           className="flex transition-transform ease-out duration-500"
@@ -35,9 +63,7 @@ export default function Carousel({
         >
           {slides.map((slide, index) => (
             <div key={index} className="w-full h-full">
-              <div className="">
-                {slide}
-              </div>
+              <div>{slide}</div>
             </div>
           ))}
         </div>
@@ -48,7 +74,7 @@ export default function Carousel({
               <div
                 key={i}
                 className={`transition-all w-2 h-2 bg-black rounded-full  ${
-                  curr === i ? "bg-black" : "bg-opacity-50"
+                  curr === i ? "bg-red-600" : "bg-opacity-35"
                 }`}
               />
             ))}
