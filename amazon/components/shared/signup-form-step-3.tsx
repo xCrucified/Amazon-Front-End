@@ -37,12 +37,12 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const date = useSelector((state: RootState) => state.example.birthDate);
+  const date = useSelector((state: RootState) => state.signup.birthDate);
   const countryCodeValue = useSelector(
-    (state: RootState) => state.example.countryCode
+    (state: RootState) => state.signup.countryCode
   );
   const phoneNumber = useSelector(
-    (state: RootState) => state.example.phoneNumber
+    (state: RootState) => state.signup.phoneNumber
   );
   const dispatch = useDispatch();
 

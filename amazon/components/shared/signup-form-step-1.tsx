@@ -38,8 +38,8 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const username = useSelector((state: RootState) => state.example.username);
-  const email = useSelector((state: RootState) => state.example.email);
+  const username = useSelector((state: RootState) => state.signup.username);
+  const email = useSelector((state: RootState) => state.signup.email);
   const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof usernameEmailSchema>>({

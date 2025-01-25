@@ -11,6 +11,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    console.log(user);    
+
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     console.log(error);

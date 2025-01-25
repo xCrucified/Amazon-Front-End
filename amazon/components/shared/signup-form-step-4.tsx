@@ -29,20 +29,20 @@ export default function SignupForm({
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const username = useSelector((state: RootState) => state.example.username);
-  const email = useSelector((state: RootState) => state.example.email);
-  const password = useSelector((state: RootState) => state.example.password);
-  const birthDate = useSelector((state: RootState) => state.example.birthDate);
-  const countryCode = Number.parseInt(useSelector(
-    (state: RootState) => state.example.countryCode
-  ));
+  const username = useSelector((state: RootState) => state.signup.username);
+  const email = useSelector((state: RootState) => state.signup.email);
+  const password = useSelector((state: RootState) => state.signup.password);
+  const birthDate = useSelector((state: RootState) => state.signup.birthDate);
+  const countryCode = Number.parseInt(
+    useSelector((state: RootState) => state.signup.countryCode)
+  );
   const phoneNumber = useSelector(
-    (state: RootState) => state.example.phoneNumber
+    (state: RootState) => state.signup.phoneNumber
   );
   const selectedImage = useSelector(
-    (state: RootState) => state.example.avatarPicture
+    (state: RootState) => state.signup.avatarPicture
   );
-  const isSelected = useSelector((state: RootState) => state.example.isSelected);
+  const isSelected = useSelector((state: RootState) => state.signup.isSelected);
 
   const form = useForm();
 
@@ -57,7 +57,7 @@ export default function SignupForm({
       avatarPicture: selectedImage,
     };
 
-    console.log(user);   
+    console.log(user);
 
     try {
       const response = await fetch("/api/signup", {

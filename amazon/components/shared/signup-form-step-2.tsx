@@ -36,8 +36,8 @@ export default function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const password = useSelector((state: RootState) => state.example.password);
-  const rPassword = useSelector((state: RootState) => state.example.rPassword);
+  const password = useSelector((state: RootState) => state.signup.password);
+  const rPassword = useSelector((state: RootState) => state.signup.rPassword);
   const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof passwordSchema>>({
