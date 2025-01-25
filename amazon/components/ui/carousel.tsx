@@ -28,7 +28,7 @@ export default function Carousel({
   }, [autoSlide, autoSlideInterval, next]);
   return (
     <>
-      <div className="absolute bottom-[23.5px] z-50 w-[100%]">
+      <div className="absolute bottom-[23.5px] z-40 w-[100%]">
         <Image
           src="/assets/images/Subtract.svg"
           alt="Rectangle"
@@ -45,6 +45,7 @@ export default function Carousel({
           height={43}
           className="ml-[133px]"
         />
+        <label className="absolute flex w-max left-[160px] text-3xl font-bold h-[100%] z-50 top-0">Thriving Together</label>
       </div>
       <div className="absolute z-50 right-6 top-16">
         <Image
@@ -54,6 +55,7 @@ export default function Carousel({
           height={1}
           className="ml-[133px]"
         />
+        <label className="absolute flex w-max left-[165px] text-3xl font-bold h-[100%] z-50 top-1">Nature And Wellness.</label>
       </div>
 
       <div className="overflow-hidden relative rounded-[40px]">
