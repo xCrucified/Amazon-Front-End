@@ -91,6 +91,3 @@ html {
   @apply border-t-primary border-l-primary !important;
 }
 
-#border-topText{
-  clip-path: path("M0,0 H324 V47 Q162 60 0 47 Z");
-}

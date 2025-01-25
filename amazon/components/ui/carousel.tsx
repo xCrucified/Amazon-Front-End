@@ -26,35 +26,35 @@ export default function Carousel({
     return () => clearInterval(slideInterval);
   }, [autoSlide, autoSlideInterval, next]);
   return (
-    
-    <div className="overflow-hidden relative rounded-[40px]">
-      
-      <div
-        className="flex transition-transform ease-out duration-500"
-        style={{ transform: `translateX(-${curr * 100}%)` }}
-      >
-        {slides.map((slide, index) => (
-          <div key={index} className="w-full flex-shrink-0">
-            <div className="w-[100%]">
-              <div className="absolute w-[324px] h-[47px] bg-[#f5f5f5] rounded-[-100px]" id="border-topText"></div>
+    <>
+      <div className="absolute flex ml-[133px] w-[419px] bottom-[23.5px] h-[39px] z-50 bg-[#f5f5f5] rounded-tl-[25px] rounded-tr-[25px] rounded-bl-[-25px]"></div>
+      <div className="overflow-hidden relative rounded-[40px]">
+        <div
+          className="flex transition-transform ease-out duration-500"
+          style={{ transform: `translateX(-${curr * 100}%)` }}
+        >
+          {slides.map((slide, index) => (
+            <div key={index} className="w-full h-full">
+              <div className="">
+                {slide}
+              </div>
             </div>
-              {slide}
-          </div>
-        ))}
-      </div>
-
-      <div className="absolute bottom-[27px] right-[180px]">
-        <div className="flex items-center justify-center gap-2">
-          {slides.map((_, i) => (
-            <div
-              key={i}
-              className={`transition-all w-2 h-2 bg-black rounded-full  ${
-                curr === i ? "bg-black" : "bg-opacity-50"
-              }`}
-            />
           ))}
         </div>
+
+        <div className="absolute bottom-[27px] right-[180px]">
+          <div className="flex items-center justify-center gap-2">
+            {slides.map((_, i) => (
+              <div
+                key={i}
+                className={`transition-all w-2 h-2 bg-black rounded-full  ${
+                  curr === i ? "bg-black" : "bg-opacity-50"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
