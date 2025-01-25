@@ -4,11 +4,12 @@ import Header from "@/components/shared/header";
 import UpperHeader from "@/components/shared/upper-header";
 import { Nunito } from "next/font/google";
 import ReduxProvider from "@/components/shared/ReduxProvider";
+import { NextAuthProvider } from "@/components/shared/providers";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],
-  variable: '--font-nunito',
-  weight: ['400', '500', '600', '700', '800', '900']
+  variable: "--font-nunito",
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -24,14 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunito.variable} bg-[#f5f5f5]`}>
-      <ReduxProvider>
-        <div>
-          <UpperHeader />
-          <Header />
-          {children}
-        </div>
-        </ReduxProvider>     
-        </body>
+        <NextAuthProvider>
+          <ReduxProvider>
+            <div>
+              <UpperHeader />
+              <Header />
+              {children}
+            </div>
+          </ReduxProvider>
+        </NextAuthProvider>
+      </body>
     </html>
   );
 }

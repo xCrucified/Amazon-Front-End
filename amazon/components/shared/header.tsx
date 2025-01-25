@@ -1,17 +1,41 @@
+"use client";
+
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "./container";
 import { Button } from "../ui/button";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import { SearchInput } from "./search-input";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { usePathname } from "next/navigation";
+import { setIsAuth } from "@/store/slices/headerSlice";
 
 interface Props {
   className?: string;
 }
 
 export const Header: React.FC<Props> = ({ className }) => {
+  const pathname = usePathname();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const hideHeaderRoutes = ["/signup", "/login"];
+    const shouldHideHeader = hideHeaderRoutes.some((route) =>
+      pathname.startsWith(route)
+    );
+    dispatch(setIsAuth(!shouldHideHeader));
+  }, [pathname, dispatch]);
+
+  const { data: session, status } = useSession();
+
+  const isAuth = useSelector((state: RootState) => state.header.isAuth);
+
+  if (!isAuth) return null;
+
   return (
     <Container
       className={cn("flex justify-between items-center p-6", className)}
@@ -57,7 +81,11 @@ export const Header: React.FC<Props> = ({ className }) => {
         <Link href="/account">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
             <Image
-              src={"./assets/images/User.svg"}
+              src={
+                status === "authenticated"
+                  ? session?.user?.image!
+                  : "./assets/images/User.svg"
+              }
               alt={""}
               width={128}
               height={128}
