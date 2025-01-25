@@ -160,7 +160,7 @@ const FormMessage = React.forwardRef<
       className={cn("text-[0.8rem] font-medium text-destructive", className)}
       {...props}
     >
-      <img src="/assets/images/InfoFull.svg" />
+      <img src="/assets/images/InfoFullRed.svg" />
       {body}
     </p>
   )

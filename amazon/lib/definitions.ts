@@ -35,20 +35,32 @@ export const birthDatePhoneNumberSchema = z.object({
     .nonempty("Please enter phone number"),
 });
 
-export const usernameEmailSchema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be 3 letters min")
-    .max(20, "Username must be 20 letters max"),
-  email: z.string().email({ message: "Please enter a valid email" }).trim(),
-});
+export const accountNeccesarySchema = z
+  .object({
+    email: z.string().email({ message: "Please enter a valid email" }).trim(),
+    username: z
+      .string()
+      .min(3, "Username must be 3 letters min")
+      .max(20, "Username must be 20 letters max"),
+    password: z
+      .string()
+      .min(8, { message: "Be at least 8 characters long" })
+      .regex(/[a-zA-Z]/, { message: "Contain at least one letter" })
+      .regex(/[0-9]/, { message: "Contain at least one number" })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: "Contain at least one special character",
+      })
+      .trim(),
+    rPassword: z.string(),
+  })
+  .refine((data) => data.password === data.rPassword, {
+    message: "Passwords do not match",
+    path: ["rPassword"],
+  });
 
 export const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }).trim(),
-  password: z
-    .string()
-    .nonempty("Please enter password")
-    .trim(),
+  password: z.string().nonempty("Please enter password").trim(),
 });
 
 export async function getFromLocalStorage() {

@@ -1,18 +1,22 @@
-import SignupForm from "@/components/shared/signup-form-step-1";
-import { Hexagon } from "lucide-react";
+import FooterAuth from "@/components/shared/footer-auth";
+import SignupFormNeccesary from "@/components/shared/signup-form-neccesary";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="bg-muted flex items-center">
-      <div className="w-[400px] m-[auto] flex min-h-svh flex-col justify-center gap-6">
-        <Link href="/" className="flex pl-2 gap-2 self-start font-medium mt-5">
-          <div className="flex h-10 w-24 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <Hexagon  className="size-6 mr-1" />
-            <span className="font-bold text-[20px]">ONYX</span>
-          </div>
+    <div className="flex flex-col items-center justify-center bg-muted p-[32px]">
+      <div className="flex w-[405px] max-w-sm flex-col gap-6">
+        <Link href="/" className="items-center self-center mt-12 mb-6">
+          <Image
+            src={"/assets/images/LogoFull.svg"}
+            alt="logo"
+            width={206}
+            height={64}
+          />
         </Link>
-        <SignupForm className="self-center w-full" />
+        <SignupFormNeccesary />
+        <FooterAuth />
       </div>
     </div>
   );
