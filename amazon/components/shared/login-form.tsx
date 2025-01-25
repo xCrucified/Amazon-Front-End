@@ -24,7 +24,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 import { setEmail } from "@/store/slices/signupSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export function LoginForm({
   className,
@@ -35,12 +36,13 @@ export function LoginForm({
 
   const [isPasswordInputVisible, setIsPasswordInputVisible] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const email = useSelector((state: RootState) => state.signup.email);
   const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      email: email,
       password: "",
     },
   });
@@ -63,7 +65,7 @@ export function LoginForm({
         form.setFocus("password");
       } else {
         dispatch(setEmail(form.getValues("email")));
-        router.push("/signup");
+        router.push("/login/confirm-redirect");
       }
     } catch (error) {
       console.log(error);
@@ -333,3 +335,5 @@ export function LoginForm({
     </div>
   );
 }
+
+export default LoginForm;
