@@ -121,7 +121,7 @@ export function LoginForm({
                 <div className="grid gap-3">
                   {isPasswordInputVisible ? (
                     <div className="flex items-center justify-between">
-                      <span>{form.getValues("email")}</span>
+                      <label>{form.getValues("email")}</label>
                       <button
                         className="text-[#37569E] hover:text-[#222935] focus:cursor-pointer"
                         onClick={() => {
