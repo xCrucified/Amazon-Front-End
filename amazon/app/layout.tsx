@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/shared/header";
-import UpperHeader from "@/components/shared/upper-header";
+import Header from "@/components/shared/(header)/header";
+import UpperHeader from "@/components/shared/(header)/upper-header";
 import { Nunito } from "next/font/google";
 import ReduxProvider from "@/components/shared/ReduxProvider";
 

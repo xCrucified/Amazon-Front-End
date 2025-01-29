@@ -1,9 +1,9 @@
 import CarouselDisplay from "@/components/shared/carousel-display";
 import { Container } from "@/components/shared/container";
-import Footer from "@/components/shared/footer";
-import Main from "@/components/shared/main";
-import { TopBar } from "@/components/shared/top-bar";
+import Main from "@/components/shared/(main)/main";
+import { TopBar } from "@/components/shared/(header)/top-bar";
 import React from "react";
+import Footer from "@/components/shared/(footer)/footer";
 
 export default function Home() {
   return (

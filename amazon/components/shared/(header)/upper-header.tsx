@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-import { Container } from "./container";
+import { Container } from "../container";
 import Link from "next/link";
-import { CountryDialog } from "./country-dialog";
-import ComboboxLanguage from "./checkbox-language";
+import { CountryDialog } from "../country-dialog";
+import ComboboxLanguage from "../checkbox-language";
 import Image from "next/image";
 
 interface Props {

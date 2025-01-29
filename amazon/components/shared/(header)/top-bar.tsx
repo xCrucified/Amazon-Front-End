@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import Categories from "./categories";
+import { Button } from "../../ui/button";
+import Categories from "../categories";
 import Image from "next/image";
 interface Props {
   className?: string;
