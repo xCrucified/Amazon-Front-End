@@ -3,8 +3,8 @@ import "./globals.css";
 import Header from "@/components/shared/header";
 import UpperHeader from "@/components/shared/upper-header";
 import { Nunito } from "next/font/google";
-import ReduxProvider from "@/components/shared/ReduxProvider";
-import { NextAuthProvider } from "@/components/shared/providers";
+import ReduxProvider from "@/components/shared/redux-provider";
+import NextAuthProvider from "@/components/shared/auth-provides";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],

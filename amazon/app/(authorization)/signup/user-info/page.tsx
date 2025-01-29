@@ -5,12 +5,11 @@ import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { passwordSchema } from "@/lib/definitions";
-
+import { birthDatePhoneNumberSchema } from "@/lib/definitions";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { setPassword, setRPassword } from "@/store/slices/signupSlice";
+import { setPhoneNumber } from "@/store/slices/signupSlice";
 
 import {
   Form,
@@ -29,37 +28,42 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import DatePicker from "@/components/ui/date-picker";
+import CountryPicker from "@/components/ui/country-picker";
 
-export default function SignupForm({
+export default function SignupFormOptional({
   className,
-  ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const password = useSelector((state: RootState) => state.signup.password);
-  const rPassword = useSelector((state: RootState) => state.signup.rPassword);
+  const date = useSelector((state: RootState) => state.signup.birthDate);
+  const countryCodeValue = useSelector(
+    (state: RootState) => state.signup.countryCode
+  );
+  const phoneNumber = useSelector(
+    (state: RootState) => state.signup.phoneNumber
+  );
   const dispatch = useDispatch();
 
-  const form = useForm<z.infer<typeof passwordSchema>>({
-    resolver: zodResolver(passwordSchema),
+  const form = useForm<z.infer<typeof birthDatePhoneNumberSchema>>({
+    resolver: zodResolver(birthDatePhoneNumberSchema),
     defaultValues: {
-      password: password,
-      rPassword: rPassword,
+      birthDate: new Date(date),
+      countryCode: countryCodeValue,
+      phoneNumber: phoneNumber,
     },
   });
 
-  async function onSubmit(values: z.infer<typeof passwordSchema>) {
-    dispatch(setPassword(values.password));
-    dispatch(setRPassword(values.rPassword));
-    router.push("/signup/account-info");
+  async function onSubmit() {
+    router.push("/signup/avatar-picture");
   }
 
   return (
-    <div className={cn("flex flex-col w-[400px]", className)} {...props}>
+    <div className={cn("flex flex-col w-[400px]", className)}>
       <Card className="w-[100%]">
         <CardHeader className="text-center">
           <CardTitle className="text-left text-xl">Sign Up</CardTitle>
-          <CardDescription className="text-left">Password</CardDescription>
+          <CardDescription className="text-left">Account info</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -68,16 +72,15 @@ export default function SignupForm({
                 <div className="flex-grow grid gap-2">
                   <FormField
                     control={form.control}
-                    name="password"
+                    name="birthDate"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>Birth Date</FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
+                          <DatePicker
                             {...field}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            required
+                            value={date}
+                            onChange={(e) => field.onChange(e)}
                           />
                         </FormControl>
                         <FormMessage />
@@ -88,15 +91,39 @@ export default function SignupForm({
                 <div className="flex-grow grid gap-2">
                   <FormField
                     control={form.control}
-                    name="rPassword"
+                    name="countryCode"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Re-enter password</FormLabel>
+                        <FormLabel>Country code</FormLabel>
+                        <FormControl>
+                          <CountryPicker
+                            {...field}
+                            onChange={(e) => {
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex-grow grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem className="flex-grow">
+                        <FormLabel>Phone number</FormLabel>
                         <FormControl>
                           <Input
-                            type="password"
+                            type="text"
+                            className="flex-grow"
                             {...field}
-                            onChange={(e) => field.onChange(e.target.value)}
+                            onChange={(e) => {
+                              dispatch(setPhoneNumber(e.target.value));
+                              field.onChange(e.target.value);
+                            }}
                             required
                           />
                         </FormControl>
@@ -111,9 +138,7 @@ export default function SignupForm({
                     className="w-[80px]"
                     onClick={(e) => {
                       e.preventDefault();
-                      dispatch(setPassword(form.getValues().password));
-                      dispatch(setRPassword(form.getValues().rPassword));
-                      router.push("/signup");
+                      router.push("/signup/verify");
                     }}
                   >
                     Prev

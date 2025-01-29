@@ -3,49 +3,39 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { useEffect } from "react";
 
-export function ConfirmationAuthForm({
+export default function VerifyOTPPage({
   className,
-  ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const router = useRouter();
-  const { data: session } = useSession();
-  //   if (session) {
-  //     router.push("/login");
-  //   }
+  const { push } = useRouter();
 
   const email = useSelector((state: RootState) => state.signup.email);
-  if (!email || email === "") {
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (!email || email === "") {
+      push("/signup");
+    }
+  }, [email, push]);
 
   const form = useForm();
 
   async function onSubmit() {
-    router.push("/signup");
+    push("/signup/user-info");
   }
 
   return (
-    <div className={cn("flex flex-col", className)} {...props}>
+    <div className={cn("flex flex-col", className)}>
       <Card className="border-none shadow-none">
         <CardHeader className="text-center">
           <CardTitle className="text-[23px] font-bold">
-            Looks like you&apos;re new to Onyx
+            Verify email address
           </CardTitle>
         </CardHeader>
         <CardContent className="p-[32px] pt-0">
@@ -58,7 +48,7 @@ export function ConfirmationAuthForm({
                     className="text-[#37569E] hover:text-[#222935] focus:cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
-                      router.push("/login");
+                      push("/signup");
                     }}
                   >
                     Change
@@ -97,5 +87,3 @@ export function ConfirmationAuthForm({
     </div>
   );
 }
-
-export default ConfirmationAuthForm;

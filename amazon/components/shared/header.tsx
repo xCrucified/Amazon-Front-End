@@ -81,11 +81,7 @@ export const Header: React.FC<Props> = ({ className }) => {
         <Link href="/account">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
             <Image
-              src={
-                status === "authenticated"
-                  ? session?.user?.image!
-                  : "./assets/images/User.svg"
-              }
+              src="./assets/images/User.svg"
               alt={""}
               width={128}
               height={128}

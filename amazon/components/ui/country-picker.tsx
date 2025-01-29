@@ -29,7 +29,7 @@ interface Props {
 const CountryPicker: React.FC<Props> = ({ className, onChange }) => {
   const [open, setOpen] = React.useState(false);
   const label = useSelector(
-    (state: RootState) => state.example.countryCodeLabel
+    (state: RootState) => state.signup.countryCodeLabel
   );
   const dispatch = useDispatch();
 

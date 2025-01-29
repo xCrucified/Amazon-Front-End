@@ -7,13 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             Int        @id @default(autoincrement())
-  username       String     @unique
-  passwordHash   String
-  email          String     @unique
-  birthDate      DateTime
-  countryCode    Int
-  phoneNumber    String 
-  avatarPicture  String?
+model AspNetUsers {
+  Id             String        @id 
+  UserName       String     @unique
+  PasswordHash   String
+  Email          String     @unique
+  BirthDate      DateTime
+  PhoneNumber    String 
+  AvatarPicture  String?
 }

@@ -37,7 +37,7 @@ function DatePicker({
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
 
-  const date = useSelector((state: RootState) => state.example.birthDate);
+  const date = useSelector((state: RootState) => state.signup.birthDate);
   const dispatch = useDispatch();
 
   const months = [

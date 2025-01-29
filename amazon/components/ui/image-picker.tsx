@@ -23,9 +23,9 @@ interface Props {
 const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const isSelected = useSelector((state: RootState) => state.example.isSelected);
+  const isSelected = useSelector((state: RootState) => state.signup.isSelected);
   const selectedImageUrl = useSelector(
-    (state: RootState) => state.example.avatarPictureUrl
+    (state: RootState) => state.signup.avatarPictureUrl
   );
   const dispatch = useDispatch();
 
@@ -73,9 +73,7 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
   };
 
   return (
-    <div
-      className={cn("w-[400px] h-[400px] flex flex-col relative", className)}
-    >
+    <div className={className}>
       {imageForCrop ? (
         <div className="w-full h-full rounded-md flex flex-col gap-2">
           <div className="h-full border-2 bg-secondary border-input relative ">
@@ -110,7 +108,9 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
               onClick={(e) => {
                 e.preventDefault();
                 dispatch(setAvatarPicture(""));
-                if (!isSelected) { dispatch(setSelected(true)); }
+                if (!isSelected) {
+                  dispatch(setSelected(true));
+                }
                 setImageForCrop(null);
                 setCroppedImagePreview(null);
               }}
@@ -122,7 +122,7 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
       ) : (
         <div
           {...getRootProps()}
-          className="w-full h-full cursor-pointer flex flex-col justify-center border border-input rounded-md"
+          className="min-w-[300px] min-h-[300px] cursor-pointer flex flex-col justify-center border border-input rounded-md"
         >
           <input {...getInputProps()} />
           {selectedImageUrl && selectedImageUrl !== "" ? (

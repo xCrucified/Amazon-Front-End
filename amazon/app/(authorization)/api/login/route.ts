@@ -5,19 +5,16 @@ export async function POST(req: NextRequest) {
   const { email } = await req.json();
 
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.aspNetUsers.findUnique({
       where: {
-        email: email,
+        Email: email,
       },
     });
 
-    console.log(user);    
-
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error: " + error },
       { status: 500 }
     );
   }
