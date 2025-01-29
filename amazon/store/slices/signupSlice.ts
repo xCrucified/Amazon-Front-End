@@ -5,6 +5,7 @@ interface UserDataState {
   email: string;
   password: string;
   rPassword: string;
+  otp: string;
   birthDate: string;
   countryCode: string;
   countryCodeLabel: string;
@@ -19,6 +20,7 @@ const initialState: UserDataState = {
   email: "",
   password: "",
   rPassword: "",
+  otp: "",
   birthDate: new Date().toISOString(),
   countryCode: "",
   countryCodeLabel: "Select country code...",
@@ -43,6 +45,9 @@ const fieldSlice = createSlice({
     },
     setRPassword: (state, action: PayloadAction<string>) => {
       state.rPassword = action.payload;
+    },
+    setOTP: (state, action: PayloadAction<string>) => {
+      state.otp = action.payload;
     },
     setBirthdate: (state, action: PayloadAction<string>) => {
       state.birthDate = action.payload;
@@ -70,6 +75,7 @@ const fieldSlice = createSlice({
       state.email = "";
       state.password = "";
       state.rPassword = "";
+      state.otp = "";
       state.birthDate = new Date().toISOString();
       state.countryCode = "";
       state.countryCodeLabel = "Select country code...";
@@ -91,6 +97,7 @@ export const {
   setEmail,
   setPassword,
   setRPassword,
+  setOTP,
   setBirthdate,
   setCountryCode,
   setCountryCodeLabel,

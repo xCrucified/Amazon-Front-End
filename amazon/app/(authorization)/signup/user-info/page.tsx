@@ -31,7 +31,7 @@ import {
 import DatePicker from "@/components/ui/date-picker";
 import CountryPicker from "@/components/ui/country-picker";
 
-export default function SignupFormOptional({
+export default function SignupFormUserInfo({
   className,
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();

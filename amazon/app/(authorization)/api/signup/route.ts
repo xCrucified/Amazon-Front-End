@@ -3,25 +3,26 @@ import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   const {
-    username,
-    email,
-    passwordHash,
+    UserName,
+    Email,
+    PasswordHash,
     birthDate,
-    countryCode,
-    phoneNumber,
-    avatarPicture,
+    //CountryCode,
+    PhoneNumber,
+    AvatarPicture,
   } = await req.json();
 
   try {
-    const user = await prisma.user.create({
+    const user = await prisma.aspNetUsers.create({
       data: {
-        username,
-        passwordHash,
-        email,
-        birthDate: new Date(birthDate),
-        countryCode,
-        phoneNumber,
-        avatarPicture,
+        Id: crypto.randomUUID(),
+        UserName,
+        PasswordHash,
+        Email,
+        BirthDate: new Date(birthDate),
+        //CountryCode,
+        PhoneNumber,
+        AvatarPicture,
       },
     });
     

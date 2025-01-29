@@ -15,6 +15,7 @@ import {
   setEmail,
   setPassword,
   setRPassword,
+  setOTP,
 } from "@/store/slices/signupSlice";
 
 import {
@@ -61,7 +62,7 @@ export default function SignupFormNeccesary({
     dispatch(setPassword(values.password));
     dispatch(setRPassword(values.rPassword));
 
-    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    const otp = Math.floor(10000 + Math.random() * 90000).toString();
 
     try {
       const response = await fetch("/api/send-otp", {
@@ -75,6 +76,7 @@ export default function SignupFormNeccesary({
       const data = await response.json();
 
       if (response.ok) {
+        dispatch(setOTP(data.otp));
         push("/signup/verify-otp");
         console.log("OTP sent:", data.message);
       } else {
@@ -111,7 +113,7 @@ export default function SignupFormNeccesary({
                           <Input
                             type="email"
                             className={cn(
-                              "bg-gray-200 focus:bg-white   rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                              "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
                               form.formState.errors.email
                                 ? "border-[3px] border-red-500"
                                 : "focus:border-[3px] focus:border-[#5a6c8d]"

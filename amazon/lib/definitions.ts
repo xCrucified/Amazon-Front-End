@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const otpSchema = z.object({
-  otp: z.string().regex(/^\d{4}$/, {
-    message: "OTP must be a 4-digit numeric string.",
+  otp: z.string().regex(/^\d{5}$/, {
+    message: "OTP must be a 5 digits",
   }),
 });
 
