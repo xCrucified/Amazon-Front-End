@@ -1,18 +1,18 @@
 import React from 'react';
-// import ProductCard from '../(Cards)/product-card';
 import { cn } from '@/lib/utils';
 import { Container } from '../container';
-import UpperCard from '../(Cards)/upper-card';
+import { CategoryBar } from '../(cards)/category-bar';
 
 interface Props {
   className?: string;
 }
 
+
+
 export const Main: React.FC<Props> = ({ className }) => {
   return (
     <Container className={cn('p-6', className)}>
-        {/* <ProductCard /> */}
-        <UpperCard />
+        <CategoryBar id={0} name={'asd'} imageUrl={''} />
     </Container>
   );
 };
