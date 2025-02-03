@@ -51,20 +51,20 @@ const CountryPicker: React.FC<Props> = ({ className, onChange }) => {
   };
 
   return (
-    <div className={cn("", className)}>
+    <div>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between"
+            className={cn("w-full justify-between border-0 shadow-none", className)}
           >
             {label}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0">
+        <PopoverContent className="w-full bg-muted p-0 rounded-lg border-[3px] border-[#5a6c8d]">
           <Command>
             <CommandInput
               placeholder="Search country code..."

@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -45,7 +44,6 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
       const fileExtension = file.name.split(".").pop();
       const uniqueName = `${uuidv4()}.${fileExtension}`;
       const fileUrl = URL.createObjectURL(file);
-
       setImageForCrop(fileUrl);
       setSelectedImage(uniqueName);
       onChange(uniqueName);
@@ -64,7 +62,7 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
   });
 
   const onCropComplete = async (croppedArea: any, croppedAreaPixels: any) => {
-    if (imageForCrop) {
+    if (imageForCrop) {      
       const croppedImage = await getCroppedImg(imageForCrop, croppedAreaPixels);
       if (croppedImage) {
         setCroppedImagePreview(croppedImage);
@@ -129,9 +127,9 @@ const ImagePicker: React.FC<Props> = ({ className, onChange }) => {
             <Image
               src={selectedImageUrl}
               alt="Selected"
-              className="w-full h-full rounded-md object-cover"
               width={0}
               height={0}
+              className="w-full h-full rounded-md object-cover"
             />
           ) : (
             <p className="text-center">

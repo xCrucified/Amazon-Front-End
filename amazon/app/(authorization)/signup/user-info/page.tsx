@@ -21,20 +21,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import DatePicker from "@/components/ui/date-picker";
 import CountryPicker from "@/components/ui/country-picker";
+import Link from "next/link";
 
 export default function SignupFormUserInfo({
   className,
 }: React.ComponentPropsWithoutRef<"div">) {
-  const router = useRouter();
+  const { push } = useRouter();
 
   const date = useSelector((state: RootState) => state.signup.birthDate);
   const countryCodeValue = useSelector(
@@ -54,98 +50,149 @@ export default function SignupFormUserInfo({
     },
   });
 
-  async function onSubmit() {
-    router.push("/signup/avatar-picture");
+  async function onSubmit(values: z.infer<typeof birthDatePhoneNumberSchema>) {
+    dispatch(setPhoneNumber(values.phoneNumber));
+    push("/signup/avatar-picture");
   }
 
   return (
-    <div className={cn("flex flex-col w-[400px]", className)}>
-      <Card className="w-[100%]">
+    <div className={cn("flex flex-col", className)}>
+      <Card className="border-none shadow-none">
         <CardHeader className="text-center">
-          <CardTitle className="text-left text-xl">Sign Up</CardTitle>
-          <CardDescription className="text-left">Account info</CardDescription>
+          <CardTitle className="text-[23px] font-bold">User info</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-[32px] pt-0">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex flex-col gap-2">
-                <div className="flex-grow grid gap-2">
-                  <FormField
-                    control={form.control}
-                    name="birthDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Birth Date</FormLabel>
-                        <FormControl>
-                          <DatePicker
-                            {...field}
-                            value={date}
-                            onChange={(e) => field.onChange(e)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex-grow grid gap-2">
-                  <FormField
-                    control={form.control}
-                    name="countryCode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Country code</FormLabel>
-                        <FormControl>
-                          <CountryPicker
-                            {...field}
-                            onChange={(e) => {
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex-grow grid gap-2">
-                  <FormField
-                    control={form.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem className="flex-grow">
-                        <FormLabel>Phone number</FormLabel>
-                        <FormControl>
+              <div className="grid gap-3">
+                <FormField
+                  control={form.control}
+                  name="birthDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="text-[#000]">Birth Date</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          {...field}
+                          value={date}
+                          className={cn(
+                            "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                            form.formState.errors.birthDate
+                              ? "border-[3px] border-red-500"
+                              : "focus:border-[3px] focus:border-[#5a6c8d]"
+                          )}
+                          onChange={(e) => field.onChange(e)}
+                        />
+                      </FormControl>
+                      <FormMessage className="flex gap-1 items-center leading-[10px]" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="countryCode"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="text-[#000]">
+                        Country code
+                      </FormLabel>
+                      <FormControl>
+                        <CountryPicker
+                          className={cn(
+                            "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                            form.formState.errors.countryCode
+                              ? "border-[3px] border-red-500"
+                              : "focus:border-[3px] focus:border-[#5a6c8d]"
+                          )}
+                          {...field}
+                          onChange={(e) => {
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage className="flex gap-1 items-center leading-[10px]" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="text-[#000]">
+                        Phone number
+                      </FormLabel>
+                      <FormControl>
+                        <div className="flex items-center relative">
                           <Input
                             type="text"
-                            className="flex-grow"
+                            className={cn(
+                              "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                              form.formState.errors.phoneNumber
+                                ? "border-[3px] border-red-500"
+                                : "focus:border-[3px] focus:border-[#5a6c8d]"
+                            )}
                             {...field}
-                            onChange={(e) => {
-                              dispatch(setPhoneNumber(e.target.value));
-                              field.onChange(e.target.value);
-                            }}
-                            required
                           />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex justify-end gap-2 pt-3">
-                  <Button
-                    variant="outline"
-                    className="w-[80px]"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      router.push("/signup/verify");
-                    }}
+                          {form.formState.errors.phoneNumber && (
+                            <Image
+                              src="/assets/images/CloseFill.svg"
+                              width={16}
+                              height={16}
+                              className="absolute right-3 hover:cursor-pointer"
+                              alt="Close"
+                              onClick={() => {
+                                form.clearErrors("phoneNumber");
+                                form.setValue("phoneNumber", "");
+                              }}
+                            />
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage className="flex gap-1 items-center leading-[10px]" />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="mt-3" variant="figmaPrimary">
+                  Next
+                </Button>
+                <div className="text-[13px]">
+                  By continuing, you agree to Onyx&apos;s{" "}
+                  <Link
+                    href="/terms-of-service"
+                    className="underline text-[#37569E] hover:text-[#222935]"
                   >
-                    Prev
-                  </Button>
-                  <Button type="submit" className="w-[80px]">
-                    Next
-                  </Button>
+                    Conditions of Use
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="/privacy-policy"
+                    className="underline text-[#37569E] hover:text-[#222935]"
+                  >
+                    Privacy Notice
+                  </Link>
+                </div>
+                <div className="flex justify-start items-center bg-[#f1f4f7] rounded-lg">
+                  <div className="p-[20px]">
+                    <Image
+                      src="/assets/images/CustomerCheck.svg"
+                      width={26}
+                      height={26}
+                      alt="info-outline"
+                    />
+                  </div>
+                  <div className="flex flex-col pt-[16px] pb-[16px]">
+                    <span className="text-[16px] leading-[18px]">
+                      Already a customer?
+                    </span>
+                    <Link
+                      href="/login"
+                      className="text-[#37569E] text-[16px] leading-[18px]"
+                      replace
+                    >
+                      Sign in instead
+                    </Link>
+                  </div>
                 </div>
               </div>
             </form>

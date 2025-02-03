@@ -24,6 +24,7 @@ import {
 } from "./select";
 
 interface DatePickerProps {
+  className?: string;
   startYear?: number;
   endYear?: number;
   value: string;
@@ -31,6 +32,7 @@ interface DatePickerProps {
 }
 
 function DatePicker({
+  className,
   startYear = getYear(new Date()) - 100,
   endYear = getYear(new Date()) + 100,
   onChange,
@@ -60,9 +62,9 @@ function DatePicker({
     (_, i) => startYear + i
   );
 
-  const handleMonthChange = (month: string) => {
-    const newDate = setMonth(date, months.indexOf(month));
-    dispatch(setBirthdate(new Date(newDate).toISOString()));
+  const handleMonthChange = (newDate: Date) => {
+    const fixedDate = setMonth(new Date(date), getMonth(newDate)); // Міняємо тільки місяць
+    dispatch(setBirthdate(fixedDate.toISOString()));
   };
 
   const handleYearChange = (year: string) => {
@@ -81,11 +83,11 @@ function DatePicker({
   return (
     <div>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild className={className}>
           <Button
             variant={"outline"}
             className={cn(
-              "w-full justify-start text-left font-normal",
+              "w-full justify-start text-left font-normal shadow-none",
               !date && "text-muted-foreground"
             )}
           >
@@ -93,33 +95,37 @@ function DatePicker({
             {date ? format(date, "PPP") : <span>Pick a date</span>}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
-          <div className="flex justify-between p-2">
-            <Select
+        <PopoverContent className="w-auto p-0 rounded-lg border-none shadow-none">
+          <div className="flex gap-2 p-2 bg-muted rounded-t-lg border-[3px] border-b-0 border-[#5a6c8d]">
+            {/* <Select
               onValueChange={handleMonthChange}
               value={months[getMonth(date)]}
             >
-              <SelectTrigger className="w-[110px]">
+              <SelectTrigger className="w-full bg-white hover:bg-muted border-0 shadow-none transition-all">
                 <SelectValue placeholder="Month" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="rounded-lg transition-all">
                 {months.map((month) => (
-                  <SelectItem key={month} value={month}>
+                  <SelectItem className="rounded-lg" key={month} value={month}>
                     {month}
                   </SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
             <Select
               onValueChange={handleYearChange}
               value={getYear(date).toString()}
             >
-              <SelectTrigger className="w-[110px]">
+              <SelectTrigger className="w-full justify-center bg-white hover:bg-muted border-0 shadow-none transition-all">
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="rounded-lg transition-all">
                 {years.map((year) => (
-                  <SelectItem key={year} value={year.toString()}>
+                  <SelectItem
+                    className="rounded-lg justify-center"
+                    key={year}
+                    value={year.toString()}
+                  >
                     {year}
                   </SelectItem>
                 ))}
@@ -128,10 +134,11 @@ function DatePicker({
           </div>
           <Calendar
             mode="single"
+            month={new Date(date)}
             selected={new Date(date)}
             onSelect={handleSelect}
+            onMonthChange={(newDate) => handleMonthChange(newDate)}
             initialFocus
-            month={new Date(date)}
           />
         </PopoverContent>
       </Popover>

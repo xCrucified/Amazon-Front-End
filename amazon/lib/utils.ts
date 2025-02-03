@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 import { Area } from "react-easy-crop";
@@ -12,7 +12,6 @@ export default async function getCroppedImg(imageSrc: string, pixelCrop: Area) {
   const image = await createImage(imageSrc);
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-
   if (!ctx) return null;
 
   canvas.width = pixelCrop.width;
@@ -31,7 +30,7 @@ export default async function getCroppedImg(imageSrc: string, pixelCrop: Area) {
   );
 
   return new Promise<string>((resolve, reject) => {
-    canvas.toBlob((blob) => {
+    canvas.toBlob((blob) => {      
       if (blob) {
         resolve(URL.createObjectURL(blob));
       } else {

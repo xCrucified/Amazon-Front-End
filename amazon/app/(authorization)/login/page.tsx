@@ -46,14 +46,15 @@ export default function LoginPage({
     },
   });
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   async function checkEmail() {
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
+      const response = await fetch(API_URL + "/api/Account/email/${email}", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: form.getValues("email") }),
       });
 
       const data = await response.json();

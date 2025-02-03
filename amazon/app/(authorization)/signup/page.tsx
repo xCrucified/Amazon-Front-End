@@ -62,30 +62,30 @@ export default function SignupFormNeccesary({
     dispatch(setPassword(values.password));
     dispatch(setRPassword(values.rPassword));
 
-    const otp = Math.floor(10000 + Math.random() * 90000).toString();
+    push("/signup/user-info");
 
-    try {
-      const response = await fetch("/api/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp }),
-      });
+    // try {
+    //   const response = await fetch("/api/send-otp", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ email, otp }),
+    //   });
 
-      const data = await response.json();
+    //   const data = await response.json();
 
-      if (response.ok) {
-        dispatch(setOTP(data.otp));
-        push("/signup/verify-otp");
-        console.log("OTP sent:", data.message);
-      } else {
-        console.error("Error:", data.message);
-      }
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-      throw error;
-    }
+    //   if (response.ok) {
+    //     dispatch(setOTP(data.otp));
+    //     push("/signup/verify-otp");
+    //     console.log("OTP sent:", data.message);
+    //   } else {
+    //     console.error("Error:", data.message);
+    //   }
+    // } catch (error) {
+    //   console.error("Error sending OTP:", error);
+    //   throw error;
+    // }
   }
 
   return (
