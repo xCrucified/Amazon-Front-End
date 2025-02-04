@@ -63,7 +63,7 @@ export const Categories: React.FC<Props> = ({ className }) => {
     <div className={cn("flex gap-[12px]", className)}>
       {items.map((item, index) => (
         <Link key={index} href={item.href}>
-          <Button className="w-[150px] h-[56px] bg-white text-black hover:bg-gray-100 transition-all duration-124 transform hover:translate-y-1">{item.title}</Button>
+          <Button className="w-[150px] h-[56px] bg-white text-black hover:bg-gray-100 transition-all duration-124 transform hover:translate-y-1 text-[16px]">{item.title}</Button>
         </Link>
       ))}
     </div>
