@@ -95,25 +95,66 @@ export const CategoryBar: React.FC<Props> = ({ className }) => {
         </div>
       </div>
 
-      <Link href={"products" + "/" + `${1}`}>
-        <div className="w-[435px] h-[100%] bg-white rounded-3xl shadow-md p-4">
-          <Title
-            text={"Today’s Deals"}
-            size={"xl"}
-            className="font-bold text-[#353B46]"
-          />
+      <div className="w-[435px] h-[100%] bg-white rounded-3xl shadow-md p-4">
+        <Title
+          text={"Shop all New Year, Now You"}
+          size={"xl"}
+          className="font-bold text-[#353B46]"
+        />
 
-          <img
-            src="/assets/images/products/pylesmok.svg"
-            alt="pylesmok"
-            className="w-[100%] h-[90%]"
-          ></img>
+        <img
+          src="/assets/images/products/category3.svg"
+          alt="pylesmok"
+          className="w-[100%] h-[70%]"
+        ></img>
+
+        <div className="flex flex-row justify-around items-center">
+          <Link
+            href={"categoryName"}
+            className="flex w-[100%] bg-[#f2f5f7] rounded-full h-[56px] justify-center shadow-none hover:bg-gray-200 items-center bottom-[4px] relative"
+          >
+            <Label className="text-black text-base flex-grow text-center left-4 relative">Shop all New Year, Now You</Label>
+            <div className="bg-black rounded-full p-3 right-2 relative">
+              <img
+              src="/assets/images/arrow-top-up.svg"
+              alt="arrow"
+              className="w-[100%] h-[100%]"
+              />
+            </div>
+          </Link>
         </div>
-      </Link>
+      </div>
 
       <div className="flex flex-col gap-3">
-        <div className="w-[284px] h-[50%] bg-white rounded-3xl shadow-md p-4"></div>
-        <div className="w-[284px] h-[50%] bg-white rounded-3xl shadow-md p-4"></div>
+      <div className="w-[284px] h-[50%] bg-white rounded-3xl shadow-md p-4">
+          <div className="flex text-[#9C9C9C] items-center p-3 gap-1">
+            <img src="/assets/images/categoryIcon.svg" alt="cetegory" />
+            <Label className="text-sm">Category</Label>
+          </div>
+          <Label className="text-xl font-bold p-3">Office Products</Label>
+          <img src="/assets/images/products/category4.svg" alt="categ2" />
+          <div className="flex justify-between items-center text-[#828282]">
+            <Label className="text-sm">+8,000 products</Label>
+            <Link href={"category2Name"} className="text-sm">
+              Explore more
+            </Link>
+          </div>
+        </div>
+        
+        <div className="w-[284px] h-[50%] bg-white rounded-3xl shadow-md p-4">
+          <div className="flex text-[#9C9C9C] items-center p-3 gap-1">
+            <img src="/assets/images/categoryIcon.svg" alt="cetegory" />
+            <Label className="text-sm">Category</Label>
+          </div>
+          <Label className="text-xl font-bold p-3">Office Products</Label>
+          <img src="/assets/images/products/category5.svg" alt="categ2" />
+          <div className="flex justify-between items-center text-[#828282]">
+            <Label className="text-sm">+5,000 products</Label>
+            <Link href={"category2Name"} className="text-sm">
+              Explore more
+            </Link>
+          </div>
+        </div>
       </div>
     </Container>
   );
