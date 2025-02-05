@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+/* eslint-disable @next/next/no-img-element */
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import React from "react";
+import { Container } from "../container";
+import { Label } from "@/components/ui/label";
 
-interface Product {
+interface Props {
   id: number;
   name: string;
   price: number;
-  image: string;
-}
+  image?: string;
 
-interface Props {
   className?: string;
 }
 
-export const ProductCard: React.FC<Props> = ({ className }) => {
-  const [data, setData] = useState<Product[]>([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/data")
-      .then((response) => setData(response.data))
-      .catch((error) => console.error("Ошибка:", error));
-  }, []);
-
+export const ProductCard: React.FC<Props> = ({
+  id,
+  // name,
+  // price,
+  // imageUrl,
+  className,
+}) => {
   return (
-    <div className={className}>
-      <h1>Best Sellers in Sports & Outdoors</h1>
-      <div className="product-list">
-        {data.map((item) => (
-          <div key={item.id} className="product-card">
-            <img src={item.image} alt={item.name} />
-            <h2>{item.name}</h2>
-            <p>Цена: ${item.price}</p>
+    <Container className={cn("w-[284px] h-[430px] relative mt-6", className)}>
+      <Link href={`product/${id}`}>
+        <div className="bg-white w-[100%] h-[100%] rounded-3xl shadow-md p-4">
+          <img src={"/assets/images/products/mat.svg"} alt={"mat"}></img>
+          
+          <div>
+            <p></p>
+
+            <Label></Label>
+
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+      </Link>
+    </Container>
   );
 };
 

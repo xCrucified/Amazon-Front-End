@@ -12,9 +12,6 @@ import { Label } from "@/components/ui/label";
 // import { setActiveId } from "@/store/slices/categorySlice";
 
 interface Props {
-  id: number;
-  name: string;
-  imageUrl: string;
   className?: string;
 }
 
@@ -113,12 +110,14 @@ export const CategoryBar: React.FC<Props> = ({ className }) => {
             href={"categoryName"}
             className="flex w-[100%] bg-[#f2f5f7] rounded-full h-[56px] justify-center shadow-none hover:bg-gray-200 items-center bottom-[4px] relative"
           >
-            <Label className="text-black text-base flex-grow text-center left-4 relative">Shop all New Year, Now You</Label>
+            <Label className="text-black text-base flex-grow text-center left-4 relative">
+              Shop all New Year, Now You
+            </Label>
             <div className="bg-black rounded-full p-3 right-2 relative">
               <img
-              src="/assets/images/arrow-top-up.svg"
-              alt="arrow"
-              className="w-[100%] h-[100%]"
+                src="/assets/images/arrow-top-up.svg"
+                alt="arrow"
+                className="w-[100%] h-[100%]"
               />
             </div>
           </Link>
@@ -126,7 +125,7 @@ export const CategoryBar: React.FC<Props> = ({ className }) => {
       </div>
 
       <div className="flex flex-col gap-3">
-      <div className="w-[284px] h-[50%] bg-white rounded-3xl shadow-md p-4">
+        <div className="w-[284px] h-[50%] bg-white rounded-3xl shadow-md p-4">
           <div className="flex text-[#9C9C9C] items-center p-3 gap-1">
             <img src="/assets/images/categoryIcon.svg" alt="cetegory" />
             <Label className="text-sm">Category</Label>
@@ -140,7 +139,7 @@ export const CategoryBar: React.FC<Props> = ({ className }) => {
             </Link>
           </div>
         </div>
-        
+
         <div className="w-[284px] h-[50%] bg-white rounded-3xl shadow-md p-4">
           <div className="flex text-[#9C9C9C] items-center p-3 gap-1">
             <img src="/assets/images/categoryIcon.svg" alt="cetegory" />
