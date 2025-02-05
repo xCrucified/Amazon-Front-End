@@ -8,8 +8,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col items-center justify-center bg-muted p-[32px]">
-      <div className="flex w-[405px] max-w-sm flex-col gap-6">
+    <div className="flex flex-col items-center justify-center bg-muted">
+      <div className="flex w-[405px] flex-col gap-6">
         <Link href="/" className="items-center self-center mt-12 mb-6">
           <Image
             src={"/assets/images/LogoFull.svg"}

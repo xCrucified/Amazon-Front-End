@@ -52,7 +52,6 @@ export default function SignupFormUserInfo({
 
   async function onSubmit(values: z.infer<typeof birthDatePhoneNumberSchema>) {
     dispatch(setPhoneNumber(values.phoneNumber));
-    push("/signup/avatar-picture");
   }
 
   return (
