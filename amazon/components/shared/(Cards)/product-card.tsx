@@ -2,7 +2,6 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
-import { Container } from "../container";
 import { Label } from "@/components/ui/label";
 
 interface Props {
@@ -22,20 +21,39 @@ export const ProductCard: React.FC<Props> = ({
   className,
 }) => {
   return (
-    <Container className={cn("w-[284px] h-[430px] relative mt-6", className)}>
-      <Link href={`product/${id}`}>
-        <div className="bg-white w-[100%] h-[100%] rounded-3xl shadow-md p-4">
+    <div className={cn("relative w-[284px] h-[430px]", className)}>
+      <div className="bg-white rounded-2xl">
+        <div className="m-2">
           <img src={"/assets/images/products/mat.svg"} alt={"mat"}></img>
-          
+
           <div>
-            <p></p>
-
-            <Label></Label>
-
+            <p className="text-sm text-[#757575]">Mats</p>
+            <Label className="text-[20px] font-bold max-w-[100%] flex flex-col">
+              Retrospec Solana Yoga M...
+            </Label>
           </div>
+
+          <div className="text-[#5a6b8c]">
+            <span className="text-lg">£</span>
+            <Label className="text-3xl font-bold w-[82.4px] h-[23px] ">
+              49.99
+            </Label>
+          </div>
+
+          <Link href={`product/${id}`} className="relative left-[206px]">
+            <img
+              src="/assets/images/products/cart-btn.svg"
+              alt="toCart"
+              className="absolute p-[9px] bg-[#343a45] bottom-0 left-[21px] rounded-xl w-[50px] h-[48px]"
+            />
+            <img
+              src="/assets/images/products/btn-cart-product.svg"
+              alt="add-cart"
+            />
+          </Link>
         </div>
-      </Link>
-    </Container>
+      </div>
+    </div>
   );
 };
 
