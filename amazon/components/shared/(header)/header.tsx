@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
-import React from "react";
 import { Container } from "../container";
 import { Button } from "../../ui/button";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import { SearchInput } from "../search-input";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 

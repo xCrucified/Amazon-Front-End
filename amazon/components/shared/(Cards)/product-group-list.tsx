@@ -6,7 +6,7 @@ interface Props {
 
 export const ProductGroupList: React.FC<Props> = ({ className }) => {
 
-  //axios or fetch here!!
+  //fetch here!!
   
   return (
     <div className={className}>

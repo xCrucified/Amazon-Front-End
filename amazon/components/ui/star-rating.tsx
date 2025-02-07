@@ -38,7 +38,7 @@ export const StarRating: React.FC<Props> = ({ className, rate }) => {
         <img
           key={item.key}
           src={
-            item.rate <= Number(rate)
+            item.rate <= rate
               ? "/assets/images/filled.svg"
               : "/assets/images/non-filled.svg"
           }
