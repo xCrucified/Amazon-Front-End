@@ -1,19 +1,20 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { loginSchema } from "@/lib/definitions";
-import { z } from "zod";
+import {
+  getLoginSchema,
+  // loginSchema
+} from "@/lib/definitions";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import Image from "next/image";
-import { hashPassword, verifyPassword } from "@/lib/auth";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { setEmail } from "@/store/slices/signupSlice";
-import { toast } from "sonner";
+import { setEmail, setPhoneNumber } from "@/store/slices/signupSlice";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -32,45 +33,52 @@ import { Label } from "@/components/ui/label";
 export default function LoginPage({
   className,
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
 
   const [isPasswordInputVisible, setIsPasswordInputVisible] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const email = useSelector((state: RootState) => state.signup.email);
+  const phoneNumber = useSelector(
+    (state: RootState) => state.signup.phoneNumber
+  );
   const dispatch = useDispatch();
+
+  const loginSchema = useMemo(
+    () => getLoginSchema(isPasswordInputVisible),
+    [isPasswordInputVisible]
+  );
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: email,
-      password: "",
+      credential:
+        email === "" ? (phoneNumber === "" ? "" : phoneNumber) : email,
     },
   });
 
-  async function checkEmail() {
-    try {
-      const response = await fetch("api/check/email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form.getValues("email")),
-      });
+  // async function checkLogin() {
+  //   try {
+  //     const response = await fetch("api/check/email", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(form.getValues("credential")),
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data) {
-        form.clearErrors("password");
-        setIsPasswordInputVisible(true);
-      } else {
-        dispatch(setEmail(form.getValues("email")));
-        push("/login/redirect");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("An error occurred");
-    }
-  }
+  //     if (data.email || data.phoneNumber) {
+  //       form.clearErrors("password");
+  //       setIsPasswordInputVisible(true);
+  //     } else {
+  //       dispatch(setPhoneNumber(form.getValues("credential")));
+  //       push("/login/redirect");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   // async function checkPhoneNumber() {
   //   try {
@@ -97,10 +105,60 @@ export default function LoginPage({
   // }
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    const user = {
-      email: values.email,
-      password: values.password,
-    };
+    if (!isPasswordInputVisible) {
+      try {
+        const response = await fetch("api/check/email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form.getValues("credential")),
+        });
+
+        const data = await response.json();
+
+        if (data.email || data.phoneNumber) {
+          form.clearErrors("password");
+
+          if (data.email) {
+            dispatch(setEmail(data.email));
+          }
+          if (data.phoneNumber) {
+            dispatch(setPhoneNumber(data.phoneNumber));
+          }
+
+          setIsPasswordInputVisible(true);
+        } else {
+          dispatch(setPhoneNumber(form.getValues("credential")));
+          push("/login/redirect");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await fetch("api/login/email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: values.credential,
+            password: values.password,
+          }),
+        });
+
+        if (response.ok) {
+          console.log("Successfully logged in");
+          const data = await response.json();
+          console.log(data.user);
+        } else {
+          console.log("Email or password is incorrect");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
     // try {
     //   const route = isEmail ? "/api/login/email" : "/api/login/phoneNumber";
@@ -148,7 +206,7 @@ export default function LoginPage({
                 <div className="flex flex-col gap-3">
                   {isPasswordInputVisible ? (
                     <div className="flex items-center justify-between">
-                      <Label>{form.getValues("email")}</Label>
+                      <Label>{form.getValues("credential")}</Label>
                       <Button
                         variant="ghost"
                         className="text-[#37569E] text-[16px] hover:text-[#222935] focus:cursor-pointer"
@@ -163,25 +221,25 @@ export default function LoginPage({
                   ) : (
                     <FormField
                       control={form.control}
-                      name="email"
+                      name="credential"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
                           <FormLabel className="text-[#000]">
                             Enter mobile number or email
                           </FormLabel>
                           <FormControl>
-                            <div className="w-full flex items-center">
+                            <div className="w-full flex items-center relative">
                               <Input
-                                type="email"
+                                type="text"
                                 className={cn(
                                   "max-w-[341px] bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
-                                  form.formState.errors.email
+                                  form.formState.errors.credential
                                     ? "border-[3px] border-red-500"
                                     : "focus:border-[3px] focus:border-[#5a6c8d]"
                                 )}
                                 {...field}
                               />
-                              {form.formState.errors.email && (
+                              {form.formState.errors.credential && (
                                 <Image
                                   src="/assets/images/CloseFill.svg"
                                   width={16}
@@ -189,8 +247,8 @@ export default function LoginPage({
                                   className="absolute right-3 hover:cursor-pointer"
                                   alt="Close"
                                   onClick={() => {
-                                    form.clearErrors("email");
-                                    form.setValue("email", "");
+                                    form.clearErrors("credential");
+                                    form.setValue("credential", "");
                                   }}
                                 />
                               )}
@@ -259,17 +317,7 @@ export default function LoginPage({
                       </Link>
                     </>
                   ) : (
-                    <Button
-                      variant="figmaPrimary"
-                      onClick={() => {
-                        if (
-                          !form.formState.errors.email &&
-                          form.getValues("email") !== ""
-                        ) {
-                          checkEmail();
-                        }
-                      }}
-                    >
+                    <Button variant="figmaPrimary" type="submit">
                       Continue
                     </Button>
                   )}
@@ -341,7 +389,7 @@ export default function LoginPage({
                       <Button
                         onClick={() => signIn("apple")}
                         variant="ghost"
-                        className="w-full h-11 px-3 py-4 bg-black rounded-lg justify-center items-center gap-1"
+                        className="w-full h-11 px-3 py-4 bg-black rounded-lg justify-center items-center gap-1 hover:bg-black"
                       >
                         <Image
                           className="pb-[3px] w-4 px-px flex-col justify-center items-center inline-flex"

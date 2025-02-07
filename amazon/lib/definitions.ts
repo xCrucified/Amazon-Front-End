@@ -1,29 +1,5 @@
 import { z } from "zod";
 
-export const otpSchema = z.object({
-  otp: z.string().regex(/^\d{5}$/, {
-    message: "OTP must be a 5 digits",
-  }),
-});
-
-export const passwordSchema = z
-  .object({
-    password: z
-      .string()
-      .min(8, { message: "Be at least 8 characters long" })
-      .regex(/[a-zA-Z]/, { message: "Contain at least one letter" })
-      .regex(/[0-9]/, { message: "Contain at least one number" })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: "Contain at least one special character",
-      })
-      .trim(),
-    rPassword: z.string(),
-  })
-  .refine((data) => data.password === data.rPassword, {
-    message: "Passwords do not match",
-    path: ["RPassword"],
-  });
-
 export const birthDatePhoneNumberSchema = z.object({
   birthDate: z.date().refine(
     (date) => {
@@ -65,35 +41,37 @@ export const accountNeccesarySchema = z
   });
 
 export const loginSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email" }).trim(),
+  credential: z
+    .string()
+    .trim()
+    .refine(
+      (value) =>
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || // Email validation
+        /^[0-9]{9}$/.test(value), // Phone number validation (9 digits)
+      {
+        message: "Please enter a valid email or phone number",
+      }
+    ),
   password: z.string().nonempty("Please enter password").trim(),
 });
 
-export async function getFromLocalStorage() {
-  const username = localStorage.getItem("username") || "";
-  const email = localStorage.getItem("email") || "";
-  const password = localStorage.getItem("password") || "";
-  const reenterPassword = localStorage.getItem("reenterPassword") || "";
-  const birthDateString = localStorage.getItem("birthDate") || "";
-  const birthDate = birthDateString ? new Date(birthDateString) : new Date();
-  const countryCode = localStorage.getItem("countryCode") || "";
-  const countryCodeLabel = localStorage.getItem("countryCodeLabel") || "";
-  const phoneNumber = localStorage.getItem("phoneNumber") || "";
-  const imagePath = localStorage.getItem("imagePath") || "";
-  const avatarPicture = localStorage.getItem("avatarPicture") || "";
-  return {
-    username,
-    email,
-    password,
-    reenterPassword,
-    birthDate,
-    countryCode,
-    countryCodeLabel,
-    phoneNumber,
-    imagePath,
-    avatarPicture,
-  };
-}
+export const getLoginSchema = (requirePassword: boolean) => 
+  z.object({
+    credential: z
+      .string()
+      .trim()
+      .refine(
+        (value) =>
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || // Email validation
+          /^[0-9]{9}$/.test(value), // Phone number validation (9 digits)
+        {
+          message: "Please enter a valid email or phone number",
+        }
+      ),
+    password: requirePassword
+      ? z.string().nonempty("Please enter password").trim() // Required password
+      : z.string().trim().optional(), // Optional password
+  });
 
 export const CountryCodes = [
   { id: 1, value: "1", label: "United States +1" },

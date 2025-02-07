@@ -51,8 +51,8 @@ export default function SignupFormNeccesary({
     defaultValues: {
       email: email,
       username: username,
-      password: password,
-      rPassword: rPassword,
+      password: "",
+      rPassword: "",
     },
   });
 
@@ -62,7 +62,7 @@ export default function SignupFormNeccesary({
     dispatch(setPassword(values.password));
     dispatch(setRPassword(values.rPassword));
 
-    push("/signup/user-info");
+    push("/signup/verify");
 
     // try {
     //   const response = await fetch("/api/send-otp", {

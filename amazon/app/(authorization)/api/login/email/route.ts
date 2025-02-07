@@ -1,14 +1,29 @@
+import { hashPassword } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
-  const { email } = await req.json();
+  const { credential, password } = await req.json();
 
   try {
-    const user = await prisma.aspNetUsers.findUnique({
-      where: {
-        Email: email,
-      },
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + "/api/Account/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: credential,
+          password: await hashPassword(password),
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    const user = JSON.stringify({
+      email: credential,
+      password: data.passwordHash,
     });
 
     return NextResponse.json(user, { status: 200 });
