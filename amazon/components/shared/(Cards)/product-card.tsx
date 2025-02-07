@@ -3,10 +3,12 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
 import { Label } from "@/components/ui/label";
+import StarRating from "@/components/ui/star-rating";
 
 interface Props {
   id: number;
   name: string;
+  rate: number;
   price: number;
   image?: string;
 
@@ -15,16 +17,18 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = ({
   id,
-  // name,
-  // price,
-  // imageUrl,
+  name,
+  price,
+  imageUrl,
+  rate,
   className,
 }) => {
+  rate = 3.44;
   return (
-    <div className={cn("relative w-[284px] h-[430px]", className)}>
-      <div className="bg-white rounded-2xl">
-        <div className="m-2">
-          <img src={"/assets/images/products/mat.svg"} alt={"mat"}></img>
+    <div className={cn("relative w-[284px] h-[400px]", className)}>
+      <div className="bg-white rounded-2xl h-[100%] w-[100%]">
+        <div className="m-2.5">
+          <img src={"/assets/images/products/mat.svg"} alt={name}></img>
 
           <div>
             <p className="text-sm text-[#757575]">Mats</p>
@@ -33,18 +37,19 @@ export const ProductCard: React.FC<Props> = ({
             </Label>
           </div>
 
-          <div className="text-[#5a6b8c]">
+          <div className="text-[#5a6b8c] gap-4 p-0">
+          <StarRating key={id} rate={rate}></StarRating>
             <span className="text-lg">£</span>
             <Label className="text-3xl font-bold w-[82.4px] h-[23px] ">
-              49.99
+              {Number(12.33)}
             </Label>
           </div>
 
-          <Link href={`product/${id}`} className="relative left-[206px]">
+          <Link href={`product/${id}`} className="absolute left-[214px] bottom-0">
             <img
               src="/assets/images/products/cart-btn.svg"
               alt="toCart"
-              className="absolute p-[9px] bg-[#343a45] bottom-0 left-[21px] rounded-xl w-[50px] h-[48px]"
+              className="absolute p-[8px] bg-[#343a45] left-[20px] rounded-xl w-[50px] h-[48px] top-5"
             />
             <img
               src="/assets/images/products/btn-cart-product.svg"
