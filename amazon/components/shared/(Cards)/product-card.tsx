@@ -18,22 +18,21 @@ interface Props {
 export const ProductCard: React.FC<Props> = ({
   id,
   name,
-  // price,
-  // imageUrl,
+  price,
+  image,
   rate,
   className,
 }) => {
-  rate = 3.44;
   return (
     <div className={cn("relative w-[284px] h-[400px]", className)}>
       <div className="bg-white rounded-2xl h-[100%] w-[100%]">
         <div className="m-2.5">
-          <img src={"/assets/images/products/mat.svg"} alt={name}></img>
+          <img src={image} alt={name}></img>
 
           <div>
             <p className="text-sm text-[#757575]">Mats</p>
             <Label className="text-[20px] font-bold max-w-[100%] flex flex-col">
-              Retrospec Solana Yoga M...
+              {name}
             </Label>
           </div>
 
@@ -41,7 +40,7 @@ export const ProductCard: React.FC<Props> = ({
           <StarRating key={id} rate={rate}></StarRating>
             <span className="text-lg">£</span>
             <Label className="text-3xl font-bold w-[82.4px] h-[23px] ">
-              {Number(12.33)}
+              {Number(price)}
             </Label>
           </div>
 

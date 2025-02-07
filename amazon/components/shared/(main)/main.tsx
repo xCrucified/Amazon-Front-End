@@ -12,7 +12,7 @@ export const Main: React.FC<Props> = ({ className }) => {
   return (
     <Container className={cn("p-6", className)}>
       <CategoryBar />
-      <ProductCard id={0} name={""} price={0} rate={0} />
+      <ProductCard id={0} name={"Retrospec Solana Yoga M..."} image="/assets/images/products/mat.svg" price={16.33} rate={4.99} />
     </Container>
   );
 };
