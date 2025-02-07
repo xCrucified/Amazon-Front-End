@@ -4,11 +4,13 @@ import Header from "@/components/shared/(header)/header";
 import UpperHeader from "@/components/shared/(header)/upper-header";
 import { Nunito } from "next/font/google";
 import ReduxProvider from "@/components/shared/ReduxProvider";
+import { TopBar } from "@/components/shared/(header)/top-bar";
+import { Container } from "@/components/shared/container";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],
-  variable: '--font-nunito',
-  weight: ['400', '500', '600', '700', '800', '900']
+  variable: "--font-nunito",
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -24,14 +26,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunito.variable} bg-[#f5f5f5]`}>
-      <ReduxProvider>
-        <div>
-          <UpperHeader />
-          <Header />
-          {children}
-        </div>
-        </ReduxProvider>     
-        </body>
+        <ReduxProvider>
+          <div>
+            <UpperHeader />
+            <Header />
+            <Container className="flex justify-between items-center">
+              <TopBar />
+            </Container>{" "}
+            {children}
+          </div>
+        </ReduxProvider>
+      </body>
     </html>
   );
 }
