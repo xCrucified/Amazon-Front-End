@@ -32,7 +32,7 @@ export default function RootLayout({
             <Header />
             <Container className="flex justify-between items-center">
               <TopBar />
-            </Container>{" "}
+            </Container>
             {children}
           </div>
         </ReduxProvider>
