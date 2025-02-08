@@ -11,7 +11,7 @@ interface Props {
   rate: number;
   price: number;
   image?: string;
-
+  oldPrice?: number;
   className?: string;
 }
 
@@ -19,6 +19,7 @@ export const ProductCard: React.FC<Props> = ({
   id,
   name,
   price,
+  oldPrice,
   image,
   rate,
   className,
@@ -31,20 +32,33 @@ export const ProductCard: React.FC<Props> = ({
 
           <div>
             <p className="text-sm text-[#757575]">Mats</p>
-            <Label className="text-[20px] font-bold max-w-[100%] flex flex-col">
-              {name}
+            <Label className="text-[20px] font-bold max-w-[252px] flex flex-col">
+              {name.length > 24 ? `${name.slice(0, name.lastIndexOf(' '))}...` : name}
             </Label>
+          
           </div>
 
           <div className="text-[#5a6b8c] gap-4 p-0">
-          <StarRating key={id} rate={rate}></StarRating>
-            <span className="text-lg">£</span>
-            <Label className="text-3xl font-bold w-[82.4px] h-[23px] ">
-              {Number(price)}
-            </Label>
+            <StarRating key={id} rate={rate}></StarRating>
+            <div className="flex gap-[10px]">
+              <div>
+                <span className="text-lg">£</span>
+                <Label className="text-3xl font-bold w-[82.4px] h-[23px] ">
+                  {Number(price)}
+                </Label>
+              </div>
+              <div>
+                <Label className="text-base text-[#a2a5ab]">
+                  {oldPrice ? <del>£{oldPrice}</del> : null}
+                </Label>
+              </div>
+            </div>
           </div>
 
-          <Link href={`product/${id}`} className="absolute left-[214px] bottom-0">
+          <Link
+            href={`product/${id}`}
+            className="absolute left-[214px] bottom-0"
+          >
             <img
               src="/assets/images/products/cart-btn.svg"
               alt="toCart"
