@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Title } from "@/components/ui/title";
@@ -61,7 +62,7 @@ export const ProductGroupList: React.FC<Props> = ({
   }, [categoryId, dispatch, curr]);
 
   return (
-    <div className={cn("flex flex-col mt-[30px]", className)} id={title} ref={intersectionRef}>
+    <div className={cn("flex flex-col", className)} id={title} ref={intersectionRef}>
       <Title text={title} size="lg" className="font-extrabold" />
 
       <div className={cn("overflow-hidden w-full", listClassName)}>
@@ -85,7 +86,7 @@ export const ProductGroupList: React.FC<Props> = ({
         </div>
       </div>
 
-      <Container className="w-[100%] h-[48px] mt-4 flex justify-between items-center">
+      <Container className="w-[100%] bottom-5 relative flex justify-between items-center">
         <Button
           onClick={prev}
           className={cn("bg-inherit ring-0 hover:bg-inherit shadow-none", curr === 0 ? "opacity-50 cursor-not-allowed" : "")}
