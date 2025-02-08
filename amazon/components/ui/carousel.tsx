@@ -37,25 +37,25 @@ export default function Carousel({
           className="ml-[133px]"
         />
       </div>
-      <div className="absolute z-50 right-6">
+      <div className="absolute z-50 w-[1444px] h-[40px] justify-end flex">
         <Image
           src="/assets/images/banner_top_panel.svg"
           alt="Rectangle"
-          width={294}
-          height={43}
-          className="ml-[133px]"
+          width={290}
+          height={1}
+          className="z-50 absolute"
         />
-        <label className="absolute flex w-max left-[160px] text-3xl font-bold h-[100%] z-50 top-0">Thriving Together</label>
+        <label className="absolute flex text-3xl font-bold z-50">Thriving Together</label>
       </div>
-      <div className="absolute z-50 right-6 top-16">
+      <div className="absolute z-50 flex w-[1444px] h-[45px] justify-end top-[60px]">
         <Image
           src="/assets/images/banner_bottom-top.svg"
           alt="Rectangle"
           width={351}
-          height={1}
-          className="ml-[133px]"
+          height={0}
+          className="z-50 absolute"
         />
-        <label className="absolute flex w-max left-[165px] text-3xl font-bold h-[100%] z-50 top-1">Nature And Wellness.</label>
+        <label className="absolute flex text-3xl font-bold z-50 top-1">Nature And Wellness.</label>
       </div>
 
       <div className="overflow-hidden relative rounded-[40px]">

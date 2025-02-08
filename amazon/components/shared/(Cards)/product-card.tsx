@@ -25,7 +25,7 @@ export const ProductCard: React.FC<Props> = ({
   className,
 }) => {
   return (
-    <div className={cn("relative w-[284px] h-[400px]", className)}>
+    <div className={cn("relative w-[284px] h-[400px] mb-12", className)}>
       <div className="bg-white rounded-2xl h-[100%] w-[100%]">
         <div className="m-2.5">
           <img src={image} alt={name}></img>
@@ -57,12 +57,12 @@ export const ProductCard: React.FC<Props> = ({
 
           <Link
             href={`product/${id}`}
-            className="absolute left-[214px] bottom-0"
+            className="absolute left-[207px] bottom-[-10px]"
           >
             <img
               src="/assets/images/products/cart-btn.svg"
               alt="toCart"
-              className="absolute p-[8px] bg-[#343a45] left-[20px] rounded-xl w-[50px] h-[48px] top-5"
+              className="absolute p-2 bg-[#343a45] left-[20px] top-[20px] rounded-xl w-[48px] h-[48px] "
             />
             <img
               src="/assets/images/products/btn-cart-product.svg"
