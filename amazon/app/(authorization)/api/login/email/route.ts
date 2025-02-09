@@ -1,4 +1,3 @@
-import { hashPassword } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -14,19 +13,12 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           email: credential,
-          password: await hashPassword(password),
+          password: password,
         }),
       }
     );
-
     const data = await response.json();
-
-    const user = JSON.stringify({
-      email: credential,
-      password: data.passwordHash,
-    });
-
-    return NextResponse.json(user, { status: 200 });
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal server error: " + error },

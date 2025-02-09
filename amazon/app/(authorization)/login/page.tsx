@@ -1,17 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import {
-  getLoginSchema,
-  // loginSchema
-} from "@/lib/definitions";
+import { getLoginSchema } from "@/lib/definitions";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setEmail, setPhoneNumber } from "@/store/slices/signupSlice";
@@ -34,6 +31,13 @@ export default function LoginPage({
   className,
 }: React.ComponentPropsWithoutRef<"div">) {
   const { push, replace } = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      replace("/");
+    }
+  }, [session]);
 
   const [isPasswordInputVisible, setIsPasswordInputVisible] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -51,58 +55,10 @@ export default function LoginPage({
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      credential:
-        email === "" ? (phoneNumber === "" ? "" : phoneNumber) : email,
+      credential: email,
+      password: "",
     },
   });
-
-  // async function checkLogin() {
-  //   try {
-  //     const response = await fetch("api/check/email", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(form.getValues("credential")),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (data.email || data.phoneNumber) {
-  //       form.clearErrors("password");
-  //       setIsPasswordInputVisible(true);
-  //     } else {
-  //       dispatch(setPhoneNumber(form.getValues("credential")));
-  //       push("/login/redirect");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
-  // async function checkPhoneNumber() {
-  //   try {
-  //     const response = await fetch("api/check/phoneNumber", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (data) {
-  //       form.clearErrors("password");
-  //       setIsPasswordInputVisible(true);
-  //     } else {
-  //       dispatch(setEmail(form.getValues("email")));
-  //       push("/login/redirect");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("An error occurred");
-  //   }
-  // }
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     if (!isPasswordInputVisible) {
@@ -117,16 +73,9 @@ export default function LoginPage({
 
         const data = await response.json();
 
-        if (data.email || data.phoneNumber) {
+        if (data.email) {
           form.clearErrors("password");
-
-          if (data.email) {
-            dispatch(setEmail(data.email));
-          }
-          if (data.phoneNumber) {
-            dispatch(setPhoneNumber(data.phoneNumber));
-          }
-
+          dispatch(setEmail(data.email));
           setIsPasswordInputVisible(true);
         } else {
           dispatch(setPhoneNumber(form.getValues("credential")));
@@ -143,52 +92,33 @@ export default function LoginPage({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: values.credential,
+            credential: values.credential,
             password: values.password,
           }),
         });
 
         if (response.ok) {
-          console.log("Successfully logged in");
           const data = await response.json();
-          console.log(data.user);
+          const result = await signIn("credentials", {
+            redirect: false,
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+          });
+
+          if (result?.error) {
+            console.error(result.error);
+          }
         } else {
           console.log("Email or password is incorrect");
+          form.setError("password", {
+            type: "manual",
+            message: "Email or password is incorrect",
+          });
         }
       } catch (error) {
         console.error(error);
       }
     }
-
-    // try {
-    //   const route = isEmail ? "/api/login/email" : "/api/login/phoneNumber";
-
-    //   const response = await fetch(route, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(user),
-    //   });
-
-    //   const data = await response.json();
-
-    //   if (response.ok) {
-    //     if (await verifyPassword(user.password, data.passwordHash)) {
-    //       toast.info("You're logged in successfully");
-    //       console.log("You're logged in successfully");
-    //       push("/");
-    //     } else {
-    //       console.log("Invalid email or password");
-    //       toast.error("Invalid email or password");
-    //     }
-    //   } else {
-    //     toast.error(data.error);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    //   toast.error("An error occurred");
-    // }
   }
 
   return (
@@ -280,6 +210,7 @@ export default function LoginPage({
                                       : "focus:border-[3px] focus:border-[#5a6c8d]"
                                   )}
                                   {...field}
+                                  value={form.getValues("password")}
                                 />
                                 {isPasswordVisible ? (
                                   <Image
@@ -372,7 +303,10 @@ export default function LoginPage({
                     </div>
                     <div className="flex gap-[12px]">
                       <Button
-                        onClick={() => signIn("google")}
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          await signIn("google");
+                        }}
                         variant="ghost"
                         className="w-full h-11 px-3 py-4 bg-[#f1f4f7] rounded-lg justify-center items-center gap-1"
                       >
@@ -387,7 +321,10 @@ export default function LoginPage({
                         </div>
                       </Button>
                       <Button
-                        onClick={() => signIn("apple")}
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          await signIn("apple");
+                        }}
                         variant="ghost"
                         className="w-full h-11 px-3 py-4 bg-black rounded-lg justify-center items-center gap-1 hover:bg-black"
                       >

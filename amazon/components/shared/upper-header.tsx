@@ -9,12 +9,16 @@ import ComboboxLanguage from "./checkbox-language";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { signOut, useSession } from "next-auth/react";
+import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 
 interface Props {
   className?: string;
 }
 
 export const UpperHeader: React.FC<Props> = ({ className }) => {
+  const session = useSession();
   const isAuth = useSelector((state: RootState) => state.header.isAuth);
 
   return (
@@ -24,7 +28,24 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
           <CountryDialog />
         </div>
 
-        {isAuth ? (
+        {session.status === "authenticated" && (
+          <>
+            <Label className="text-white text-[16px]">
+              Hello, {session?.data?.user?.email}
+            </Label>
+            <Button
+              variant="figmaPrimary"
+              className="w-[200px]"
+              onClick={async () => {
+                await signOut();
+              }}
+            >
+              Log out
+            </Button>
+          </>
+        )}
+
+        {isAuth && session.status !== "authenticated" ? (
           <div className="w-[220px] text-white flex gap-1">
             <label>New customer?</label>
             <Link href="/login" className="border-b-[1.5px] border-dotted">
