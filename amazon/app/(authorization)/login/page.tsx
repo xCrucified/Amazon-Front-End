@@ -26,6 +26,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { toast } from "sonner";
 
 export default function LoginPage({
   className,
@@ -61,9 +63,11 @@ export default function LoginPage({
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.credential);
     if (!isPasswordInputVisible) {
+      const apiUrlCheck = isEmail ? "api/check/email" : "api/check/phoneNumber";
       try {
-        const response = await fetch("api/check/email", {
+        const response = await fetch(apiUrlCheck, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -72,21 +76,38 @@ export default function LoginPage({
         });
 
         const data = await response.json();
+        console.log(data);
 
         if (data.email) {
           form.clearErrors("password");
-          dispatch(setEmail(data.email));
+          dispatch(setEmail(values.credential));
+          setIsPasswordInputVisible(true);
+        } else if (data.phoneNumber) {
+          dispatch(setPhoneNumber(values.credential));
           setIsPasswordInputVisible(true);
         } else {
-          dispatch(setPhoneNumber(form.getValues("credential")));
-          push("/login/redirect");
+          if (isEmail) {
+            dispatch(setEmail(values.credential));
+            replace("/login/redirect");
+          } else {
+            toast("Account not found", {
+              cancel: {
+                label: "Ok",
+                onClick: (e) => {
+                  e.preventDefault();
+                },
+              },
+            });
+            console.log("Account not found");
+          }
         }
       } catch (error) {
         console.error(error);
       }
     } else {
+      const apiUrlLogin = isEmail ? "api/login/email" : "api/login/phoneNumber";
       try {
-        const response = await fetch("api/login/email", {
+        const response = await fetch(apiUrlLogin, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

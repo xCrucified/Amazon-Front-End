@@ -5,6 +5,7 @@ import UpperHeader from "@/components/shared/upper-header";
 import { Nunito } from "next/font/google";
 import ReduxProvider from "@/components/shared/redux-provider";
 import NextAuthProvider from "@/components/shared/auth-provides";
+import { Toaster } from "@/components/ui/sonner";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],
@@ -31,6 +32,7 @@ export default function RootLayout({
               <UpperHeader />
               <Header />
               {children}
+              <Toaster />
             </div>
           </ReduxProvider>
         </NextAuthProvider>
