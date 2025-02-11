@@ -45,8 +45,8 @@ export const authConfig: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
+        token.accessToken = (user as any).accessToken;
+        token.refreshToken = (user as any).refreshToken;
       }
       return token;
     },
@@ -55,7 +55,7 @@ export const authConfig: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
-          id: token.sub, 
+          id: token.sub,
         },
         accessToken: token.accessToken,
         refreshToken: token.refreshToken,
@@ -84,6 +84,7 @@ async function validateTokens({
 
   if (response.ok) {
     const userData = await response.json();
+    console.log(userData);
     return userData;
   }
 

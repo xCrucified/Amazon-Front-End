@@ -8,26 +8,30 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from "react";
+import { Label } from "@/components/ui/label";
+import { setEmail, setPhoneNumber } from "@/store/slices/signupSlice";
 
 export default function RedirectAuthPage({
   className,
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { push } = useRouter();
+  const { replace } = useRouter();
 
+  const dispatch = useDispatch();
   const email = useSelector((state: RootState) => state.signup.email);
+  const phoneNumber = useSelector((state: RootState) => state.signup.phoneNumber);
   useEffect(() => {
-    if (!email || email === "") {
-      push("/login");
+    if (email === "" && phoneNumber === "") {
+      replace("/login");
     }
-  }, [email, push]);
+  }, [email, phoneNumber, replace]);
 
   const form = useForm();
 
   async function onSubmit() {
-    push("/signup");
+    replace("/signup");
   }
 
   return (
@@ -43,18 +47,19 @@ export default function RedirectAuthPage({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-4">
                 <div className="flex items-center justify-between">
-                  <label>{email}</label>
-                  <button
-                    className="text-[#37569E] hover:text-[#222935] focus:cursor-pointer"
+                  <Label className="text-[16px]">{email || phoneNumber}</Label>
+                  <Button
+                    variant="ghost"
+                    className="text-[#37569E] text-[16px] hover:text-[#222935] focus:cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
-                      push("/login");
+                      replace("/login");
                     }}
                   >
                     Change
-                  </button>
+                  </Button>
                 </div>
-                <label>Let&apos;s create an account using your email</label>
+                <Label>Let&apos;s create an account using your {email !== "" && "email"}{phoneNumber !== "" && "mobile number"}</Label>
                 <Button variant="figmaPrimary" type="submit">
                   Proceed to create an account
                 </Button>

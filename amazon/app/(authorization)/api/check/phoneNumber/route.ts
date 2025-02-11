@@ -1,3 +1,4 @@
+import { exists } from "fs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -5,8 +6,7 @@ export async function POST(req: NextRequest) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   try {
     const response = await fetch(
-      // API_URL + "/api/Account/phoneNumber/" + phoneNumber,
-      API_URL + "/api/Category/1233",
+      API_URL + "/api/Account/check-phone-number?phonenumber=" + phoneNumber,
       {
         method: "GET",
         headers: {
@@ -14,11 +14,11 @@ export async function POST(req: NextRequest) {
         },
       }
     );
-    const data = await response.json();
-    if (response.ok) {
-      return NextResponse.json({ phoneNumber: data, status: 200 });
+    const data = await response.json();    
+    if (data.exists) {
+      return NextResponse.json({ exists: true, status: 200 });
     } else {
-      return NextResponse.json({ status: 204 });
+      return NextResponse.json({ exists: false, status: 200 });
     }
   } catch (error) {
     return NextResponse.json(

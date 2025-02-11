@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { credential, password } = await req.json();
-
-  try {
+  const { credential, password } = await req.json(); 
+  try {    
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/api/Account/login",
+      process.env.NEXT_PUBLIC_API_URL + "/api/Account/login-via-email",
       {
         method: "POST",
         headers: {

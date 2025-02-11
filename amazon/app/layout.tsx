@@ -4,7 +4,7 @@ import Header from "@/components/shared/header";
 import UpperHeader from "@/components/shared/upper-header";
 import { Nunito } from "next/font/google";
 import ReduxProvider from "@/components/shared/redux-provider";
-import NextAuthProvider from "@/components/shared/auth-provides";
+import NextAuthProvider from "@/components/shared/auth-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 const nunito = Nunito({

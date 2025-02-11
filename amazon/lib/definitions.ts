@@ -17,9 +17,18 @@ export const birthDatePhoneNumberSchema = z.object({
     .nonempty("Please enter phone number"),
 });
 
-export const accountNeccesarySchema = z
+export const signUpSchema = z
   .object({
-    email: z.string().email({ message: "Please enter a valid email" }).trim(),
+    credential: z
+      .string()
+      .trim()
+      .refine(
+        (value) =>
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || /^[0-9]{9}$/.test(value),
+        {
+          message: "Enter your e-mail address or mobile phone number",
+        }
+      ),
     username: z
       .string()
       .min(3, "Username must be 3 letters min")
@@ -40,37 +49,21 @@ export const accountNeccesarySchema = z
     path: ["rPassword"],
   });
 
-export const loginSchema = z.object({
-  credential: z
-    .string()
-    .trim()
-    .refine(
-      (value) =>
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || // Email validation
-        /^[0-9]{9}$/.test(value), // Phone number validation (9 digits)
-      {
-        message: "Please enter a valid email or phone number",
-      }
-    ),
-  password: z.string().nonempty("Please enter password").trim(),
-});
-
-export const getLoginSchema = (requirePassword: boolean) => 
+export const getLoginSchema = (requirePassword: boolean) =>
   z.object({
     credential: z
       .string()
       .trim()
       .refine(
         (value) =>
-          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || // Email validation
-          /^[0-9]{9}$/.test(value), // Phone number validation (9 digits)
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || /^[0-9]{9}$/.test(value),
         {
           message: "Please enter a valid email or phone number",
         }
       ),
     password: requirePassword
-      ? z.string().nonempty("Please enter password").trim() // Required password
-      : z.string().trim().optional(), // Optional password
+      ? z.string().nonempty("Please enter password").trim()
+      : z.string().trim().optional(),
   });
 
 export const CountryCodes = [

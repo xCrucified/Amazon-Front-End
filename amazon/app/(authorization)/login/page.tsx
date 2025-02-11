@@ -26,13 +26,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { toast } from "sonner";
 
 export default function LoginPage({
   className,
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { push, replace } = useRouter();
+  const { replace } = useRouter();
   const session = useSession();
 
   useEffect(() => {
@@ -57,7 +55,7 @@ export default function LoginPage({
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      credential: email,
+      credential: email || phoneNumber,
       password: "",
     },
   });
@@ -74,31 +72,26 @@ export default function LoginPage({
           },
           body: JSON.stringify(form.getValues("credential")),
         });
-
         const data = await response.json();
-        console.log(data);
-
-        if (data.email) {
-          form.clearErrors("password");
-          dispatch(setEmail(values.credential));
-          setIsPasswordInputVisible(true);
-        } else if (data.phoneNumber) {
-          dispatch(setPhoneNumber(values.credential));
-          setIsPasswordInputVisible(true);
+        if (data.exists === true) {
+          if (isEmail) {
+            form.clearErrors("password");
+            dispatch(setEmail(values.credential));
+            setIsPasswordInputVisible(true);
+          } else {
+            form.clearErrors("password");
+            dispatch(setPhoneNumber(values.credential));
+            setIsPasswordInputVisible(true);
+          }
         } else {
           if (isEmail) {
             dispatch(setEmail(values.credential));
+            dispatch(setPhoneNumber(""));
             replace("/login/redirect");
           } else {
-            toast("Account not found", {
-              cancel: {
-                label: "Ok",
-                onClick: (e) => {
-                  e.preventDefault();
-                },
-              },
-            });
-            console.log("Account not found");
+            dispatch(setEmail(""));
+            dispatch(setPhoneNumber(values.credential));
+            replace("/login/redirect");
           }
         }
       } catch (error) {
@@ -113,19 +106,17 @@ export default function LoginPage({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            credential: values.credential,
-            password: values.password,
+            credential: form.getValues("credential"),
+            password: form.getValues("password"),
           }),
         });
-
-        if (response.ok) {
-          const data = await response.json();
+        const data = await response.json();
+        if (data.accessToken && data.refreshToken) {
           const result = await signIn("credentials", {
             redirect: false,
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
           });
-
           if (result?.error) {
             console.error(result.error);
           }
@@ -157,7 +148,9 @@ export default function LoginPage({
                 <div className="flex flex-col gap-3">
                   {isPasswordInputVisible ? (
                     <div className="flex items-center justify-between">
-                      <Label>{form.getValues("credential")}</Label>
+                      <Label className="text-[16px]">
+                        {form.getValues("credential")}
+                      </Label>
                       <Button
                         variant="ghost"
                         className="text-[#37569E] text-[16px] hover:text-[#222935] focus:cursor-pointer"

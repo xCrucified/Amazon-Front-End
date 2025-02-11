@@ -8,7 +8,7 @@ interface Props {
 
 export const FooterAuth: React.FC<Props> = ({ className }) => {
   return (
-    <footer className={cn("flex flex-col gap-2 items-center mt-12", className)}>
+    <footer className={cn("flex flex-col gap-2 items-center mt-2", className)}>
       <div className="flex justify-between w-[90%] p-3">
         <Link href="/use" className="text-[13px] text-[#37569E] hover:text-[#222935]">Conditions of Use</Link>
         <Link href="/privacy" className="text-[13px] text-[#37569E] hover:text-[#222935]">Privacy Notice</Link>

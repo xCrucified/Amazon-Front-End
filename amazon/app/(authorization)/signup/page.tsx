@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { accountNeccesarySchema } from "@/lib/definitions";
+import { signUpSchema } from "@/lib/definitions";
 
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,7 @@ import {
   setPassword,
   setRPassword,
   setOTP,
+  setPhoneNumber,
 } from "@/store/slices/signupSlice";
 
 import {
@@ -37,8 +38,12 @@ export default function SignupFormNeccesary({
 }: React.ComponentPropsWithoutRef<"div">) {
   const { push } = useRouter();
 
+  const [debouncedCredential, setDebouncedCredential] = React.useState("");
   const username = useSelector((state: RootState) => state.signup.username);
   const email = useSelector((state: RootState) => state.signup.email);
+  const phoneNumber = useSelector(
+    (state: RootState) => state.signup.phoneNumber
+  );
   const password = useSelector((state: RootState) => state.signup.password);
   const rPassword = useSelector((state: RootState) => state.signup.rPassword);
   const dispatch = useDispatch();
@@ -46,46 +51,76 @@ export default function SignupFormNeccesary({
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [isRPasswordVisible, setIsRPasswordVisible] = React.useState(false);
 
-  const form = useForm<z.infer<typeof accountNeccesarySchema>>({
-    resolver: zodResolver(accountNeccesarySchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
-      email: email,
+      credential: email || phoneNumber,
       username: username,
       password: "",
       rPassword: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof accountNeccesarySchema>) {
-    dispatch(setEmail(values.email));
+  const credential = form.watch("credential");
+
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedCredential(credential);
+    }, 1000);
+
+    return () => clearTimeout(handler);
+  }, [credential]);
+
+  React.useEffect(() => {
+    if (debouncedCredential) {
+      checkCredential(debouncedCredential);
+      form.clearErrors("credential");
+    }
+  }, [debouncedCredential]);
+
+  const checkCredential = async (credential: string) => {
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential);
+    const apiUrlCheck = isEmail ? "api/check/email" : "api/check/phoneNumber";
+    try {
+      const response = await fetch(apiUrlCheck, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form.getValues("credential")),
+      });
+      const data = await response.json();
+      if (data.exists === true) {
+        if (isEmail) {
+          form.setError("credential", {
+            type: "manual",
+            message: "There is already an account with this email",
+          });
+        } else {
+          form.setError("credential", {
+            type: "manual",
+            message: "There is already an account with this mobile number",
+          });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.credential);
+    if (isEmail) {
+      dispatch(setEmail(values.credential));
+      dispatch(setPhoneNumber(""));
+    } else {
+      dispatch(setEmail(""));
+      dispatch(setPhoneNumber(values.credential));
+    }
     dispatch(setUsername(values.username));
     dispatch(setPassword(values.password));
     dispatch(setRPassword(values.rPassword));
-
     push("/signup/verify");
-
-    // try {
-    //   const response = await fetch("/api/send-otp", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email, otp }),
-    //   });
-
-    //   const data = await response.json();
-
-    //   if (response.ok) {
-    //     dispatch(setOTP(data.otp));
-    //     push("/signup/verify-otp");
-    //     console.log("OTP sent:", data.message);
-    //   } else {
-    //     console.error("Error:", data.message);
-    //   }
-    // } catch (error) {
-    //   console.error("Error sending OTP:", error);
-    //   throw error;
-    // }
   }
 
   return (
@@ -102,7 +137,7 @@ export default function SignupFormNeccesary({
               <div className="grid gap-3">
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="credential"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel className="text-[#000]">
@@ -111,16 +146,19 @@ export default function SignupFormNeccesary({
                       <FormControl>
                         <div className="flex items-center relative">
                           <Input
-                            type="email"
+                            type="text"
                             className={cn(
                               "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
-                              form.formState.errors.email
+                              form.formState.errors.credential
                                 ? "border-[3px] border-red-500"
                                 : "focus:border-[3px] focus:border-[#5a6c8d]"
                             )}
                             {...field}
+                            onChange={(e) => {
+                              form.setValue("credential", e.target.value);
+                            }}
                           />
-                          {form.formState.errors.email && (
+                          {form.formState.errors.credential && (
                             <Image
                               src="/assets/images/CloseFill.svg"
                               width={16}
@@ -128,8 +166,8 @@ export default function SignupFormNeccesary({
                               className="absolute right-3 hover:cursor-pointer"
                               alt="Close"
                               onClick={() => {
-                                form.clearErrors("email");
-                                form.setValue("email", "");
+                                form.clearErrors("credential");
+                                form.setValue("credential", "");
                               }}
                             />
                           )}
