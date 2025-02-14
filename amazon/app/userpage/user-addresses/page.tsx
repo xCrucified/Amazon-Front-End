@@ -3,14 +3,14 @@
 import React from 'react';
 import {useRouter} from "next/navigation";
 
-const UserSecure = () => {
+const Addresses = () => {
   const router = useRouter();
   return (
     <div>
       <button onClick={() => router.push('/userpage')}>Back</button>
-      UserSecure
+      Addresses
     </div>
   );
 };
 
-export default UserSecure;
+export default Addresses;

@@ -1,14 +1,14 @@
+"use client";
+
 import React from 'react';
+import {useRouter} from "next/navigation";
 
-interface Props {
-  className?: string;
-}
-
-export const Orders: React.FC<Props> = ({ className }) => {
+const Orders = () => {
+  const router = useRouter();
   return (
-    <div className={className}>
-        asdasda
-    </div>
+    <div>
+      <button onClick={() => router.push('/userpage')}>Back</button>
+      Your orders!!!</div>
   );
 };
 

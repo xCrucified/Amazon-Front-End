@@ -54,7 +54,7 @@ export const Header: React.FC<Props> = ({ className }) => {
             />
           </Button>
         </Link>
-        <Link href="/userpage#login-secure">
+        <Link href="/userpage">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
             <Image
               src={"./assets/images/User.svg"}
