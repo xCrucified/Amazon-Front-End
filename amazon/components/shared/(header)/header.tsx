@@ -46,7 +46,7 @@ export const Header: React.FC<Props> = ({ className }) => {
         <Link href="/saves">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
             <Image
-              src={"./assets/images/Favorite.svg"}
+              src={"/assets/images/Favorite.svg"}
               alt={""}
               width={128}
               height={128}
@@ -57,7 +57,7 @@ export const Header: React.FC<Props> = ({ className }) => {
         <Link href="/account">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
             <Image
-              src={"./assets/images/User.svg"}
+              src={"/assets/images/User.svg"}
               alt={""}
               width={128}
               height={128}
@@ -76,7 +76,7 @@ export const Header: React.FC<Props> = ({ className }) => {
               </div>
               <ArrowRight
                 size={20}
-                className="absolute  transition duration-300 -translate-x-3 opacity-0 group-hover:text-black group-hover:opacity-100 group-hover:translate-x-0 top-5"
+                className="absolute transition duration-300 -translate-x-3 opacity-0 group-hover:text-black group-hover:opacity-100 group-hover:translate-x-0 top-5"
               />
             </Button>
           </Link>

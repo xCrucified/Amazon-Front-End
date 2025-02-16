@@ -6,6 +6,7 @@ import { Nunito } from "next/font/google";
 import ReduxProvider from "@/components/shared/ReduxProvider";
 import { TopBar } from "@/components/shared/(header)/top-bar";
 import { Container } from "@/components/shared/container";
+import Footer from "@/components/shared/(footer)/footer";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],
@@ -34,6 +35,7 @@ export default function RootLayout({
               <TopBar />
             </Container>
             {children}
+            <Footer />
           </div>
         </ReduxProvider>
       </body>
