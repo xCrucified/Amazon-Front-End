@@ -1,28 +1,26 @@
-import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export async function POST(req: NextRequest): Promise<NextResponse> {
+export async function POST(req: NextRequest) {
+  const { otp } = await req.json();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   try {
-    const { email, otp }: { email: string; otp: number } = await req.json();
+    // const response = await fetch(API_URL + "/api/Account/send-otp", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(otp),
+    // });
+    // const data = await response.json();
 
-    const response = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
-      to: email,
-      subject: "Your OTP Code",
-      html: `<p>Your OTP code is: <strong>${otp}</strong></p>`,
-    });
-
-    return NextResponse.json(
-      { otp: otp, response },
-      { status: 200 },
-    );
-  } catch (error: unknown) {
-    console.error("Error sending OTP:", error);
-    return NextResponse.json(
-      { error: "Failed to send OTP" },
-      { status: 500 }
-    );
+    // if (response.ok) {
+    //   return NextResponse.json({ success: true, data });
+    // } else {
+    //   return NextResponse.json({ success: false, error: data.error || "Failed to send OTP" });
+    // }
+    return NextResponse.json({ success: true, otp });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: error, status: 500 });
   }
 }

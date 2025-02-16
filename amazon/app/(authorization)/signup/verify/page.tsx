@@ -20,38 +20,47 @@ import { RootState } from "@/store/store";
 import { useEffect } from "react";
 import { InputOTP, InputOTPSlot } from "@/components/ui/input-otp";
 import { clearData, setOTP } from "@/store/slices/signupSlice";
-import { signIn } from "next-auth/react";
 
-export default function VerifyOTPPage({
-  className,
-}: React.ComponentPropsWithoutRef<"div">) {
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export default function VerifyOTPPage({ className }: React.ComponentPropsWithoutRef<"div">) {
   const { replace } = useRouter();
   const email = useSelector((state: RootState) => state.signup.email);
-  const phoneNumber = useSelector(
-    (state: RootState) => state.signup.phoneNumber
-  );
+  const phoneNumber = useSelector((state: RootState) => state.signup.phoneNumber);
   const username = useSelector((state: RootState) => state.signup.username);
   const password = useSelector((state: RootState) => state.signup.password);
   const otp = useSelector((state: RootState) => state.signup.otp);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
-    const fetchOTP = async () => {
-      const response = await fetch(API_URL + "/api/otp?email=" + email, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      dispatch(setOTP(data));
-    };
     if (email === "" && phoneNumber === "") {
       replace("/signup");
     }
-    fetchOTP();
-  }, [email, phoneNumber, replace, otp]);
+    sendOTP();
+  }, [replace, sendOTP]);
+
+  async function sendOTP() {
+    try {
+      const generatedOTP = Math.floor(10000 + Math.random() * 90000).toString();
+      const response = await fetch("api/send-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ otp: generatedOTP }),
+      });
+      const data = await response.json();
+      console.log(data);      
+      if (data.success) {
+        dispatch(setOTP(data.otp));
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const form = useForm();
 
@@ -97,11 +106,8 @@ export default function VerifyOTPPage({
               <div className="grid gap-4">
                 <label className="text-[14px]">
                   To verify your {email !== "" && "email address"}
-                  {phoneNumber !== "" && "mobile number"}, we&apos;ve sent a One
-                  Time Password (OTP) to{" "}
-                  <span className="font-bold underline">
-                    {email || phoneNumber}
-                  </span>
+                  {phoneNumber !== "" && "mobile number"}, we&apos;ve sent a One Time Password (OTP)
+                  to <span className="font-bold underline">{email || phoneNumber}</span>
                 </label>
                 <FormField
                   control={form.control}
@@ -110,7 +116,7 @@ export default function VerifyOTPPage({
                     <FormItem className="flex flex-col">
                       <FormLabel className="text-[#000]">Enter OTP</FormLabel>
                       <FormControl>
-                        <InputOTP
+                        {/* <InputOTP
                           containerClassName="flex justify-between pt-2"
                           maxLength={5}
                           {...field}
@@ -130,14 +136,14 @@ export default function VerifyOTPPage({
                               )}
                             />
                           ))}
-                        </InputOTP>
+                        </InputOTP> */}
                       </FormControl>
                       <FormMessage className="flex gap-1 items-center leading-[10px]" />
                     </FormItem>
                   )}
                 />
                 <Button variant="figmaPrimary" type="submit">
-                  Check OTP
+                  Create your Onyx account
                 </Button>
                 <div className="flex justify-start items-center bg-[#f1f4f7] rounded-lg mt-3">
                   <div className="p-[20px]">
@@ -149,13 +155,8 @@ export default function VerifyOTPPage({
                     />
                   </div>
                   <div className="flex flex-col pt-[16px] pb-[16px]">
-                    <span className="text-[16px] leading-[18px]">
-                      Already a customer?
-                    </span>
-                    <Link
-                      href="/login"
-                      className="text-[#37569E] text-[16px] leading-[18px]"
-                    >
+                    <span className="text-[16px] leading-[18px]">Already a customer?</span>
+                    <Link href="/login" className="text-[#37569E] text-[16px] leading-[18px]">
                       Sign in with another credentials
                     </Link>
                   </div>

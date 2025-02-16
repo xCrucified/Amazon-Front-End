@@ -1,3 +1,0 @@
-MX: send.onyx: feedback-smtp.us-east-1.amazonses.com
-TXT: send.onyx: v=spf1 include:amazonses.com ~all
-TXT: resend._domainkey.onyx: p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1lO/H16Z048NK+JES7grGTxn7ixx2k7aQbQJfww07ZouJjYCWYF6G9WTp5C0+HPxOlgxzW353ImxfA7LjiEHaiygKDbaqLxd+qrFJk6Plmcq2Ej9+901eN/4FRrH+mB6X9bTS0jZTfPREbiz43tatLzSV+9aLuyevYItyeWE1TwIDAQAB
