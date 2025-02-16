@@ -20,7 +20,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
         <div className="w-[696px] rounded-md">
           <img src="/assets/images/productImg.png" alt="product" />
         </div>
-
+        
         <div className="outline w-[740px] h-full flex justify-start">
           <Label className="text-[23px] font-bold w-[594px]">
             Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR
