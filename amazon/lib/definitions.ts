@@ -21,28 +21,32 @@ export const signUpSchema = z
   .object({
     credential: z
       .string()
-      .trim()
+      .nonempty("Credential is required")
       .refine(
-        (value) =>
-          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || /^[0-9]{9}$/.test(value),
+        (value) => {
+          return new Promise((resolve) => {
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+            const apiUrl = isEmail ? "api/check/email" : "api/check/phoneNumber";
+            fetch(apiUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(value),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                resolve(!(data.exists === true || data.error));
+              })
+              .catch(() => resolve(false));
+          });
+        },
         {
-          message: "Enter your e-mail address or mobile phone number",
+          message:
+            "There is already an account with this credential or a connection error occurred",
         }
       ),
-    username: z
-      .string()
-      .min(3, "Username must be 3 letters min")
-      .max(20, "Username must be 20 letters max"),
-    password: z
-      .string()
-      .min(8, { message: "Be at least 8 characters long" })
-      .regex(/[a-zA-Z]/, { message: "Contain at least one letter" })
-      .regex(/[0-9]/, { message: "Contain at least one number" })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: "Contain at least one special character",
-      })
-      .trim(),
-    rPassword: z.string(),
+    username: z.string().nonempty("Username is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    rPassword: z.string().nonempty("Repeat your password"),
   })
   .refine((data) => data.password === data.rPassword, {
     message: "Passwords do not match",

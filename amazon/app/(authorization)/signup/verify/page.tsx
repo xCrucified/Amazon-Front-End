@@ -15,40 +15,71 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from "react";
 import { InputOTP, InputOTPSlot } from "@/components/ui/input-otp";
-import { otpSchema } from "@/lib/definitions";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { clearData, setOTP } from "@/store/slices/signupSlice";
+import { signIn } from "next-auth/react";
 
 export default function VerifyOTPPage({
   className,
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { push } = useRouter();
-
-  const otp = useSelector((state: RootState) => state.signup.otp);
+  const { replace } = useRouter();
   const email = useSelector((state: RootState) => state.signup.email);
+  const phoneNumber = useSelector(
+    (state: RootState) => state.signup.phoneNumber
+  );
+  const username = useSelector((state: RootState) => state.signup.username);
+  const password = useSelector((state: RootState) => state.signup.password);
+  const otp = useSelector((state: RootState) => state.signup.otp);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    if (!email || email === "") {
-      push("/signup");
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const fetchOTP = async () => {
+      const response = await fetch(API_URL + "/api/otp?email=" + email, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      dispatch(setOTP(data));
+    };
+    if (email === "" && phoneNumber === "") {
+      replace("/signup");
     }
-  }, [email, push]);
+    fetchOTP();
+  }, [email, phoneNumber, replace, otp]);
 
-  const form = useForm<z.infer<typeof otpSchema>>({
-    resolver: zodResolver(otpSchema),
-    defaultValues: {
-      otp: "",
-    },
-  });
+  const form = useForm();
 
-  async function onSubmit(values: z.infer<typeof otpSchema>) {
-    if(values.otp === otp) {
-      push("/signup/user-info");
-    } else {
-      console.error("OTP doesn't exist"); 
-    } 
+  async function onSubmit() {
+    if (form.getValues("otp") === otp) {
+      try {
+        const user = {
+          email: email,
+          username: username,
+          password: password,
+          phoneNumber: "321321123",
+        };
+        const response = await fetch("api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+        const data = await response.json();
+        if (data.status === 200) {
+          replace("/login");
+          dispatch(clearData());
+        }
+      } catch (error) {
+        console.error("Error: " + error);
+      }
+    }
   }
 
   return (
@@ -56,7 +87,8 @@ export default function VerifyOTPPage({
       <Card className="border-none shadow-none">
         <CardHeader className="text-center">
           <CardTitle className="text-[23px] font-bold">
-            Verify email address
+            Verify {email !== "" && "email address"}
+            {phoneNumber !== "" && "mobile number"}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-[32px] pt-0">
@@ -64,8 +96,12 @@ export default function VerifyOTPPage({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-4">
                 <label className="text-[14px]">
-                  To verify your email, we&apos;ve sent a One Time Password
-                  (OTP) to <span className="font-bold underline">{email}</span>
+                  To verify your {email !== "" && "email address"}
+                  {phoneNumber !== "" && "mobile number"}, we&apos;ve sent a One
+                  Time Password (OTP) to{" "}
+                  <span className="font-bold underline">
+                    {email || phoneNumber}
+                  </span>
                 </label>
                 <FormField
                   control={form.control}

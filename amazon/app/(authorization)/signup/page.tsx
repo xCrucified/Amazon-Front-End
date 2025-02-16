@@ -15,7 +15,6 @@ import {
   setEmail,
   setPassword,
   setRPassword,
-  setOTP,
   setPhoneNumber,
 } from "@/store/slices/signupSlice";
 
@@ -33,17 +32,12 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function SignupFormNeccesary({
-  className,
-}: React.ComponentPropsWithoutRef<"div">) {
+export default function SignupFormNeccesary({ className }: React.ComponentPropsWithoutRef<"div">) {
   const { push } = useRouter();
 
-  const [debouncedCredential, setDebouncedCredential] = React.useState("");
   const username = useSelector((state: RootState) => state.signup.username);
   const email = useSelector((state: RootState) => state.signup.email);
-  const phoneNumber = useSelector(
-    (state: RootState) => state.signup.phoneNumber
-  );
+  const phoneNumber = useSelector((state: RootState) => state.signup.phoneNumber);
   const password = useSelector((state: RootState) => state.signup.password);
   const rPassword = useSelector((state: RootState) => state.signup.rPassword);
   const dispatch = useDispatch();
@@ -56,57 +50,11 @@ export default function SignupFormNeccesary({
     defaultValues: {
       credential: email || phoneNumber,
       username: username,
-      password: "",
-      rPassword: "",
+      password: password,
+      rPassword: rPassword,
     },
+    mode: "onBlur",
   });
-
-  const credential = form.watch("credential");
-
-  React.useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedCredential(credential);
-    }, 1000);
-
-    return () => clearTimeout(handler);
-  }, [credential]);
-
-  React.useEffect(() => {
-    if (debouncedCredential) {
-      checkCredential(debouncedCredential);
-      form.clearErrors("credential");
-    }
-  }, [debouncedCredential]);
-
-  const checkCredential = async (credential: string) => {
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential);
-    const apiUrlCheck = isEmail ? "api/check/email" : "api/check/phoneNumber";
-    try {
-      const response = await fetch(apiUrlCheck, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form.getValues("credential")),
-      });
-      const data = await response.json();
-      if (data.exists === true) {
-        if (isEmail) {
-          form.setError("credential", {
-            type: "manual",
-            message: "There is already an account with this email",
-          });
-        } else {
-          form.setError("credential", {
-            type: "manual",
-            message: "There is already an account with this mobile number",
-          });
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.credential);
@@ -127,9 +75,7 @@ export default function SignupFormNeccesary({
     <div className={cn("flex flex-col", className)}>
       <Card className="border-none shadow-none">
         <CardHeader className="text-center">
-          <CardTitle className="text-[23px] font-bold">
-            Create account
-          </CardTitle>
+          <CardTitle className="text-[23px] font-bold">Create account</CardTitle>
         </CardHeader>
         <CardContent className="p-[32px] pt-0">
           <Form {...form}>
@@ -140,9 +86,7 @@ export default function SignupFormNeccesary({
                   name="credential"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel className="text-[#000]">
-                        Enter mobile number or email
-                      </FormLabel>
+                      <FormLabel className="text-[#000]">Enter mobile number or email</FormLabel>
                       <FormControl>
                         <div className="flex items-center relative">
                           <Input
@@ -188,7 +132,7 @@ export default function SignupFormNeccesary({
                           <Input
                             type="text"
                             className={cn(
-                              "bg-gray-200 focus:bg-white   rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                              "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
                               form.formState.errors.username
                                 ? "border-[3px] border-red-500"
                                 : "focus:border-[3px] focus:border-[#5a6c8d]"
@@ -231,7 +175,7 @@ export default function SignupFormNeccesary({
                           <Input
                             type={isPasswordVisible ? "text" : "password"}
                             className={cn(
-                              "bg-gray-200 focus:bg-white   rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                              "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
                               form.formState.errors.password
                                 ? "border-[3px] border-red-500"
                                 : "focus:border-[3px] focus:border-[#5a6c8d]"
@@ -281,15 +225,13 @@ export default function SignupFormNeccesary({
                   name="rPassword"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel className="text-[#000]">
-                        Password again
-                      </FormLabel>
+                      <FormLabel className="text-[#000]">Password again</FormLabel>
                       <FormControl>
                         <div className="flex items-center relative">
                           <Input
                             type={isRPasswordVisible ? "text" : "password"}
                             className={cn(
-                              "bg-gray-200 focus:bg-white   rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                              "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
                               form.formState.errors.rPassword
                                 ? "border-[3px] border-red-500"
                                 : "focus:border-[3px] focus:border-[#5a6c8d]"
@@ -322,7 +264,7 @@ export default function SignupFormNeccesary({
                   )}
                 />
                 <Button variant="figmaPrimary" type="submit">
-                  Verify email
+                  Verify
                 </Button>
                 <div className="text-[13px]">
                   By continuing, you agree to Onyx&apos;s{" "}
@@ -350,13 +292,8 @@ export default function SignupFormNeccesary({
                     />
                   </div>
                   <div className="flex flex-col pt-[16px] pb-[16px]">
-                    <span className="text-[16px] leading-[18px]">
-                      Buying for work?
-                    </span>
-                    <Link
-                      href="#"
-                      className="text-[#37569E] text-[16px] leading-[18px]"
-                    >
+                    <span className="text-[16px] leading-[18px]">Buying for work?</span>
+                    <Link href="#" className="text-[#37569E] text-[16px] leading-[18px]">
                       Create a free business account
                     </Link>
                   </div>
@@ -371,13 +308,8 @@ export default function SignupFormNeccesary({
                     />
                   </div>
                   <div className="flex flex-col pt-[16px] pb-[16px]">
-                    <span className="text-[16px] leading-[18px]">
-                      Already a customer?
-                    </span>
-                    <Link
-                      href="/login"
-                      className="text-[#37569E] text-[16px] leading-[18px]"
-                    >
+                    <span className="text-[16px] leading-[18px]">Already a customer?</span>
+                    <Link href="/login" className="text-[#37569E] text-[16px] leading-[18px]">
                       Sign in instead
                     </Link>
                   </div>

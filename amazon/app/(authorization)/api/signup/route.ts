@@ -1,36 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
-  const {
-    UserName,
-    Email,
-    PasswordHash,
-    birthDate,
-    //CountryCode,
-    PhoneNumber,
-    AvatarPicture,
-  } = await req.json();
+  const user = await req.json();
 
   try {
-    const user = await prisma.aspNetUsers.create({
-      data: {
-        Id: crypto.randomUUID(),
-        UserName,
-        PasswordHash,
-        Email,
-        BirthDate: new Date(birthDate),
-        //CountryCode,
-        PhoneNumber,
-        AvatarPicture,
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const response = await fetch(API_URL + "/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify(user),
     });
-    
-    return NextResponse.json(user, { status: 200 });
+    if (response.ok) {
+      return NextResponse.json({ status: 200 });
+    }
+    return NextResponse.json({ status: 500 });
   } catch (error) {
-    return NextResponse.json(
-      { error: error },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error, status: 500 });
   }
 }

@@ -6,13 +6,7 @@ interface UserDataState {
   password: string;
   rPassword: string;
   otp: string;
-  birthDate: string;
-  countryCode: string;
-  countryCodeLabel: string;
   phoneNumber: string;
-  avatarPicture: string;
-  avatarPictureUrl: string;
-  isSelected: boolean;
 }
 
 const initialState: UserDataState = {
@@ -21,13 +15,7 @@ const initialState: UserDataState = {
   password: "",
   rPassword: "",
   otp: "",
-  birthDate: new Date().toISOString(),
-  countryCode: "",
-  countryCodeLabel: "Select country code...",
   phoneNumber: "",
-  avatarPicture: "",
-  avatarPictureUrl: "",
-  isSelected: false,
 };
 
 const fieldSlice = createSlice({
@@ -49,26 +37,8 @@ const fieldSlice = createSlice({
     setOTP: (state, action: PayloadAction<string>) => {
       state.otp = action.payload;
     },
-    setBirthdate: (state, action: PayloadAction<string>) => {
-      state.birthDate = action.payload;
-    },
-    setCountryCode: (state, action: PayloadAction<string>) => {
-      state.countryCode = action.payload;
-    },
-    setCountryCodeLabel: (state, action: PayloadAction<string>) => {
-      state.countryCodeLabel = action.payload;
-    },
     setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.phoneNumber = action.payload;
-    },
-    setAvatarPicture: (state, action: PayloadAction<string>) => {
-      state.avatarPicture = action.payload;
-    },
-    setAvatarPictureUrl: (state, action: PayloadAction<string>) => {
-      state.avatarPictureUrl = action.payload;
-    },
-    setSelected: (state, action: PayloadAction<boolean>) => {
-      state.isSelected = action.payload;
     },
     clearData: (state) => {
       state.username = "";
@@ -76,18 +46,7 @@ const fieldSlice = createSlice({
       state.password = "";
       state.rPassword = "";
       state.otp = "";
-      state.birthDate = new Date().toISOString();
-      state.countryCode = "";
-      state.countryCodeLabel = "Select country code...";
       state.phoneNumber = "";
-      state.avatarPicture = "";
-      state.avatarPictureUrl = "";
-      state.isSelected = false;
-    },
-    clearImage: (state) => {
-      state.avatarPicture = "";
-      state.avatarPictureUrl = "";
-      state.isSelected = false;
     },
   },
 });
@@ -98,14 +57,7 @@ export const {
   setPassword,
   setRPassword,
   setOTP,
-  setBirthdate,
-  setCountryCode,
-  setCountryCodeLabel,
   setPhoneNumber,
-  setAvatarPicture,
-  setAvatarPictureUrl,
-  setSelected,
   clearData,
-  clearImage,
 } = fieldSlice.actions;
 export default fieldSlice.reducer;
