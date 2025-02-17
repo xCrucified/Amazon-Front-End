@@ -10,6 +10,7 @@ import YourAddresses from "@/features/profile/addresses";
 import YourPayments from "@/features/profile/payments";
 import CustomerService from "@/features/profile/customerService";
 import GiftCards from "@/features/profile/giftCards";
+import YourMessages from "@/features/profile/messages";
 
 // const tabs = {
 //   "login-security": <LoginSecurity/>,
@@ -46,7 +47,7 @@ const UserPage = () => {
     "exit": () => null,
     "your-payments": () => <YourPayments/>,
     "gift-cards": () => <GiftCards/>,
-    "your-messages": () => null,
+    "your-messages": () => <YourMessages/>,
   } as const;
   
   type TabKey = keyof typeof tabs;
@@ -90,7 +91,7 @@ const UserPage = () => {
               <button
                 key={id}
                 onClick={() => handleTabChange(id)}
-                className={`text-sm font-bold p-4 border-b border-[#2E2E2E] text-black hover:text-[#E16C60] transition flex items-center ${
+                className={`text-sm font-bold p-4 border-b border-[#2E2E2E] text-black hover:text-[#E16C60] transition flex items-center last:border-none ${
                   activeTab === id ? "!text-[#E16C60]" : ""
                 }`}
               >
