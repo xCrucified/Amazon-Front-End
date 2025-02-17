@@ -15,6 +15,7 @@ interface Props {
 
 export const ProductPage: React.FC<Props> = ({ className, params }) => {
   const [isRed, setIsRed] = useState(false);
+
   useEffect(() => {
     const savedState = localStorage.getItem("isRed");
     if (savedState) {
@@ -29,10 +30,10 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
   };
 
   return (
-    <Container>
+    <Container className="mb-10">
       <div
         className={cn(
-          "flex outline gap-[56px] w-full h-full mt-[20px] justify-center p-6",
+          "flex gap-[56px] w-full h-full mt-[20px] justify-center p-6",
           className
         )}
       >
@@ -67,10 +68,33 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               <span className="font-bold">{"200+ bought"}</span> in past month
             </Label>
           </div>
+          <div className="flex rounded-lg w-[488px] h-[80px] justify-between ">
+            <Button className="w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none border-[3px] border-[#a8a8a8] focus:border-[#5b6c8c] focus:border-4 focus:bg-[#f5f5f5] focus:text-black rounded-tl-lg rounded-bl-lg">
+              <div className="w-[308px] h-[100%] flex gap-2 flex-col justify-between ">
+                <p className="self-start">Buy new:</p>
+                <p className="self-center text-[39px] mt-1">
+                  <span className="text-lg">£</span>
+                  {Number(199.25).toFixed(2)}
+                </p>
+              </div>
+            </Button>
+
+            <Button className="w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none border-[3px] border-[#a8a8a8] focus:border-[#5b6c8c] focus:border-4 focus:bg-[#f5f5f5] focus:text-black rounded-tr-lg rounded-br-lg">
+              <div className="w-[308px] h-[100%] flex gap-2 flex-col justify-between ">
+                <p className="self-center">Save with Used – Like New:</p>
+                <p className="self-center text-[39px] mt-1">
+                  <span className="text-lg">£</span>
+                  {Number(199.25).toFixed(2)}
+                </p>
+              </div>
+            </Button>
+          </div>
+          <span className="h-[24px] text-[#E30000] text-[13px] font-extralight">
+            <p>Only 6 left in stock.</p>
+          </span>
           <div>
-            {/* TODO:
-            <p>buy new</p>
-            <p>save with used</p> */}
+            <p>Quantity:</p>
+            <Quantity /> {/* RadioGroup shadcn */}
           </div>
         </div>
       </div>

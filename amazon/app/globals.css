@@ -90,4 +90,7 @@ html {
 #nprogress .spinner-icon {
   @apply border-t-primary border-l-primary !important;
 }
-
+/* w-[50%] h-full bg-[#dedede] text-[#636363] 
+hover:bg-gray-100 rounded-none border-4 border-[#a8a8a8] 
+focus:border-[#5b6c8c] focus:border-4 focus:bg-[#f5f5f5] 
+focus:text-black rounded-tl-lg rounded-bl-lg */
