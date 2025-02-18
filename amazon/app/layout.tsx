@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/shared/header";
-import UpperHeader from "@/components/shared/upper-header";
 import { Nunito } from "next/font/google";
-import ReduxProvider from "@/components/shared/redux-provider";
-import NextAuthProvider from "@/components/shared/auth-provider";
+import ReduxProvider from "@/components/shared/providers/redux-provider";
+import NextAuthProvider from "@/components/shared/providers/auth-provider";
 import { Toaster } from "@/components/ui/sonner";
+import UpperHeader from "@/components/shared/headers/upper-header";
+import Header from "@/components/shared/headers/header";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],

@@ -2,10 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import React, { useEffect } from "react";
-import { Container } from "./container";
-import { Button } from "../ui/button";
 import { ArrowRight, ShoppingBag } from "lucide-react";
-import { SearchInput } from "./search-input";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -13,6 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { usePathname } from "next/navigation";
 import { setIsAuth } from "@/store/slices/headerSlice";
+import { Container } from "../container";
+import { Button } from "@/components/ui/button";
+import { SearchInput } from "../search-input";
 
 interface Props {
   className?: string;
@@ -24,9 +24,7 @@ export const Header: React.FC<Props> = ({ className }) => {
 
   useEffect(() => {
     const hideHeaderRoutes = ["/signup", "/login"];
-    const shouldHideHeader = hideHeaderRoutes.some((route) =>
-      pathname.startsWith(route)
-    );
+    const shouldHideHeader = hideHeaderRoutes.some((route) => pathname.startsWith(route));
     dispatch(setIsAuth(!shouldHideHeader));
   }, [pathname, dispatch]);
 
@@ -37,9 +35,7 @@ export const Header: React.FC<Props> = ({ className }) => {
   if (!isAuth) return null;
 
   return (
-    <Container
-      className={cn("flex justify-between items-center p-6", className)}
-    >
+    <Container className={cn("flex justify-between items-center p-6", className)}>
       {/* left side */}
       <div className="bg-[#FFF] radius-[8px] bg-inherit">
         <Link href="/">

@@ -2,16 +2,16 @@
 
 import { cn } from "@/lib/utils";
 import React from "react";
-import { Container } from "./container";
 import Link from "next/link";
-import { CountryDialog } from "./country-dialog";
-import ComboboxLanguage from "./checkbox-language";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { signOut, useSession } from "next-auth/react";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
+import { Container } from "../container";
+import { CountryDialog } from "../country-dialog";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import ComboboxLanguage from "../checkbox-language";
 
 interface Props {
   className?: string;
@@ -30,9 +30,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
 
         {session.status === "authenticated" && (
           <>
-            <Label className="text-white text-[16px]">
-              Hello, {session?.data?.user?.email}
-            </Label>
+            <Label className="text-white text-[16px]">Hello, {session?.data?.user?.email}</Label>
             <Button
               variant="figmaPrimary"
               className="w-[200px]"
@@ -57,12 +55,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
         )}
 
         <div className="w-[120px] flex justify-center">
-          <Image
-            src="/assets/images/Language.svg"
-            alt="coord"
-            width={20}
-            height={20}
-          />
+          <Image src="/assets/images/Language.svg" alt="coord" width={20} height={20} />
           <ComboboxLanguage className="text-white" />
         </div>
       </Container>

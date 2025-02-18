@@ -1,56 +1,53 @@
 import { z } from "zod";
 
-export const birthDatePhoneNumberSchema = z.object({
-  birthDate: z.date().refine(
-    (date) => {
-      const age = new Date().getFullYear() - date.getFullYear();
-      return age >= 14;
-    },
-    { message: "You must be at least 14 years old" }
-  ),
-  countryCode: z.string().nonempty("Please select country"),
-  phoneNumber: z
-    .string()
-    .regex(/^\d{9}$/, {
-      message: "Please enter a valid phone number (9 digits)",
-    })
-    .nonempty("Please enter phone number"),
-});
-
 export const signUpSchema = z
   .object({
-    credential: z
-      .string()
-      .nonempty("Credential is required")
-      .refine(
-        (value) => {
-          return new Promise((resolve) => {
-            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-            const apiUrl = isEmail ? "api/check/email" : "api/check/phoneNumber";
-            fetch(apiUrl, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(value),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                resolve(!(data.exists === true || data.error));
-              })
-              .catch(() => resolve(false));
-          });
-        },
-        {
-          message:
-            "There is already an account with this credential or a connection error occurred",
-        }
-      ),
+    credential: z.string().nonempty("Credential is required"),
     username: z.string().nonempty("Username is required"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     rPassword: z.string().nonempty("Repeat your password"),
   })
-  .refine((data) => data.password === data.rPassword, {
-    message: "Passwords do not match",
-    path: ["rPassword"],
+  .superRefine(async (data, ctx) => {
+    if (data.password !== data.rPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Passwords do not match",
+        path: ["rPassword"],
+      });
+    }
+
+    const { credential } = data;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential);
+    const apiUrl = isEmail ? "api/check/email" : "api/check/phoneNumber";
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credential),
+      });
+      const result = await response.json();
+
+      if (result.error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Connection error",
+          path: ["credential"],
+        });
+      } else if (result.exists === true) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Credential already exists",
+          path: ["credential"],
+        });
+      }
+    } catch (e) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Connection error",
+        path: ["credential"],
+      });
+    }
   });
 
 export const getLoginSchema = (requirePassword: boolean) =>
@@ -58,13 +55,9 @@ export const getLoginSchema = (requirePassword: boolean) =>
     credential: z
       .string()
       .trim()
-      .refine(
-        (value) =>
-          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || /^[0-9]{9}$/.test(value),
-        {
-          message: "Please enter a valid email or phone number",
-        }
-      ),
+      .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || /^[0-9]{9}$/.test(value), {
+        message: "Please enter a valid email or phone number",
+      }),
     password: requirePassword
       ? z.string().nonempty("Please enter password").trim()
       : z.string().trim().optional(),

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import FooterAuth from "@/components/shared/footer-auth";
+import FooterAuth from "@/components/shared/footers/footer-auth";
 
 export default function AuthLayout({
   children,

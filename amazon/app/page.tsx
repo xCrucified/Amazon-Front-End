@@ -1,9 +1,8 @@
 import CarouselDisplay from "@/components/shared/carousel-display";
 import { Container } from "@/components/shared/container";
-import Footer from "@/components/shared/footer";
-
+import Footer from "@/components/shared/footers/footer";
+import { TopBar } from "@/components/shared/headers/top-bar";
 import ProductCard from "@/components/shared/product-card";
-import { TopBar } from "@/components/shared/top-bar";
 import React from "react";
 
 export default function Home() {
@@ -12,15 +11,12 @@ export default function Home() {
       <Container className="flex justify-between items-center">
         <TopBar />
       </Container>
-
       <Container className="relative p-6">
         <CarouselDisplay />
       </Container>
-
       <Container className="min-h-[calc(100vh-16px)]">
         <ProductCard />
       </Container>
-
       <Footer />
     </>
   );
