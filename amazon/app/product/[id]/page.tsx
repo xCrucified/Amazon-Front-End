@@ -7,6 +7,7 @@ import { Container } from "@/components/shared/container";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import StarRating from "@/components/ui/star-rating";
+import Quantity from "@/components/ui/products-quantity";
 
 interface Props {
   className?: string;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const ProductPage: React.FC<Props> = ({ className, params }) => {
+  const [selected, setSelected] = useState<number | null>(null);
   const [isRed, setIsRed] = useState(false);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
         <div className="w-[696px] rounded-md">
           <img src="/assets/images/productImg.png" alt="product" />
         </div>
-        <div className="outline w-[740px] h-full">
+        <div className="w-[740px] h-full">
           <div className="flex justify-between items-center">
             <Label className="text-[23px] font-bold w-[594px]">
               Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR
@@ -68,9 +70,17 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               <span className="font-bold">{"200+ bought"}</span> in past month
             </Label>
           </div>
-          <div className="flex rounded-lg w-[488px] h-[80px] justify-between ">
-            <Button className="w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none border-[3px] border-[#a8a8a8] focus:border-[#5b6c8c] focus:border-4 focus:bg-[#f5f5f5] focus:text-black rounded-tl-lg rounded-bl-lg">
-              <div className="w-[308px] h-[100%] flex gap-2 flex-col justify-between ">
+          <div className="flex rounded-lg w-[488px] h-[80px] justify-between">
+            <Button
+              onClick={() => setSelected(1)}
+              className={cn(
+                "w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none border-[3px] border-[#a8a8a8] rounded-tl-lg rounded-bl-lg",
+                selected === 1
+                  ? "border-[#5b6c8c] border-4 bg-[#f5f5f5] text-black"
+                  : ""
+              )}
+            >
+              <div className="w-[308px] h-[100%] flex gap-2 flex-col justify-between">
                 <p className="self-start">Buy new:</p>
                 <p className="self-center text-[39px] mt-1">
                   <span className="text-lg">£</span>
@@ -79,8 +89,16 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               </div>
             </Button>
 
-            <Button className="w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none border-[3px] border-[#a8a8a8] focus:border-[#5b6c8c] focus:border-4 focus:bg-[#f5f5f5] focus:text-black rounded-tr-lg rounded-br-lg">
-              <div className="w-[308px] h-[100%] flex gap-2 flex-col justify-between ">
+            <Button
+              onClick={() => setSelected(2)}
+              className={cn(
+                "w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none border-[3px] border-[#a8a8a8] rounded-tr-lg rounded-br-lg",
+                selected === 2
+                  ? "border-[#5b6c8c] border-4 bg-[#f5f5f5] text-black"
+                  : ""
+              )}
+            >
+              <div className="w-[308px] h-[100%] flex gap-2 flex-col justify-between">
                 <p className="self-center">Save with Used – Like New:</p>
                 <p className="self-center text-[39px] mt-1">
                   <span className="text-lg">£</span>
@@ -92,13 +110,55 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           <span className="h-[24px] text-[#E30000] text-[13px] font-extralight">
             <p>Only 6 left in stock.</p>
           </span>
-          <div>
+          <div className="mt-[24px]">
             <p>Quantity:</p>
-            <Quantity /> {/* RadioGroup shadcn */}
+            <Quantity />
+          </div>
+          <div className="w-[419px] h-[56px] mb-3">
+            <div className="w-full h-full flex justify-start items-center">
+              <Button className="w-[60%] bg-red-400 shadow-red-400 hover:bg-red-400">
+                Buy now
+              </Button>
+              <Button className="w-[40%] bg-inherit shadow-none text-black hover:bg-inherit">
+                <img
+                  src="/assets/images/products/cart-btn.svg"
+                  alt="cart"
+                  style={{ filter: "brightness(0) saturate(100%)" }}
+                  width={23}
+                />
+                Add to cart
+              </Button>
+            </div>
+          </div>
+          <span className="h-[64px] w-full bg-black relative">
+            <span className="flex gap-1">
+              <p className="text-blue-300 border-b-blue-300 border-b-2">
+                FREE delivery
+              </p>
+              <p className="font-bold">Monday, January 20.</p>
+              <p>Order within</p>
+              <p className="text-green-500">20 hrs 15 mins</p>
+            </span>
+            <span className="flex gap-1">
+              <p>Or fastest delivery</p>
+              <p className="font-bold">Saturday, January 18</p>
+            </span>
+          </span>
+          <div>
+            outline
+            name
+            outline
+            name
+            outline
+            name
+            outline
+            name
           </div>
         </div>
       </div>
-      <div className="h-[220px] outline"></div>
+      <div>
+        <Label>Product information</Label>
+      </div>
     </Container>
   );
 };
