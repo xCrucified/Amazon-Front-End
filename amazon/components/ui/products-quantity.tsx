@@ -9,7 +9,7 @@ interface Props {
 const items = [1, 2, 3, 4, 5, 6];
 
 export const Quantity: React.FC<Props> = ({ className }) => {
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number | null>(1);
 
   return (
     <div className={cn("w-full h-full", className)}>
@@ -21,7 +21,7 @@ export const Quantity: React.FC<Props> = ({ className }) => {
             className={cn(
               "w-8 h-8 text-gray-600 aspect-square rounded-full bg-white border-2 border-gray-300",
               selected === item
-                ? "border-blue-950 shadow-md shadow-blue-900"
+                ? "border-blue-900 quantity-item hover:bg-inherit"
                 : "hover:bg-gray-100"
             )}
           >
