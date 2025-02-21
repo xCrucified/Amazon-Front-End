@@ -1,6 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { clearData } from "@/store/slices/signupSlice";
+import { cn, sendOTP } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -11,132 +17,112 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { useEffect } from "react";
-import { InputOTP, InputOTPSlot } from "@/components/ui/input-otp";
-import { clearData, setOTP } from "@/store/slices/signupSlice";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function VerifyOTPPage({ className }: React.ComponentPropsWithoutRef<"div">) {
   const { replace } = useRouter();
+  const dispatch = useDispatch();
   const email = useSelector((state: RootState) => state.signup.email);
   const phoneNumber = useSelector((state: RootState) => state.signup.phoneNumber);
   const username = useSelector((state: RootState) => state.signup.username);
   const password = useSelector((state: RootState) => state.signup.password);
-  const otp = useSelector((state: RootState) => state.signup.otp);
-  const dispatch = useDispatch();
+
+  const otpSentRef = useRef(false);
+  const form = useForm<{ otp: string }>({
+    defaultValues: { otp: "" },
+  });
 
   useEffect(() => {
-    if (email === "" && phoneNumber === "") {
-      replace("/signup");
-    }
-    sendOTP();
-  }, [replace, sendOTP]);
-
-  async function sendOTP() {
-    try {
-      const generatedOTP = Math.floor(10000 + Math.random() * 90000).toString();
-      const response = await fetch("api/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ otp: generatedOTP }),
-      });
-      const data = await response.json();
-      console.log(data);      
-      if (data.success) {
-        dispatch(setOTP(data.otp));
-        return true;
-      } else {
-        return false;
+    async function initOTP() {
+      if (otpSentRef.current) return;
+      otpSentRef.current = true;
+      await sendOTP();
+      if (!email && !phoneNumber) {
+        replace("/signup");
       }
-    } catch (error) {
-      console.error(error);
     }
-  }
-
-  const form = useForm();
+    initOTP();
+  }, [email, phoneNumber, replace]);
 
   async function onSubmit() {
-    if (form.getValues("otp") === otp) {
-      try {
-        const user = {
-          email: email,
-          username: username,
-          password: password,
-          phoneNumber: "321321123",
-        };
-        const response = await fetch("api/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        });
-        const data = await response.json();
-        if (data.status === 200) {
-          replace("/login");
-          dispatch(clearData());
-        }
-      } catch (error) {
-        console.error("Error: " + error);
+    const enteredOTP = form.getValues("otp");
+
+    try {
+      const verifyResponse = await fetch("/api/otp/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp: enteredOTP }),
+      });
+      const verifyData = await verifyResponse.json();
+
+      if (!verifyData.confirmed) return;
+
+      const user = {
+        email,
+        username,
+        password,
+        phoneNumber: "+380987536324",
+        birthDate: new Date(2000, 2).toISOString(),
+      };
+      const signupResponse = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+      const signupData = await signupResponse.json();
+      if (signupData.status === 200) {
+        replace("/login");
+        dispatch(clearData());
       }
+    } catch (error) {
+      console.error("Error during OTP verification or sign up:", error);
     }
   }
 
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("flex flex-col w-[405px] h-[480px]", className)}>
       <Card className="border-none shadow-none">
         <CardHeader className="text-center">
           <CardTitle className="text-[23px] font-bold">
-            Verify {email !== "" && "email address"}
-            {phoneNumber !== "" && "mobile number"}
+            Verify {email ? "email address" : "mobile number"}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-[32px] pt-0">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-4">
-                <label className="text-[14px]">
-                  To verify your {email !== "" && "email address"}
-                  {phoneNumber !== "" && "mobile number"}, we&apos;ve sent a One Time Password (OTP)
-                  to <span className="font-bold underline">{email || phoneNumber}</span>
-                </label>
+                <div>
+                  <label className="text-black font-medium">
+                    To verify your {email ? "email" : "mobile"}, we&apos;ve sent a One Time Password
+                    (OTP) to{" "}
+                  </label>
+                  <span className="font-bold underline decoration-dotted decoration-1">
+                    {email || phoneNumber}
+                  </span>
+                </div>
                 <FormField
                   control={form.control}
                   name="otp"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel className="text-[#000]">Enter OTP</FormLabel>
+                      <FormLabel className="text-black text-[14px] leading-[24px] select-none">
+                        Enter OTP
+                      </FormLabel>
                       <FormControl>
-                        {/* <InputOTP
-                          containerClassName="flex justify-between pt-2"
-                          maxLength={5}
+                        <Input
+                          type="text"
+                          className={cn(
+                            "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                            form.formState.errors.otp
+                              ? "border-[3px] border-red-500"
+                              : "focus:border-[3px] focus:border-[#5a6c8d]"
+                          )}
                           {...field}
-                          onChange={(e) => {
-                            field.onChange(e);
-                          }}
-                        >
-                          {Array.from({ length: 5 }).map((_, index) => (
-                            <InputOTPSlot
-                              key={index}
-                              index={index}
-                              className={cn(
-                                "pointer-events-none absolute inset-0 flex items-center justify-center bg-white rounded-lg",
-                                form.formState.errors.otp
-                                  ? "border-[3px] border-red-500"
-                                  : "border-[3px] border-[#5a6c8d]"
-                              )}
-                            />
-                          ))}
-                        </InputOTP> */}
+                          value={field.value ?? ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                        />
                       </FormControl>
                       <FormMessage className="flex gap-1 items-center leading-[10px]" />
                     </FormItem>
@@ -145,22 +131,37 @@ export default function VerifyOTPPage({ className }: React.ComponentPropsWithout
                 <Button variant="figmaPrimary" type="submit">
                   Create your Onyx account
                 </Button>
-                <div className="flex justify-start items-center bg-[#f1f4f7] rounded-lg mt-3">
-                  <div className="p-[20px]">
-                    <Image
-                      src="/assets/images/InfoOutline.svg"
-                      width={26}
-                      height={26}
-                      alt="info-outline"
-                    />
-                  </div>
-                  <div className="flex flex-col pt-[16px] pb-[16px]">
-                    <span className="text-[16px] leading-[18px]">Already a customer?</span>
-                    <Link href="/login" className="text-[#37569E] text-[16px] leading-[18px]">
-                      Sign in with another credentials
-                    </Link>
-                  </div>
+                <div className="text-[13px]">
+                  By continuing, you agree to Onyx&apos;s{" "}
+                  <Link
+                    href="/terms-of-service"
+                    className="underline text-[#37569E] hover:text-[#222935]"
+                  >
+                    Conditions of Use
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="/privacy-policy"
+                    className="underline text-[#37569E] hover:text-[#222935]"
+                  >
+                    Privacy Notice
+                  </Link>
                 </div>
+                <Button
+                  variant="ghost"
+                  type="button"
+                  className="text-[#37569E] hover:text-[#222935] text-[16px] w-[fit-content] mx-auto select-none"
+                >
+                  Resend OTP
+                </Button>
+                <Image
+                  src="/assets/images/arrow-left.svg"
+                  width={26}
+                  height={22}
+                  alt="Back"
+                  className="mx-auto cursor-pointer"
+                  onClick={() => replace("/signup")}
+                />
               </div>
             </form>
           </Form>

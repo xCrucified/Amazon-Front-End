@@ -32,7 +32,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function SignupFormNeccesary({ className }: React.ComponentPropsWithoutRef<"div">) {
+export default function ЖеняБряник({ className }: React.ComponentPropsWithoutRef<"div">) {
   const { push } = useRouter();
 
   const username = useSelector((state: RootState) => state.signup.username);

@@ -60,57 +60,32 @@ export default function LoginPage({
     },
   });
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.credential);
-    if (!isPasswordInputVisible) {
-      const apiUrlCheck = isEmail ? "api/check/email" : "api/check/phoneNumber";
-      try {
-        const response = await fetch(apiUrlCheck, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form.getValues("credential")),
-        });
-        const data = await response.json();
+  async function onSubmit({ credential, password }: z.infer<typeof loginSchema>) {
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential);
+    const apiUrl = !isPasswordInputVisible
+      ? (isEmail ? "api/check/email" : "api/check/phoneNumber")
+      : (isEmail ? "api/login/email" : "api/login/phoneNumber");
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(!isPasswordInputVisible ? credential : { credential, password }),
+      });
+      const data = await response.json();
+  
+      if (!isPasswordInputVisible) {
         if (data.exists === true) {
-          if (isEmail) {
-            form.clearErrors("password");
-            dispatch(setEmail(values.credential));
-            setIsPasswordInputVisible(true);
-          } else {
-            form.clearErrors("password");
-            dispatch(setPhoneNumber(values.credential));
-            setIsPasswordInputVisible(true);
-          }
+          form.clearErrors("password");
+          isEmail ? dispatch(setEmail(credential)) : dispatch(setPhoneNumber(credential));
+          setIsPasswordInputVisible(true);
         } else {
-          if (isEmail) {
-            dispatch(setEmail(values.credential));
-            dispatch(setPhoneNumber(""));
-            replace("/login/redirect");
-          } else {
-            dispatch(setEmail(""));
-            dispatch(setPhoneNumber(values.credential));
-            replace("/login/redirect");
-          }
+          isEmail
+            ? (dispatch(setEmail(credential)), dispatch(setPhoneNumber("")))
+            : (dispatch(setEmail("")), dispatch(setPhoneNumber(credential)));
+          replace("/login/redirect");
         }
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      const apiUrlLogin = isEmail ? "api/login/email" : "api/login/phoneNumber";
-      try {
-        const response = await fetch(apiUrlLogin, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            credential: form.getValues("credential"),
-            password: form.getValues("password"),
-          }),
-        });
-        const data = await response.json();
+      } else {
         if (data.accessToken && data.refreshToken) {
           const result = await signIn("credentials", {
             redirect: false,
@@ -121,15 +96,14 @@ export default function LoginPage({
             console.error(result.error);
           }
         } else {
-          console.log("Email or password is incorrect");
           form.setError("password", {
             type: "manual",
             message: "Email or password is incorrect",
           });
         }
-      } catch (error) {
-        console.error(error);
       }
+    } catch (error) {
+      console.error(error);
     }
   }
 

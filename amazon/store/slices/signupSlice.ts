@@ -5,7 +5,6 @@ interface UserDataState {
   email: string;
   password: string;
   rPassword: string;
-  otp: string;
   phoneNumber: string;
 }
 
@@ -14,7 +13,6 @@ const initialState: UserDataState = {
   email: "",
   password: "",
   rPassword: "",
-  otp: "",
   phoneNumber: "",
 };
 
@@ -34,9 +32,6 @@ const fieldSlice = createSlice({
     setRPassword: (state, action: PayloadAction<string>) => {
       state.rPassword = action.payload;
     },
-    setOTP: (state, action: PayloadAction<string>) => {
-      state.otp = action.payload;
-    },
     setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.phoneNumber = action.payload;
     },
@@ -45,19 +40,11 @@ const fieldSlice = createSlice({
       state.email = "";
       state.password = "";
       state.rPassword = "";
-      state.otp = "";
       state.phoneNumber = "";
     },
   },
 });
 
-export const {
-  setUsername,
-  setEmail,
-  setPassword,
-  setRPassword,
-  setOTP,
-  setPhoneNumber,
-  clearData,
-} = fieldSlice.actions;
+export const { setUsername, setEmail, setPassword, setRPassword, setPhoneNumber, clearData } =
+  fieldSlice.actions;
 export default fieldSlice.reducer;

@@ -1,5 +1,18 @@
 import { z } from "zod";
 
+export const getLoginSchema = (requirePassword: boolean) =>
+  z.object({
+    credential: z
+      .string()
+      .trim()
+      .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || /^[0-9]{9}$/.test(value), {
+        message: "Please enter a valid email or phone number",
+      }),
+    password: requirePassword
+      ? z.string().nonempty("Please enter password").trim()
+      : z.string().trim().optional(),
+  });
+
 export const signUpSchema = z
   .object({
     credential: z.string().nonempty("Credential is required"),
@@ -48,19 +61,6 @@ export const signUpSchema = z
         path: ["credential"],
       });
     }
-  });
-
-export const getLoginSchema = (requirePassword: boolean) =>
-  z.object({
-    credential: z
-      .string()
-      .trim()
-      .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || /^[0-9]{9}$/.test(value), {
-        message: "Please enter a valid email or phone number",
-      }),
-    password: requirePassword
-      ? z.string().nonempty("Please enter password").trim()
-      : z.string().trim().optional(),
   });
 
 export const CountryCodes = [
