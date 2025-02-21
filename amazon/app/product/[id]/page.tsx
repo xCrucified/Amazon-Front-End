@@ -38,7 +38,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
   };
 
   return (
-    <Container className="mb-10">
+    <Container className={cn(className, "mb-10")}>
       <div className="w-full h-full flex gap-[56px] mt-[20px] p-6">
         <div className="w-[696px] rounded-md">
           <img src="/assets/images/productImg.png" alt="product" />
@@ -224,37 +224,101 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
       <div className="mt-[20px] m-6 border-b-[2px]">
         <Label className="text-[20px]">Product information</Label>
       </div>
-      <div className="w-full h-full mt-[32px] p-6 flex gap-[56px]">
-        <div className="grid w-[696px] grid-cols-3 gap-[24px]">
-          <img
-            src="/assets/images/productImg.png"
-            alt="img"
-            className="rounded-lg w-[208px]"
-          />
-          <img
-            src="/assets/images/productImg.png"
-            alt="img"
-            className="rounded-lg w-[208px]"
-          />
-          <img
-            src="/assets/images/productImg.png"
-            alt="img"
-            className="rounded-lg w-[208px]"
-          />
-          <img
-            src="/assets/images/productImg.png"
-            alt="img"
-            className="rounded-lg w-[208px]"
-          />
-          <img
-            src="/assets/images/productImg.png"
-            alt="img"
-            className="rounded-lg w-[208px]"
-          />
+      <div className="mt-[32px] p-6 flex justify-between">
+        <div className="grid grid-cols-3 grid-rows-5 gap-[36px] w-[672px]">
+          {[
+            "/assets/images/productImg.png",
+            "/assets/images/productImg.png",
+            "/assets/images/productImg.png",
+            "/assets/images/productImg.png",
+            "/assets/images/productImg.png",
+          ].map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              alt="img"
+              className="rounded-lg w-[208px] h-[208px]"
+            />
+          ))}
         </div>
-        <div className="w-[740px]">
-          <div className="grid grid-rows-6 border-t-2">
-            <Label className="flex font-bold text-[21px] self-center gap-[24px]">Technical Details</Label>
+        <div className="">
+          <div className="grid grid-rows-7 border-t-2">
+            <Label className="flex font-semibold text-[28px] gap-[24px] h-[72px] items-center border-b-2">
+              Technical Details
+            </Label>
+            <div className="flex justify-between items-center text-[16px] border-b-2">
+              <p>Manufacturer</p>
+              <p>Canon</p>
+            </div>
+            <div className="flex justify-between items-center text-[16px] border-b-2">
+              <p>Place of Business</p>
+              <p>MELVILLE, NY, 11747 US</p>
+            </div>
+            <div className="flex justify-between items-center text-[16px] border-b-2">
+              <p>Item model number</p>
+              <p>‎6473A003</p>
+            </div>
+            <div className="flex justify-between items-center text-[16px] border-b-2">
+              <p>Product Dimensions</p>
+              <p>‎12.2 x 7.1 x 7.1 cm; 480 g</p>
+            </div>
+            <div className="flex justify-between items-center text-[16px] border-b-2">
+              <p>ASIN</p>
+              <p>B00004THD0</p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-4 w-[715px]">
+            <Label className="font-semibold text-[18px]">
+              Product description
+            </Label>
+            <p
+              className="font-thin w-[572px]"
+              style={{ fontFamily: "sans-serif", fontStyle: "normal" }}
+            >
+              Capture the far-off action of fast-paced sports or zoom in for an
+              intimate portrait with the Canon EF 75-300mm telephoto zoom lens.
+              The optical system, construction, and exterior are the same as the
+              EF 75-300 mm f/4-5.6 III USM’s. The difference is that it uses a
+              DC motor instead of a USM to drive the AF. As with all Canon lens,
+              this 75-300 model carries a one-year warranty.
+            </p>
+          </div>
+          <div className="mt-16 border-b-2 border-t-2 h-[140px]">
+            <div className="border-b-2 h-[50%] flex items-center">
+              <Label className="font-semibold text-[18px]">
+                Additional Information
+              </Label>
+            </div>
+            <div className="flex justify-between items-center h-[50%]">
+              <Label className="text-[15.5px]">Best Sellers Rank</Label>
+              <div>
+                <p>
+                  #1,709 in Electronics (
+                  <a href="top" className="text-blue-700 underline">
+                    See Top 100 in Electronics
+                  </a>
+                  )
+                </p>
+                <p>
+                  #1 in{" "}
+                  <a href="top" className="text-blue-700 underline">
+                    SLR Camera Lenses
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-16 border-t-2 h-[140px]">
+            <div className="border-b-2 h-[50%] flex items-center">
+              <Label className="font-semibold text-[18px]">
+              Feedback
+              </Label>
+            </div>
+            <div className="h-[50%] flex items-center">
+              <Label className="text-[16px]">
+                Would you like to <a href="test" className="text-blue-700 underline">tell us about a lower price? </a>
+              </Label>
+            </div>
           </div>
         </div>
       </div>
