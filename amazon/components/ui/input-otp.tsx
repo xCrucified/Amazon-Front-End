@@ -1,70 +1,71 @@
-"use client"
+import { cn } from "@/lib/utils";
+import React, { useState, useEffect, useRef } from "react";
 
-import * as React from "react"
-import { OTPInput, OTPInputContext } from "input-otp"
-import { Minus } from "lucide-react"
+interface OTPInputProps {
+  className?: string;
+  length?: number;
+  onChange: (otp: string) => void;
+}
 
-import { cn } from "@/lib/utils"
+const InputOTP: React.FC<OTPInputProps> = ({ className, length = 5, onChange }) => {
+  const [otp, setOtp] = useState<string[]>(new Array(length).fill(""));
+  const inputRefs = useRef<(HTMLInputElement | null)[]>(new Array(length).fill(null));
 
-const InputOTP = React.forwardRef<
-  React.ElementRef<typeof OTPInput>,
-  React.ComponentPropsWithoutRef<typeof OTPInput>
->(({ className, containerClassName, ...props }, ref) => (
-  <OTPInput
-    ref={ref}
-    containerClassName={cn(
-      "flex items-center gap-2 has-[:disabled]:opacity-50",
-      containerClassName
-    )}
-    className={cn("disabled:cursor-not-allowed", className)}
-    {...props}
-  />
-))
-InputOTP.displayName = "InputOTP"
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const value = e.target.value;
 
-const InputOTPGroup = React.forwardRef<
-  React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div">
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("flex items-center", className)} {...props} />
-))
-InputOTPGroup.displayName = "InputOTPGroup"
+    if (/^[0-9]?$/.test(value)) {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      onChange(newOtp.join(""));
 
-const InputOTPSlot = React.forwardRef<
-  React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & { index: number }
->(({ index, className, ...props }, ref) => {
-  const inputOTPContext = React.useContext(OTPInputContext)
-  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]
+      if (value && index < length - 1) {
+        inputRefs.current[index + 1]?.focus();
+      }
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  useEffect(() => {
+    const handlePaste = (e: ClipboardEvent) => {
+      const pastedData = e.clipboardData?.getData("text");
+      if (pastedData && /^[0-9]{5}$/.test(pastedData)) {
+        const newOtp = pastedData.split("");
+        setOtp(newOtp);
+        onChange(newOtp.join(""));
+      }
+    };
+
+    document.addEventListener("paste", handlePaste);
+    return () => {
+      document.removeEventListener("paste", handlePaste);
+    };
+  }, [onChange]);
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        "relative bg-gray-200 rounded-lg flex h-12 w-12 items-center justify-center text-sm transition-all",
-        isActive && "z-10",
-      )}
-      {...props}
-    >
-      {char}
-      {hasFakeCaret && (
-        <div className={className}>
-          <div className="h-4 w-px animate-caret-blink bg-black duration-1000" />
-        </div>
-      )}
+    <div className="flex gap-[15.5px]">
+      {otp.map((digit, index) => (
+        <input
+          key={index}
+          type="text"
+          value={digit}
+          onChange={(e) => handleChange(e, index)}
+          onKeyDown={(e) => handleKeyDown(e, index)}
+          ref={(el) => {
+            inputRefs.current[index] = el;
+          }}
+          maxLength={1}
+          className={cn("w-[56px] h-[56px] text-center bg-gray-200 rounded-lg", className)}
+        />
+      ))}
     </div>
-  )
-})
-InputOTPSlot.displayName = "InputOTPSlot"
+  );
+};
 
-const InputOTPSeparator = React.forwardRef<
-  React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div">
->(({ ...props }, ref) => (
-  <div ref={ref} role="separator" {...props}>
-    <Minus />
-  </div>
-))
-InputOTPSeparator.displayName = "InputOTPSeparator"
-
-export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator }
+export default InputOTP;

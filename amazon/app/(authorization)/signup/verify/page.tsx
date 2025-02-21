@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,22 +17,39 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
+import { Label } from "@/components/ui/label";
+import InputOTP from "@/components/ui/input-otp";
+import { decrementCooldown, setCooldown } from "@/store/slices/otpSlice";
 
-export default function VerifyOTPPage({ className }: React.ComponentPropsWithoutRef<"div">) {
+export default function Page({ className }: React.ComponentPropsWithoutRef<"div">) {
   const { replace } = useRouter();
   const dispatch = useDispatch();
   const email = useSelector((state: RootState) => state.signup.email);
   const phoneNumber = useSelector((state: RootState) => state.signup.phoneNumber);
   const username = useSelector((state: RootState) => state.signup.username);
   const password = useSelector((state: RootState) => state.signup.password);
+  const cooldown = useSelector((state: RootState) => state.otp.cooldown);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setInterval(() => {
+      dispatch(decrementCooldown());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldown, dispatch]);
 
   const otpSentRef = useRef(false);
-  const form = useForm<{ otp: string }>({
+  const form = useForm({
     defaultValues: { otp: "" },
   });
+
+  async function handleResendOTP() {
+    if (cooldown > 0) return;
+    await sendOTP();
+    dispatch(setCooldown(120));
+  }
 
   useEffect(() => {
     async function initOTP() {
@@ -48,7 +65,6 @@ export default function VerifyOTPPage({ className }: React.ComponentPropsWithout
 
   async function onSubmit() {
     const enteredOTP = form.getValues("otp");
-
     try {
       const verifyResponse = await fetch("/api/otp/verify-otp", {
         method: "POST",
@@ -56,9 +72,7 @@ export default function VerifyOTPPage({ className }: React.ComponentPropsWithout
         body: JSON.stringify({ otp: enteredOTP }),
       });
       const verifyData = await verifyResponse.json();
-
       if (!verifyData.confirmed) return;
-
       const user = {
         email,
         username,
@@ -94,10 +108,10 @@ export default function VerifyOTPPage({ className }: React.ComponentPropsWithout
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-4">
                 <div>
-                  <label className="text-black font-medium">
+                  <Label className="text-black font-medium">
                     To verify your {email ? "email" : "mobile"}, we&apos;ve sent a One Time Password
                     (OTP) to{" "}
-                  </label>
+                  </Label>
                   <span className="font-bold underline decoration-dotted decoration-1">
                     {email || phoneNumber}
                   </span>
@@ -105,23 +119,21 @@ export default function VerifyOTPPage({ className }: React.ComponentPropsWithout
                 <FormField
                   control={form.control}
                   name="otp"
-                  render={({ field }) => (
+                  render={() => (
                     <FormItem className="flex flex-col">
                       <FormLabel className="text-black text-[14px] leading-[24px] select-none">
                         Enter OTP
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
+                        <InputOTP
+                          length={5}
+                          onChange={(otp) => form.setValue("otp", otp)}
                           className={cn(
-                            "bg-gray-200 focus:bg-white rounded-lg focus:ring-0 focus:outline-none border p-[8px] h-[36px] text-[12px]",
+                            "focus:bg-white focus:outline-none duration-500 ease-in-out transition-all",
                             form.formState.errors.otp
                               ? "border-[3px] border-red-500"
                               : "focus:border-[3px] focus:border-[#5a6c8d]"
                           )}
-                          {...field}
-                          value={field.value ?? ""}
-                          onChange={(e) => field.onChange(e.target.value)}
                         />
                       </FormControl>
                       <FormMessage className="flex gap-1 items-center leading-[10px]" />
@@ -150,9 +162,11 @@ export default function VerifyOTPPage({ className }: React.ComponentPropsWithout
                 <Button
                   variant="ghost"
                   type="button"
+                  disabled={cooldown > 0}
+                  onClick={handleResendOTP}
                   className="text-[#37569E] hover:text-[#222935] text-[16px] w-[fit-content] mx-auto select-none"
                 >
-                  Resend OTP
+                  {cooldown > 0 ? `Resend OTP (${cooldown}s)` : "Resend OTP"}
                 </Button>
                 <Image
                   src="/assets/images/arrow-left.svg"
