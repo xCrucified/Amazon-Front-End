@@ -9,12 +9,12 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className="flex items-center justify-center gap-2">
-      <div className='text-[#353B46] text-xs font-semibold'>Page {currentPage}</div>
+      <div className='text-[#353B46] text-[16px] md:text-xs font-semibold'>Page {currentPage}</div>
       
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-3 py-1 text-xs font-semibold disabled:opacity-50 border-b bg-transparent"
+        className="px-3 py-1 text-[16px] md:text-xs font-semibold disabled:opacity-50 border-b bg-transparent"
       >
         Previous page
       </button>
@@ -22,7 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-3 py-1 text-xs font-semibold disabled:opacity-50 border-b bg-transparent"
+        className="px-3 py-1 text-[16px] md:text-xs font-semibold disabled:opacity-50 border-b bg-transparent"
       >
         Next page
       </button>
