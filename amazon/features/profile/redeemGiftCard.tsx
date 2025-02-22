@@ -22,7 +22,7 @@ const RedeemGiftCardDialog = ({setIsOpen}: RedeemGiftModalProps) => {
   
   return (
     <div className="fixed left-0 top-0 h-screen flex items-center justify-center bg-black bg-opacity-50 w-full">
-      <div className="w-full max-w-[405px] bg-white rounded-xl shadow-lg px-8 py-8 relative">
+      <div className="w-full max-w-[380px] md:max-w-[405px] bg-white rounded-xl shadow-lg px-4 md:px-8 py-8 relative">
         <Button variant='ghost' className='absolute top-5 right-5 p-0 w-[20px] h-[20px]' onClick={() => setIsOpen(false)}>
           <Image src='/assets/images/close.svg' alt='icon' width='20' height='20' />
         </Button>
