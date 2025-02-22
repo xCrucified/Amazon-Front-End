@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Input } from "@/components/ui/input";
 
 interface Props {
   className?: string;
@@ -71,7 +72,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               <span className="font-bold">{"200+ bought"}</span> in past month
             </Label>
           </div>
-          <div className="flex rounded-lg w-[488px] h-[80px] justify-between mt-5">
+          <div className="flex rounded-lg w-[488px] h-[80px] justify-between mt-3">
             <Button
               onClick={() => setSelected(1)}
               className={cn(
@@ -108,7 +109,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               </div>
             </Button>
           </div>
-          <span className="h-[24px] text-[#E30000] text-[13px] font-extralight">
+          <span className="flex h-[24px] text-[#E30000] text-[13px] font-extralight mt-2">
             <p>Only 6 left in stock.</p>
           </span>
           <div className="mt-[24px]">
@@ -221,9 +222,11 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           </div>
         </div>
       </div>
+
       <div className="mt-[20px] border-b-[2px]">
         <Label className="text-[20px]">Product information</Label>
       </div>
+
       <div className="mt-[32px] flex justify-between">
         <div className="grid grid-cols-3 grid-rows-5 gap-[36px] w-[672px]">
           {[
@@ -323,8 +326,40 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           </div>
         </div>
       </div>
+
       <div className="border-b-[2px]">
         <Label className="text-[20px]">Looking for specific info?</Label>
+      </div>
+
+      <div className="mt-5 flex  gap-[40px]">
+        <div className="flex h-full relative w-[50%]">
+          <Input
+            type="search"
+            placeholder="Search in reviews, Q&A…"
+            className="pl-10"
+          />
+          <img
+            src="/assets/images/Search.svg"
+            alt="search"
+            width={32}
+            height={32}
+            className="absolute top-1/2 left-2 transform -translate-y-1/2"
+            style={{ filter: "brightness(0) saturate(100%)" }}
+          />
+        </div>
+        <div className="flex p-0 w-[50%]">
+          <div className="">
+            <Label className="font-semibold text-[18px]">Customers say</Label>
+            <p>
+              Customers find the camera lens offers good value for money. They
+              say it works well, is useful for amateur photographers, and a
+              great starter lens. Many customers are satisfied with the zoom
+              quality and ease of use. However, some have mixed opinions on the
+              overall quality and focus ability.
+            </p>
+          </div>
+          
+        </div>
       </div>
     </Container>
   );
