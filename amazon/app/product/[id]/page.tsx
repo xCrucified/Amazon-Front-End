@@ -332,7 +332,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
       </div>
 
       <div className="mt-5 flex  gap-[40px]">
-        <div className="flex h-full relative w-[50%]">
+        <div className="flex h-full relative w-[49%]">
           <Input
             type="search"
             placeholder="Search in reviews, Q&A…"
@@ -358,7 +358,6 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               overall quality and focus ability.
             </p>
           </div>
-          
         </div>
       </div>
     </Container>
