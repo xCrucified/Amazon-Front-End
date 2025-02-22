@@ -38,8 +38,8 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
   };
 
   return (
-    <Container className={cn(className, "mb-10")}>
-      <div className="w-full h-full flex gap-[56px] mt-[20px] p-6">
+    <Container className={cn(className, "mb-10 p-6")}>
+      <div className="w-full h-full flex gap-[56px] mt-[20px]">
         <div className="w-[696px] rounded-md">
           <img src="/assets/images/productImg.png" alt="product" />
         </div>
@@ -221,10 +221,10 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           </div>
         </div>
       </div>
-      <div className="mt-[20px] m-6 border-b-[2px]">
+      <div className="mt-[20px] border-b-[2px]">
         <Label className="text-[20px]">Product information</Label>
       </div>
-      <div className="mt-[32px] p-6 flex justify-between">
+      <div className="mt-[32px] flex justify-between">
         <div className="grid grid-cols-3 grid-rows-5 gap-[36px] w-[672px]">
           {[
             "/assets/images/productImg.png",
@@ -310,17 +310,21 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           </div>
           <div className="mt-16 border-t-2 h-[140px]">
             <div className="border-b-2 h-[50%] flex items-center">
-              <Label className="font-semibold text-[18px]">
-              Feedback
-              </Label>
+              <Label className="font-semibold text-[18px]">Feedback</Label>
             </div>
             <div className="h-[50%] flex items-center">
               <Label className="text-[16px]">
-                Would you like to <a href="test" className="text-blue-700 underline">tell us about a lower price? </a>
+                Would you like to 
+                <a href="test" className="text-blue-700 underline">
+                  tell us about a lower price? 
+                </a>
               </Label>
             </div>
           </div>
         </div>
+      </div>
+      <div className="border-b-[2px]">
+        <Label className="text-[20px]">Looking for specific info?</Label>
       </div>
     </Container>
   );
