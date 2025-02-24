@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { usePathname } from "next/navigation";
@@ -23,12 +22,10 @@ export const Header: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const hideHeaderRoutes = ["/signup", "/login"];
+    const hideHeaderRoutes = ["/registration", "/login"];
     const shouldHideHeader = hideHeaderRoutes.some((route) => pathname.startsWith(route));
     dispatch(setIsAuth(!shouldHideHeader));
   }, [pathname, dispatch]);
-
-  const { data: session, status } = useSession();
 
   const isAuth = useSelector((state: RootState) => state.header.isAuth);
 

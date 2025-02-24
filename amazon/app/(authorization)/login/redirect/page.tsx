@@ -31,7 +31,7 @@ export default function RedirectAuthPage({
   const form = useForm();
 
   async function onSubmit() {
-    replace("/signup");
+    replace("/registration");
   }
 
   return (

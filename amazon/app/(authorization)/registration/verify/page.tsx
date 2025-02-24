@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +40,6 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
     return () => clearInterval(timer);
   }, [cooldown, dispatch]);
 
-  const otpSentRef = useRef(false);
   const form = useForm({
     defaultValues: { otp: "" },
   });
@@ -48,19 +47,14 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
   async function handleResendOTP() {
     if (cooldown > 0) return;
     await sendOTP();
-    dispatch(setCooldown(120));
+    dispatch(setCooldown(60));
   }
 
   useEffect(() => {
-    async function initOTP() {
-      if (otpSentRef.current) return;
-      otpSentRef.current = true;
-      await sendOTP();
-      if (!email && !phoneNumber) {
-        replace("/signup");
-      }
+    if (!email && !phoneNumber) {
+      replace("/registration");
     }
-    initOTP();
+    handleResendOTP();
   }, [email, phoneNumber, replace]);
 
   async function onSubmit() {
@@ -112,7 +106,7 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
                     To verify your {email ? "email" : "mobile"}, we&apos;ve sent a One Time Password
                     (OTP) to{" "}
                   </Label>
-                  <span className="font-bold underline decoration-dotted decoration-1">
+                  <span className="font-bold underline decoration-dotted decoration-1 cursor-pointer">
                     {email || phoneNumber}
                   </span>
                 </div>
@@ -128,12 +122,7 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
                         <InputOTP
                           length={5}
                           onChange={(otp) => form.setValue("otp", otp)}
-                          className={cn(
-                            "focus:bg-white focus:outline-none duration-500 ease-in-out transition-all",
-                            form.formState.errors.otp
-                              ? "border-[3px] border-red-500"
-                              : "focus:border-[3px] focus:border-[#5a6c8d]"
-                          )}
+                          className="focus:bg-white outline-none focus:border-[3px] focus:border-[#5a6c8d] duration-500 ease-in-out transition-all"
                         />
                       </FormControl>
                       <FormMessage className="flex gap-1 items-center leading-[10px]" />
@@ -174,7 +163,7 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
                   height={22}
                   alt="Back"
                   className="mx-auto cursor-pointer"
-                  onClick={() => replace("/signup")}
+                  onClick={() => replace("/registration")}
                 />
               </div>
             </form>

@@ -68,7 +68,7 @@ export default function ЖеняБряник({ className }: React.ComponentProps
     dispatch(setUsername(values.username));
     dispatch(setPassword(values.password));
     dispatch(setRPassword(values.rPassword));
-    push("/signup/verify");
+    push("/registration/verify");
   }
 
   return (
