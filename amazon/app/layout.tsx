@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/shared/(header)/header";
-import UpperHeader from "@/components/shared/(header)/upper-header";
+import Header from "@/components/shared/header/header";
+import UpperHeader from "@/components/shared/header/upper-header";
 import { Nunito } from "next/font/google";
 import ReduxProvider from "@/components/shared/providers/redux-provider";
-import { TopBar } from "@/components/shared/(header)/top-bar";
+import { TopBar } from "@/components/shared/header/top-bar";
 import { Container } from "@/components/shared/container";
 import NextAuthProvider from "@/components/shared/providers/auth-provider";
-import { Toaster } from "@/components/ui/sonner";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],
@@ -34,8 +33,8 @@ export default function RootLayout({
               <UpperHeader />
               <Header />
               <Container className="flex justify-between items-center">
-              <TopBar />
-            </Container>
+                <TopBar />
+              </Container>
               {children}
             </div>
           </ReduxProvider>

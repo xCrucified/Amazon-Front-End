@@ -5,7 +5,7 @@ interface OtpState {
 }
 
 const initialState: OtpState = {
-  cooldown: 60,
+  cooldown: 0,
 };
 
 const otpSlice = createSlice({

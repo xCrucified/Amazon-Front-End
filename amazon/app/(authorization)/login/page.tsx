@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { setEmail, setPhoneNumber } from "@/store/slices/signupSlice";
+import { clearData, setEmail, setPhoneNumber } from "@/store/slices/signupSlice";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -27,11 +27,10 @@ import {
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 
-export default function LoginPage({
-  className,
-}: React.ComponentPropsWithoutRef<"div">) {
+export default function LoginPage({ className }: React.ComponentPropsWithoutRef<"div">) {
   const { replace } = useRouter();
   const session = useSession();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (session.status === "authenticated") {
@@ -42,10 +41,7 @@ export default function LoginPage({
   const [isPasswordInputVisible, setIsPasswordInputVisible] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const email = useSelector((state: RootState) => state.signup.email);
-  const phoneNumber = useSelector(
-    (state: RootState) => state.signup.phoneNumber
-  );
-  const dispatch = useDispatch();
+  const phoneNumber = useSelector((state: RootState) => state.signup.phoneNumber);
 
   const loginSchema = useMemo(
     () => getLoginSchema(isPasswordInputVisible),
@@ -63,9 +59,13 @@ export default function LoginPage({
   async function onSubmit({ credential, password }: z.infer<typeof loginSchema>) {
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential);
     const apiUrl = !isPasswordInputVisible
-      ? (isEmail ? "api/check/email" : "api/check/phoneNumber")
-      : (isEmail ? "api/login/email" : "api/login/phoneNumber");
-  
+      ? isEmail
+        ? "api/check/email"
+        : "api/check/phoneNumber"
+      : isEmail
+      ? "api/login/email"
+      : "api/login/phoneNumber";
+
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -73,7 +73,7 @@ export default function LoginPage({
         body: JSON.stringify(!isPasswordInputVisible ? credential : { credential, password }),
       });
       const data = await response.json();
-  
+
       if (!isPasswordInputVisible) {
         if (data.exists === true) {
           form.clearErrors("password");
@@ -122,9 +122,7 @@ export default function LoginPage({
                 <div className="flex flex-col gap-3">
                   {isPasswordInputVisible ? (
                     <div className="flex items-center justify-between">
-                      <Label className="text-[16px]">
-                        {form.getValues("credential")}
-                      </Label>
+                      <Label className="text-[16px]">{form.getValues("credential")}</Label>
                       <Button
                         variant="ghost"
                         className="text-[#37569E] text-[16px] hover:text-[#222935] focus:cursor-pointer"
@@ -184,9 +182,7 @@ export default function LoginPage({
                         name="password"
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
-                            <FormLabel className="text-[#000]">
-                              Password
-                            </FormLabel>
+                            <FormLabel className="text-[#000]">Password</FormLabel>
                             <FormControl>
                               <div className="flex items-center relative">
                                 <Input
@@ -268,13 +264,8 @@ export default function LoginPage({
                           />
                         </div>
                         <div className="flex flex-col pt-[16px] pb-[16px]">
-                          <span className="text-[16px] leading-[18px]">
-                            Buying for work?
-                          </span>
-                          <Link
-                            href="#"
-                            className="text-[#37569E] text-[16px] leading-[18px]"
-                          >
+                          <span className="text-[16px] leading-[18px]">Buying for work?</span>
+                          <Link href="#" className="text-[#37569E] text-[16px] leading-[18px]">
                             Shop on Onyx Business
                           </Link>
                         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,11 +50,17 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
     dispatch(setCooldown(60));
   }
 
+  const hasSentRef = useRef(false);
+
   useEffect(() => {
     if (!email && !phoneNumber) {
       replace("/registration");
     }
-    handleResendOTP();
+
+    if (!hasSentRef.current) {
+      handleResendOTP();
+      hasSentRef.current = true;
+    }
   }, [email, phoneNumber, replace]);
 
   async function onSubmit() {
@@ -82,7 +88,6 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
       const signupData = await signupResponse.json();
       if (signupData.status === 200) {
         replace("/login");
-        dispatch(clearData());
       }
     } catch (error) {
       console.error("Error during OTP verification or sign up:", error);
