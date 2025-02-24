@@ -91,6 +91,8 @@ html {
   @apply border-t-primary border-l-primary !important;
 }
 
-#border-topText{
-  clip-path: path("M0,0 H324 V47 Q162 60 0 47 Z");
+.modal-shadow{
+  -webkit-box-shadow:0px 0px 15px 0px rgba(255,255,255,1);
+  -moz-box-shadow: 0px 0px 15px 0px rgba(255,255,255,1);
+  box-shadow: 0px 0px 15px 0px rgba(255,255,255,1);
 }

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -12,8 +12,8 @@ interface Props {
 export const Footer: React.FC<Props> = ({ className }) => {
   return (
     <footer className={cn("h-[472px] bg-[#343a45] text-white", className)}>
-      <Button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      <Button 
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
         className="w-[100%] h-[78px] bg-[#5a6b8c] rounded-none shadow-none hover:bg-[#5a6b8c]"
       >
         <span className="text-lg font-bold">Back to top</span>
@@ -52,9 +52,7 @@ export const Footer: React.FC<Props> = ({ className }) => {
             <Label>© 2025, Onyx.com, Inc. or its affiliates</Label>
           </div>
           <div>
-            <Label className="text-[#FFFFF] opacity-35">
-              Onyx.com ULC | Rivne, Ukraine, M5H 3Y2 |0-837-216-3230
-            </Label>
+            <Label className="text-[#FFFFF] opacity-35">Onyx.com ULC |  Rivne, Ukraine, M5H 3Y2 |0-837-216-3230</Label>
           </div>
         </div>
       </div>

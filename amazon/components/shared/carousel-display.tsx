@@ -9,9 +9,9 @@ interface Props {
 export const CarouselDisplay: React.FC<Props> = ({}) => {
   return (
     <Carousel>
-      <div className="flex h-[488px] w-[1492px]">
+      <div className="flex h-[488px] w-[1488px]">
         <Image
-          src="/assets/images/427412.png"
+          src="/assets/images/yellow-banner.webp"
           alt="Slide 1"
           objectFit={"cover"}
           width={1488}
@@ -22,6 +22,15 @@ export const CarouselDisplay: React.FC<Props> = ({}) => {
         <Image
           src="/assets/images/427412.png"
           alt="Slide 2"
+          objectFit={"cover"}
+          width={1488}
+          height={488}
+        />
+      </div>
+      <div className="flex h-[488px] w-[1492px]">
+        <Image
+          src="/assets/images/yellow-banner.webp"
+          alt="Slide 1"
           objectFit={"cover"}
           width={1488}
           height={488}
