@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
+import { Reviews } from "../(reviews)/review";
 
 interface Props {
   className?: string;
@@ -331,8 +332,8 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
         <Label className="text-[20px]">Looking for specific info?</Label>
       </div>
 
-      <div className="mt-5 flex  gap-[40px]">
-        <div className="flex h-full relative w-[49%]">
+      <div className="mt-5 flex justify-between">
+        <div className="flex w-[672px] h-full relative">
           <Input
             type="search"
             placeholder="Search in reviews, Q&A…"
@@ -347,16 +348,21 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             style={{ filter: "brightness(0) saturate(100%)" }}
           />
         </div>
-        <div className="flex p-0 w-[50%]">
+        <div className="flex w-[715px] h-full relative flex-col">
           <div className="">
-            <Label className="font-semibold text-[18px]">Customers say</Label>
-            <p>
+            <Label className="font-semibold text-[18px] relative">
+              Customers say
+            </Label>
+            <p className="mt-2">
               Customers find the camera lens offers good value for money. They
               say it works well, is useful for amateur photographers, and a
               great starter lens. Many customers are satisfied with the zoom
               quality and ease of use. However, some have mixed opinions on the
               overall quality and focus ability.
             </p>
+          </div>
+          <div className="mt-10">
+            <Reviews id={0} user={""} rate={0} description={""} images={[]} />
           </div>
         </div>
       </div>
