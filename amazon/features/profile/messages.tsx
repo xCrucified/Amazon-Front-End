@@ -29,19 +29,20 @@ const YourMessages = () => {
   
   return (
     <div className='w-full'>
-      <div className='border-[#37569E] border-2 rounded-xl flex items-center p-4 bg-[#EFF4FE] mb-6'>
+      <div className='border-[#37569E] border-2 rounded-xl hidden md:flex items-center p-4 bg-[#EFF4FE] mb-6'>
         <Image src='/assets/images/info-full.svg' alt='icon' width='40' height='40' className='object-contain mr-4'/>
         <div>
           <h3 className='font-bold text-[16px] mb-1'>This page is going to be deprecated. If you want to view your messages with seller, please click here:</h3>
           <p className='text-[#37569E]'>Buyer/Seller Messages</p>
         </div>
       </div>
+      
       <div>
         <h3 className='font-bold text-[19px] mb-[14px]'>Message centre</h3>
         <div className="flex flex-col border border-[#7D7D7D] rounded-lg p-2.5 mb-3 bg-white h-[329px]">
           <div className='flex items-center mb-6'>
-            <div onClick={() => setTab('All Messages')} className={`flex-1 p-2.5 text-[#000000A6] text-[16px] cursor-pointer mr-6 font-semibold rounded ${tab === 'All Messages' && 'bg-[#F1F4F7]'}`}>All Messages</div>
-            <div onClick={() => setTab('Buyer/Seller')} className={`flex-1 p-2.5 text-[#000000A6] text-[16px] cursor-pointer font-semibold ${tab === 'Buyer/Seller' && 'bg-[#F1F4F7]'}`}>Buyer/Seller Messages</div>
+            <div onClick={() => setTab('All Messages')} className={`flex-1 p-2.5 text-[#000000A6] text-[16px] leading-4 cursor-pointer mr-6 font-semibold border-b border-[#7D7D7D8C] ${tab === 'All Messages' && 'bg-[#F1F4F7] border-b-0 rounded'}`}>All Messages</div>
+            <div onClick={() => setTab('Buyer/Seller')} className={`flex-1 p-2.5 text-[#000000A6] text-[16px] leading-4 cursor-pointer font-semibold border-b border-[#7D7D7D8C] ${tab === 'Buyer/Seller' && 'bg-[#F1F4F7] border-b-0 rounded'}`}>Buyer/Seller Messages</div>
           </div>
           {paginatedData.map((item, index) => {
             return (
@@ -54,8 +55,8 @@ const YourMessages = () => {
         </div>
       </div>
       
-      <div className='flex items-center justify-between'>
-        <Button variant='ghost' className='text-[#5A6C8D] p-0'>Sent Messages</Button>
+      <div className='flex items-center justify-between flex-col sm:flex-row'>
+        <Button variant='ghost' className='text-[#5A6C8D] p-0  flex sm:block justify-start w-full sm:w-fit text-[13px] leading-4'>Sent Messages</Button>
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage}/>
       </div>
     </div>

@@ -87,7 +87,7 @@ const CustomerService = () => {
     <div className='w-full'>
       <h2 className='font-bold text-sm text-[19px] mb-6'>Search our help library</h2>
       <div className='relative'>
-        <Input type='text' className='border-[#D9D9D9] border-1 bg-white mb-10 pl-9' placeholder='Type something like, "question about a charge"'/>
+        <Input type='text' className='border-[#D9D9D9] border-1 bg-white mb-5 md:mb-10 pl-9' placeholder='Type something like, "question about a charge"'/>
         <Image
           src="/assets/images/search-black.svg"
           alt="icon"
@@ -97,9 +97,9 @@ const CustomerService = () => {
         />
       </div>
       
-      <div className='flex items-start'>
-        <div className='flex-1 max-w-[259px] mr-9'>
-          <h3 className='border-b border-[#7D7D7D8C] pb-2.5 font-bold mb-4 text-[16px]'>All help topics</h3>
+      <div className='flex items-start flex-col md:flex-row'>
+        <div className='flex-1 max-w-[unset] md:max-w-[259px] mr-0 md:mr-9 w-full mb-5 md:mb-0'>
+          <h3 className='border-b border-[#7D7D7D8C] pb-2.5 font-bold mb-3 md:mb-4 text-[16px] w-full'>All help topics</h3>
           <div className='flex items-start flex-col'>
             {
               categories.map((item, index) => {
@@ -110,13 +110,13 @@ const CustomerService = () => {
             }
           </div>
         </div>
-        <div className='flex-[2] grid grid-cols-2 gap-5'>
+        <div className='flex-[2] grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5'>
           {
             topics.map((item) => {
               return (
                 <Link href={`/userpage/help-center/${item.id}`} key={item.id} className='bg-white rounded-[8px] p-4'>
-                  <h3 className='text-[16px] mb-[10px] font-bold'>{item.title}</h3>
-                  <div className='line-clamp-2'>{item.desc}</div>
+                  <h3 className='text-[16px] mb-[10px] leading-[18px] font-bold'>{item.title}</h3>
+                  <div className='line-clamp-2 leading-[15px] text-[13px]'>{item.desc}</div>
                 </Link>
               )
             })

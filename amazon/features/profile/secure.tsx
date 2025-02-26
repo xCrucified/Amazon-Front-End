@@ -43,7 +43,7 @@ const UserSecure = () => {
       <div className='w-full'>
         {
           isEditing && (
-            <div className='mb-[24px] text-lg'>If you want to change the name associated with your Onyx customer account,
+            <div className='mb-[24px] text-[14px] md:text-lg'>If you want to change the name associated with your Onyx customer account,
               you<br/>may do so below. Be sure to click the <b>Save Changes</b> button when you are done.</div>
           )
         }
@@ -53,13 +53,13 @@ const UserSecure = () => {
               control={form.control}
               name="name"
               render={({field}) => (
-                <FormItem className="flex w-full items-center justify-between py-[12px] px-[24px] rounded-md bg-white">
+                <FormItem className="flex w-full items-center justify-between py-[24px] md:py-[12px] px-[24px] rounded-md bg-white max-h-[58px] md:max-h-[unset]">
                   <FormLabel
-                    className="text-right bg-white font-medium text-[16px]">{isEditing ? 'New Name' : 'Name'}</FormLabel>
+                    className="text-right bg-white font-medium text-[14px] md:text-[16px]">{isEditing ? 'New Name' : 'Name'}</FormLabel>
                   <FormControl>
                     <div className={`relative`}>
                       <Input {...field} disabled={!isEditing}
-                             className={`text-right bg-white font-medium text-[16px] w-fit p-0 !mt-0 shadow-none !opacity-100 ${isEditing ? "border-[3px] border-[#5A6C8D] p-[8px] text-left min-w-[341px]" : "border-0"}`}/>
+                             className={`text-right bg-white font-medium text-[14px] md:text-[16px] w-fit p-0 !mt-0 shadow-none !opacity-100 ${isEditing ? "border-[3px] border-[#5A6C8D] p-[8px] text-left min-w-fit md:min-w-[341px]" : "border-0"}`}/>
                       
                       {isEditing && field.value && (
                         <button
@@ -80,26 +80,26 @@ const UserSecure = () => {
               control={form.control}
               name="email"
               render={({field}) => (
-                <FormItem className="flex w-full items-center justify-between py-[12px] px-[24px] rounded-md bg-white">
+                <FormItem className="flex w-full items-center justify-between py-[24px] md:py-[12px] px-[24px] rounded-md bg-white max-h-[58px] md:max-h-[unset]">
                   {
                     isEditing
                       ? <>
                         <div className="flex flex-col items-start">
-                          <div className='text-left bg-white font-medium text-[16px] mb-[16px]'>Enter the new email
+                          <div className='text-left bg-white font-medium text-[12px] md:text-[16px] mb-[16px] hidden md:block'>Enter the new email
                             address
                             you would like to associate with your account<br/>below. We will send a One Time Password
                             (OTP)
                             to that address. Name
                           </div>
-                          <div className='text-left bg-white text-[16px] '>Current email address:</div>
+                          <div className='text-left bg-white text-[14px] md:text-[16px] '>Current email address:</div>
                         </div>
                       </>
-                      : <FormLabel className="text-right bg-white font-medium text-[16px]">Email</FormLabel>
+                      : <FormLabel className="text-right bg-white font-medium text-[14px] md:text-[16px]">Email</FormLabel>
                   }
                   <FormControl>
                     <div className="relative">
                       <Input {...field} disabled={!isEditing}
-                             className={`text-right bg-white font-medium text-[16px] w-fit p-0 !mt-0 shadow-none !opacity-100 ${isEditing ? "border-[3px] border-[#5A6C8D] p-[8px] text-left" : "border-0"}`}/>
+                             className={`text-right bg-white font-medium text-[14px] md:text-[16px] w-fit p-0 !mt-0 shadow-none !opacity-100 ${isEditing ? "border-[3px] border-[#5A6C8D] p-[8px] text-left" : "border-0"}`}/>
                       
                       {isEditing && field.value && (
                         <button
@@ -120,12 +120,12 @@ const UserSecure = () => {
               control={form.control}
               name="phone"
               render={({field}) => (
-                <FormItem className="flex w-full items-center justify-between py-[12px] px-[24px] rounded-md bg-white">
-                  <FormLabel className="text-right bg-white font-medium text-[16px]">Primary mobile number</FormLabel>
+                <FormItem className="flex w-full items-center justify-between py-[24px] md:py-[12px] px-[24px] rounded-md bg-white max-h-[58px] md:max-h-[unset]">
+                  <FormLabel className="text-left md:text-right bg-white font-medium text-[14px] md:text-[16px]">Primary mobile number</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input {...field} disabled={!isEditing}
-                             className={`text-right bg-white font-medium text-[16px] w-fit p-0 !mt-0 shadow-none !opacity-100 ${isEditing ? "border-[3px] border-[#5A6C8D] p-[8px] text-left" : "border-0"}`}/>
+                             className={`text-right bg-white font-medium text-[14px] md:text-[16px] w-fit p-0 !mt-0 shadow-none !opacity-100 ${isEditing ? "border-[3px] border-[#5A6C8D] p-[8px] text-left" : "border-0"}`}/>
                       
                       {isEditing && field.value && (
                         <button
@@ -147,25 +147,24 @@ const UserSecure = () => {
                 <div className="flex flex-col items-start">
                   {
                     isEditing && (
-                      <p className='max-w-[550px] mb-6 font-normal text-[16px] leading-[18px]'>Sharing this account with
+                      <p className='max-w-[550px] mb-6 font-normal text-[12px] md:text-[16px] leading-[18px] hidden md:block'>Sharing this account with
                         someone who wants to sign in with a passkey? They&#39;ll need to set up their own.</p>
                     )
                   }
-                  <div className='text-right bg-white font-medium text-[16px] mb-[26px]'>Passkey</div>
+                  <div className='text-right bg-white font-medium text-[14px] md:text-[16px] mb-[12px] md:mb-[26px]'>Passkey</div>
                   
                   {
                     !isEditing && (
-                      <div className='text-right bg-white text-[13px] '>Sign in the same way you unlock your device by
+                      <div className='text-left lg:text-right md:text-left bg-white text-[11px] md:text-[13px] max-w-[180px] md:max-w-[200px] lg:max-w-[unset]'>Sign in the same way you unlock your device by
                         using face, fingerprint or PIN.</div>
                     )
                   }
                 </div>
                 
                 <div className='flex items-center'>
-                  <Image src='/assets/images/icon_apple.svg' alt='icon' width='28' height='32'
-                         className='object-contain mr-3'/>
-                  <div className='flex items-start flex-col'>
-                    <div className='text-right bg-white font-medium text-[16px] leading-4 mb-3'>iCloud Keychain</div>
+                  <Image src='/assets/images/icon_apple.svg' alt='icon' width='28' height='32' className='object-contain mr-3 hidden md:block'/>
+                  <div className='flex items-end md:items-start flex-col'>
+                    <div className='text-right bg-white font-medium text-[14px] md:text-[16px] leading-4 mb-3'>iCloud Keychain</div>
                     <div className='text-right bg-white font-medium text-[13px] leading-3 text-[#0000008C]'>Set up: Jan.
                       18, 2025
                     </div>
@@ -179,14 +178,14 @@ const UserSecure = () => {
               </div>
               {
                 isEditing && (
-                  <div className='w-full flex items-center justify-between'>
-                    <div className='text-xs font-semibold'>If you want to add a passkey, use a different cloud service
+                  <div className='w-full flex items-center justify-end md:justify-between'>
+                    <div className='text-xs font-semibold hidden md:block'>If you want to add a passkey, use a different cloud service
                       account (for example, an Apple ID or Google account).
                     </div>
                     
                     <Button
                       variant='outline'
-                      className='rounded-3xl text-[#5A6C8D] font-bold text-[16px] !border-3 !border-[#5A6C8D] mr-[56px]'
+                      className='rounded-3xl text-[#5A6C8D] font-bold text-[16px] !border-3 !border-[#5A6C8D] mr-[0] md:mr-[56px] mt-2 md:mt-0'
                       onClick={() => setAddPassKey(!addPassKey)}
                     >
                       Add a passkey
@@ -206,7 +205,7 @@ const UserSecure = () => {
                                     className='w-full'>
                       <AccordionItem value="item-1" className='w-full'>
                         <AccordionTrigger
-                          className='w-full pl-0 flex items-center justify-between text-[16px] leading-[18px] !pb-2 border-[#B8B8B8] border-b font-bold cursor-pointer'>Use
+                          className='w-full pl-0 flex items-center justify-between text-[14px] md:text-[16px] leading-[18px] !pb-2 border-[#B8B8B8] border-b font-bold cursor-pointer'>Use
                           passkey on different devices, including a computer</AccordionTrigger>
                         <AccordionContent className='pl-0'>
                           <p className='text-[14px] leading-[16px] font-medium'>After you set up a passkey, it is saved in
@@ -222,7 +221,7 @@ const UserSecure = () => {
                       
                       <AccordionItem value="item-2" className='w-full'>
                         <AccordionTrigger
-                          className='w-full pl-0 flex items-center justify-between text-[16px] leading-[18px] !pb-2 border-[#B8B8B8] border-b font-bold cursor-pointer'>Sharing
+                          className='w-full pl-0 flex items-center justify-between text-[14px] md:text-[16px] leading-[18px] !pb-2 border-[#B8B8B8] border-b font-bold cursor-pointer'>Sharing
                           passkeys with friends and family</AccordionTrigger>
                         <AccordionContent className='pl-0'>
                           <p className='text-[14px] leading-[16px] font-medium'>If people you share this account with want
@@ -235,7 +234,7 @@ const UserSecure = () => {
                       
                       <AccordionItem value="item-3" className='w-full'>
                         <AccordionTrigger
-                          className='w-full pl-0 flex items-center justify-between text-[16px] leading-[18px] !pb-2 border-[#B8B8B8] border-b font-bold cursor-pointer'>Use
+                          className='w-full pl-0 flex items-center justify-between text-[14px] md:text-[16px] leading-[18px] !pb-2 border-[#B8B8B8] border-b font-bold cursor-pointer'>Use
                           passkeys with 2-step verification.</AccordionTrigger>
                         <AccordionContent className='pl-0'>
                           <p className='text-[14px] leading-[16px] font-medium'>If you have turned on 2-step verification
@@ -272,10 +271,10 @@ const UserSecure = () => {
               }
             </div>
             
-            <div className='flex w-full items-center justify-between mb-[24px] p-[24px] rounded-md bg-white'>
-              <div className="text-right bg-white font-medium text-[16px]">Password</div>
+            <div className='flex w-full items-start justify-between mb-[24px] p-[24px] rounded-md bg-white'>
+              <div className="text-right bg-white font-medium text-[14px] md:text-[16px]">Password</div>
               <div className="flex flex-col items-end">
-                <div className='text-right bg-white font-medium text-[16px] mb-[16px]'>*********</div>
+                <div className='text-right bg-white font-medium text-[14px] md:text-[16px] mb-[16px]'>*********</div>
                 
                 <Button
                   variant='ghost'
@@ -289,10 +288,10 @@ const UserSecure = () => {
             
             <div className='flex w-full items-center justify-between mb-[24px] p-[24px] rounded-md bg-white'>
               <div className="flex flex-col items-start">
-                <div className='text-right bg-white font-medium text-[16px] mb-[26px]'>2-step verification</div>
+                <div className='text-right bg-white font-medium text-[14px] md:text-[16px] mb-[26px]'>2-step verification</div>
                 <div className='text-right bg-white text-[13px] '>+90 321 321 0000</div>
               </div>
-              <Switch id="necessary" defaultChecked aria-label="Necessary"/>
+              <Switch id="necessary" aria-label="Necessary"  size='l'/>
             </div>
             
             <Button variant="ghost"

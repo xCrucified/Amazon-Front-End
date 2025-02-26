@@ -40,23 +40,23 @@ const Orders = () => {
       </div>
       
       <div>
-        <h3 className='font-bold text-[19px] mb-[14px]'>Your Orders</h3>
-        <div className="flex flex-col border border-[#7D7D7D] rounded-lg p-2.5 mb-3 bg-white h-[329px]">
+        <h3 className='hidden sm:blocl font-bold text-[19px] mb-[14px]'>Your Orders</h3>
+        <div className="flex flex-col border border-[#7D7D7D] rounded-lg p-2.5 mb-1.5 md:mb-3 bg-white h-[329px]">
           <div className='flex items-center mb-6'>
-            <div onClick={() => setTab('Orders')} className={`flex-1 p-2.5 text-[#000000A6] text-[16px] leading-[18px] cursor-pointer mr-6 font-semibold rounded ${tab === 'Orders' && 'bg-[#F1F4F7]'}`}>Orders
+            <div onClick={() => setTab('Orders')} className={`flex-1 p-2.5 text-[#000000A6] text-[13px] md:text-[16px] leading-[13px] md:leading-[18px] cursor-pointer mr-6 font-semibold rounded ${tab === 'Orders' && 'bg-[#F1F4F7]'}`}>Orders
             </div>
-            <div onClick={() => setTab('BuyAgain')} className={`flex-1 p-2.5 text-[#000000A6] text-[16px] leading-[18px] cursor-pointer mr-6 font-semibold ${tab === 'BuyAgain' && 'bg-[#F1F4F7]'}`}>Buy Again
+            <div onClick={() => setTab('BuyAgain')} className={`flex-1 p-2.5 text-[#000000A6] text-[13px] md:text-[16px] leading-[13px] md:leading-[18px] cursor-pointer mr-6 font-semibold ${tab === 'BuyAgain' && 'bg-[#F1F4F7]'}`}>Buy Again
             </div>
-            <div onClick={() => setTab('notShippedYet')} className={`flex-1 p-2.5 text-[#000000A6] text-[16px] leading-[18px] cursor-pointer mr-6 font-semibold rounded ${tab === 'notShippedYet' && 'bg-[#F1F4F7]'}`}>Not Yet Shipped
+            <div onClick={() => setTab('notShippedYet')} className={`flex-1 p-2.5 text-[#000000A6] text-[13px] md:text-[16px] leading-[13px] md:leading-[18px] cursor-pointer mr-6 font-semibold rounded ${tab === 'notShippedYet' && 'bg-[#F1F4F7]'}`}>Not Yet Shipped
             </div>
-            <div onClick={() => setTab('canceled')} className={`flex-1 p-2.5 text-[#000000A6] text-[16px] leading-[18px] cursor-pointer font-semibold ${tab === 'canceled' && 'bg-[#F1F4F7]'}`}>Cancelled Orders
+            <div onClick={() => setTab('canceled')} className={`flex-1 p-2.5 text-[#000000A6] text-[13px] md:text-[16px] leading-[13px] md:leading-[18px] cursor-pointer font-semibold ${tab === 'canceled' && 'bg-[#F1F4F7]'}`}>Cancelled Orders
             </div>
           </div>
           
           {paginatedData.map((item, index) => {
             return (
               <div key={index} className='gap-6 border-[#C7C7C7] border-b border-t px-4 py-4 flex items-start justify-between'>
-                <Image src={item.imgUrl} alt='img' width='120' height='120' className='mr-6'/>
+                <Image src={item.imgUrl} alt='img' width='120' height='120' className='mr-6 hidden md:block'/>
                 <div className='max-w-[560px]'>
                   <div className='font-semibold text-[13px] leading-4 mb-[18px]'>{item.text}</div>
                   <div className='text-[11px] leading-3'><b>Colour Name:</b> {item.color}</div>

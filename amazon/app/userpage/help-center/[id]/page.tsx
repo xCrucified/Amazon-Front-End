@@ -17,8 +17,8 @@ const HelpCenterArticle = () => {
     topics.find((t) => t.id.toString() === id.toString());
   
   return (
-    <div className='w-full'>
-      <div className='flex items-center mt-[48px]'>
+    <div className='w-full mx-5'>
+      <div className='hidden md:flex items-center mt-[48px]'>
         <Link href='/' className='flex items-center text-[16px] text-black'>
           <Image className='mr-[9px]' src='/assets/images/Corner-left-up.svg' alt='icon' width='20' height='20'/>
           Main
@@ -35,10 +35,10 @@ const HelpCenterArticle = () => {
         </Link>
       </div>
       
-      <h2 className='font-bold text-sm text-[32px] mb-6 mt-[32px]'>Help and customer service</h2>
+      <h2 className='font-bold text-sm text-[16px] sm:text-[32px] mb-6 mt-[32px]'>Help and customer service</h2>
       
-      <div className='flex items-start'>
-        <div className='flex-1 max-w-[259px] mr-11'>
+      <div className='flex items-start flex-col md:flex-row'>
+        <div className='hidden md:block flex-1 max-w-[259px] mr-11'>
           <h3 className='border-b border-[#7D7D7D8C] pb-2.5 font-bold mb-4 text-[16px]'>Where My stuff ?</h3>
           <div className='flex items-start flex-col'>
             {
@@ -53,7 +53,7 @@ const HelpCenterArticle = () => {
         
         <div className='flex-[2] max-w-[841px]'>
           <div className='relative'>
-            <Input type='text' className='border-[#D9D9D9] border-1 bg-white mb-10 pl-9' placeholder='Find more solutions"'/>
+            <Input type='text' className='border-[#D9D9D9] border-1 bg-white mb-8 md:mb-10 pl-9' placeholder='Find more solutions"'/>
             <Image
               src="/assets/images/search-black.svg"
               alt="icon"
@@ -64,12 +64,12 @@ const HelpCenterArticle = () => {
           </div>
           
           <div className='mb-12'>
-            <h1 className='text-5xl text-bold mb-6'>{topic?.title}</h1>
-            <p className='text-[14px] font-normal'>{topic?.desc}</p>
+            <h1 className='text-2xl md:text-5xl font-[700] mb-6'>{topic?.title}</h1>
+            <p className='text-[16px] md:text-[14px] font-normal'>{topic?.desc}</p>
           </div>
           
           <div className='bg-white max-w-[327px] p-6 rounded-2xl border border-black'>
-            <h3 className='font-bold text-[23px] mb-4'>Was this information helpful?</h3>
+            <h3 className='font-bold text-[19px] md:text-[23px] mb-4'>Was this information helpful?</h3>
             
             <div className='flex items-center'>
               <Button className='mr-4' variant='secondary'>Yes</Button>
