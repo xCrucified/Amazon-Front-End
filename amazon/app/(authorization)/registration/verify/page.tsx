@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { clearData } from "@/store/slices/signupSlice";
-import { cn, sendOTP } from "@/lib/utils";
+import { cn, sendOTP } from "@/lib/utilities/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {

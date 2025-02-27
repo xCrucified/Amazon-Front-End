@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setBirthdate } from "@/store/slices/signupSlice";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
