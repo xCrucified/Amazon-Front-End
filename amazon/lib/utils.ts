@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { jwtDecode } from "jwt-decode";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -27,7 +28,6 @@ export interface IUser {
   exp: number;
 }
 
-import { jwtDecode } from "jwt-decode";
 export const jwtParse = (token: string): IUser | null => {
   try {
     const data = jwtDecode<any>(token);
