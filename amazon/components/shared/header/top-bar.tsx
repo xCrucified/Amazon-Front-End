@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 import { Button } from "../../ui/button";
 import Categories from "../categories";
 import Image from "next/image";

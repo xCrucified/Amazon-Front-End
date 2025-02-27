@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 import React from "react";
 import { Container } from "../container";
 import Link from "next/link";
@@ -19,7 +19,7 @@ interface Props {
 
 export const UpperHeader: React.FC<Props> = ({ className }) => {
   const session = useSession();
-  const isAuth = useSelector((state: RootState) => state.header.isAuth);
+  const isAuth = useSelector((state: RootState) => state.header.isAuth);  
 
   return (
     <div className={cn("w-[100%] h-[60px] bg-[rgb(52,58,69)]", className)}>
@@ -29,7 +29,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
         </div>
         {session.status === "authenticated" && (
           <>
-            <Label className="text-white text-[16px]">Hello, {session?.data?.user?.email}</Label>
+            <Label className="text-white text-[16px]">Hello, {session?.data.user.email}</Label>
             <Button
               variant="figmaPrimary"
               className="w-[200px]"

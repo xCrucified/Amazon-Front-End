@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDropzone } from "react-dropzone";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "@/lib/utils";
+import getCroppedImg from "@/lib/utilities/utils";
 import { Button } from "./button";
 import { useDispatch, useSelector } from "react-redux";
 import {

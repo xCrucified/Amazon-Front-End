@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: ['lh3.googleusercontent.com'], 
+    domains: ["lh3.googleusercontent.com"],
   },
 };
 
@@ -15,14 +14,14 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com', // Replace with the correct hostname
-        port: '', // Leave this blank if no specific port is needed
-        pathname: '/**', // Allow all paths
-        search: '', // Optional: can be left blank to match all search queries
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+        search: "",
       },
     ],
   },
-}
+};
 
 export default nextConfig;

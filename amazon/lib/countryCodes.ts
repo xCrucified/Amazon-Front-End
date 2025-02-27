@@ -1,69 +1,4 @@
-import { z } from "zod";
-
-export const getLoginSchema = (requirePassword: boolean) =>
-  z.object({
-    credential: z
-      .string()
-      .trim()
-      .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || /^[0-9]{9}$/.test(value), {
-        message: "Please enter a valid email or phone number",
-      }),
-    password: requirePassword
-      ? z.string().nonempty("Please enter password").trim()
-      : z.string().trim().optional(),
-  });
-
-export const signUpSchema = z
-  .object({
-    credential: z.string().nonempty("Credential is required"),
-    username: z.string().nonempty("Username is required"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    rPassword: z.string().nonempty("Repeat your password"),
-  })
-  .superRefine(async (data, ctx) => {
-    if (data.password !== data.rPassword) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Passwords do not match",
-        path: ["rPassword"],
-      });
-    }
-
-    const { credential } = data;
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential);
-    const apiUrl = isEmail ? "api/check/email" : "api/check/phoneNumber";
-
-    try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(credential),
-      });
-      const result = await response.json();
-
-      if (result.error) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Connection error",
-          path: ["credential"],
-        });
-      } else if (result.exists === true) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Credential already exists",
-          path: ["credential"],
-        });
-      }
-    } catch (e) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Connection error",
-        path: ["credential"],
-      });
-    }
-  });
-
-export const CountryCodes = [
+const CountryCodes = [
   { id: 1, value: "1", label: "United States +1" },
   { id: 2, value: "93", label: "Afghanistan +93" },
   { id: 3, value: "355", label: "Albania +355" },
@@ -301,3 +236,5 @@ export const CountryCodes = [
   { id: 235, value: "967", label: "Yemen +967" },
   { id: 236, value: "260", label: "Zambia +260" },
 ];
+
+export default CountryCodes;

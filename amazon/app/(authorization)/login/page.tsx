@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { getLoginSchema } from "@/lib/definitions";
+import { cn } from "@/lib/utilities/utils";
+import { getLoginSchema } from "@/lib/schemas/authSchema";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { clearData, setEmail, setPhoneNumber } from "@/store/slices/signupSlice";
+import { setEmail, setPhoneNumber } from "@/store/slices/signupSlice";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -58,13 +58,7 @@ export default function LoginPage({ className }: React.ComponentPropsWithoutRef<
 
   async function onSubmit({ credential, password }: z.infer<typeof loginSchema>) {
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credential);
-    const apiUrl = !isPasswordInputVisible
-      ? isEmail
-        ? "api/check/email"
-        : "api/check/phoneNumber"
-      : isEmail
-      ? "api/login/email"
-      : "api/login/phoneNumber";
+    const apiUrl = isEmail ? "api/check/email" : "api/check/phoneNumber";
 
     try {
       const response = await fetch(apiUrl, {
@@ -86,21 +80,20 @@ export default function LoginPage({ className }: React.ComponentPropsWithoutRef<
           replace("/login/redirect");
         }
       } else {
-        if (data.accessToken && data.refreshToken) {
-          const result = await signIn("credentials", {
-            redirect: false,
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
-          });
-          if (result?.error) {
-            console.error(result.error);
-          }
-        } else {
+        const result = await signIn("credentials", {
+          redirect: false,
+          credential: credential,
+          password: password,
+        });
+        if (result?.error) {
+          console.error(result.error);
           form.setError("password", {
             type: "manual",
             message: "Email or password is incorrect",
           });
+          return;
         }
+        replace("/");
       }
     } catch (error) {
       console.error(error);

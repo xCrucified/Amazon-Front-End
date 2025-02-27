@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema } from "@/lib/definitions";
+import { signUpSchema } from "@/lib/countryCodes";
 
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";

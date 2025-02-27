@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 import React, { useEffect } from "react";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import Image from "next/image";

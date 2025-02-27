@@ -2,7 +2,7 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Title } from "@/components/ui/title";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 import { useAppDispatch } from "@/hooks/hooks";
 import { setActiveId } from "@/store/slices/categorySlice";
 import ProductCard from "./product-card";

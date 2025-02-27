@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 import React from "react";
 import { Label } from "./label";
 

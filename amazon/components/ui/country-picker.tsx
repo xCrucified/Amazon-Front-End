@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "./button";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
@@ -13,7 +13,7 @@ import {
   CommandList,
 } from "./command";
 
-import { CountryCodes as countryCodes } from "@/lib/definitions";
+import { CountryCodes as countryCodes } from "@/lib/countryCodes";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
