@@ -12,14 +12,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from "react";
 import { Label } from "@/components/ui/label";
-import { setEmail, setPhoneNumber } from "@/store/slices/signupSlice";
 
 export default function RedirectAuthPage({
   className,
 }: React.ComponentPropsWithoutRef<"div">) {
   const { replace } = useRouter();
 
-  const dispatch = useDispatch();
   const email = useSelector((state: RootState) => state.signup.email);
   const phoneNumber = useSelector((state: RootState) => state.signup.phoneNumber);
   useEffect(() => {

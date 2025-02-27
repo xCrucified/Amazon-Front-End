@@ -5,7 +5,7 @@ import { cn } from "@/lib/utilities/utils";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema } from "@/lib/countryCodes";
+import { signUpSchema } from "@/lib/schemas/authSchema";
 
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";

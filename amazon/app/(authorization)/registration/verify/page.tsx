@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { clearData } from "@/store/slices/signupSlice";
-import { cn, sendOTP } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utilities/utils";
+import { sendOTP } from "@/lib/utilities/otp/otpActions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -87,6 +88,7 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
       });
       const signupData = await signupResponse.json();
       if (signupData.status === 200) {
+        dispatch(clearData());
         replace("/login");
       }
     } catch (error) {
