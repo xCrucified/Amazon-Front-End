@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 import { Label } from "@/components/ui/label";
@@ -15,23 +15,57 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
-import { Reviews } from "../(reviews)/review";
+import { Review } from "../(reviews)/review";
 
 interface Props {
   className?: string;
   params: { id: string };
 }
 
+const images = [
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+  "/assets/images/productImg.png",
+];
+
 export const ProductPage: React.FC<Props> = ({ className, params }) => {
   const [selected, setSelected] = useState<number | null>(1);
   const [isRed, setIsRed] = useState(false);
+  const [curr, setCurr] = useState(0);
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const itemsPerPage = 5;
+  const totalSlides = Math.ceil(images.length / itemsPerPage);
+
+  const next = useCallback(() => {
+    setCurr((prev) => (prev + 1 < totalSlides ? prev + 1 : prev));
+  }, [totalSlides]);
+
+  const prev = useCallback(() => {
+    setCurr((prev) => (prev > 0 ? prev - 1 : prev));
+  }, []);
 
   useEffect(() => {
     const savedState = localStorage.getItem("isRed");
     if (savedState) {
       setIsRed(JSON.parse(savedState));
     }
-  }, []);
+    if (listRef.current) {
+      listRef.current.style.transition = "transform 0.5s ease-in-out";
+      listRef.current.style.transform = `translateX(-${curr * 100}%)`;
+    }
+  }, [curr]);
 
   const handleButtonClick = () => {
     const newState = !isRed;
@@ -272,7 +306,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </div>
           </div>
           <div className="flex flex-col gap-4 w-[715px]">
-            <Label className="font-semibold text-[18px]">
+            <Label className="font-semibold text-[22px]">
               Product description
             </Label>
             <p
@@ -289,7 +323,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           </div>
           <div className="mt-16 border-b-2 border-t-2 h-[140px]">
             <div className="border-b-2 h-[50%] flex items-center">
-              <Label className="font-semibold text-[18px]">
+              <Label className="font-semibold text-[22px]">
                 Additional Information
               </Label>
             </div>
@@ -314,7 +348,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           </div>
           <div className="mt-16 border-t-2 h-[140px]">
             <div className="border-b-2 h-[50%] flex items-center">
-              <Label className="font-semibold text-[18px]">Feedback</Label>
+              <Label className="font-semibold text-[22px]">Feedback</Label>
             </div>
             <div className="h-[50%] flex items-center">
               <Label className="text-[16px]">
@@ -329,7 +363,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
       </div>
 
       <div className="border-b-[2px]">
-        <Label className="text-[20px]">Looking for specific info?</Label>
+        <Label className="text-[22px]">Looking for specific info?</Label>
       </div>
 
       <div className="mt-5 flex justify-between">
@@ -350,7 +384,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
         </div>
         <div className="flex w-[715px] h-full relative flex-col">
           <div className="">
-            <Label className="font-semibold text-[18px] relative">
+            <Label className="font-semibold text-[22px] relative">
               Customers say
             </Label>
             <p className="mt-2">
@@ -361,8 +395,72 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               overall quality and focus ability.
             </p>
           </div>
+          <div className="mt-5">
+            <div className="flex justify-between">
+              <Label className="font-semibold text-[22px] relative">
+                Reviews with images
+              </Label>
+              <button className="text-blue-700 underline">
+                See all customer images
+              </button>
+            </div>
+            <div className={cn("overflow-hidden w-full mt-5")}>
+              <div ref={listRef} className="flex flex-col">
+                <div className="flex gap-3 w-full">
+                  {images.map((src, index) => (
+                    <img
+                      key={index}
+                      src={src}
+                      alt="img"
+                      className="rounded-lg w-[168px] h-[168px]"
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="w-[100%] flex justify-between items-center mt-3">
+                <Button
+                  onClick={prev}
+                  className={cn(
+                    "bg-inherit ring-0 hover:bg-inherit shadow-none",
+                    curr === 0 ? "opacity-50 cursor-not-allowed" : ""
+                  )}
+                  disabled={curr === 0}
+                >
+                  <img
+                    src="/assets/images/arrow-long-left.svg"
+                    alt="arrow-left"
+                    style={{
+                      filter: curr === 0 ? "grayscale(100%)" : "none",
+                    }}
+                  />
+                </Button>
+                <Button
+                  onClick={next}
+                  className={cn(
+                    "bg-inherit ring-0 hover:bg-inherit shadow-none",
+                    curr + 1 >= totalSlides
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  )}
+                  disabled={curr + 1 >= totalSlides}
+                >
+                  <img
+                    src="/assets/images/arrow-long-right.svg"
+                    alt="arrow-right"
+                    style={{
+                      filter:
+                        curr + 1 >= totalSlides ? "grayscale(100%)" : "none",
+                    }}
+                  />
+                </Button>
+              </div>
+            </div>
+          </div>
           <div className="mt-10">
-            <Reviews id={0} user={""} rate={0} description={""} images={[]} />
+            <Label className="font-semibold text-[22px] flex mb-7">
+              Reviews with images
+            </Label>
+            <Review />
           </div>
         </div>
       </div>

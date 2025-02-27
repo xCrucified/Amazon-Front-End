@@ -4,7 +4,7 @@ import React from "react";
 import { Label } from "./label";
 
 interface Props {
-  key: number;
+  key?: number;
   rate: number;
   icon?: boolean;
   secondHalf?: boolean;
