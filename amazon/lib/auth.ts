@@ -98,8 +98,7 @@ export const authConfig: NextAuthOptions = {
         phoneNumber: token.phoneNumber as string,
         username: token.username as string,
         dateOfBirth: token.dateOfBirth as string,
-      };
-      console.log("session: ", session.user);      
+      };  
       return session;
     },
   },
