@@ -1,6 +1,6 @@
 import CarouselDisplay from "@/components/shared/carousel-display";
 import { Container } from "@/components/shared/container";
-import Main from "@/components/shared/(main)/main";
+import Main from "@/components/shared/main/main";
 import React from "react";
 
 export default function Home() {

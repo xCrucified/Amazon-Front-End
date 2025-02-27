@@ -15,7 +15,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
-import { Review } from "../(reviews)/review";
+import { Review } from "../reviews/review";
+import ReviewGroupList from "../reviews/review-group-list";
 
 interface Props {
   className?: string;
@@ -460,7 +461,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             <Label className="font-semibold text-[22px] flex mb-7">
               Reviews with images
             </Label>
-            <Review />
+            <ReviewGroupList />
           </div>
         </div>
       </div>

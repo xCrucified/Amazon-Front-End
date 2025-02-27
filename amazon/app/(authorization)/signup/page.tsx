@@ -1,4 +1,4 @@
-import SignupForm from "@/components/shared/(authorization)/signup-form-step-1";
+import SignupForm from "@/components/shared/authorization/signup-form-step-1";
 import { Hexagon } from "lucide-react";
 import Link from "next/link";
 
