@@ -1,6 +1,9 @@
 "use client";
 
 import Checkout from "@/components/shared/cards/checkout-card";
+import { Products } from "@/components/shared/products";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -12,8 +15,30 @@ export default function Page() {
     <>
       {items.length > 0 ? (
         <>
-          <div className="w-[1492px] flex flex-row-reverse p-6 gap-1 mx-auto">
+          <div className="w-[1492px] flex flex-row-reverse p-6 gap-8 mx-auto">
             <Checkout />
+            <section className="w-full flex flex-col bg-white rounded-lg mx-auto p-10 pt-8">
+              <Label className="w-full flex items-end justify-between">
+                <div className="text-[32px] font-bold">Shopping cart</div>
+                <div className="text-[23px] font-bold leading-[34px]">one item</div>
+              </Label>
+              <Button
+                variant="ghost"
+                type="button"
+                className="w-[fit-content] text-[#37569E] hover:text-[#222935] text-base py-1 my-4"
+              >
+                Delete all items
+              </Button>
+              <Products />
+            </section>
+          </div>
+          <div className="w-[1492px] mx-auto p-6 pt-0 text-[11px] leading-[13px]">
+            The price and availability of items at Onyx.com are subject to change. The shopping cart
+            is a temporary place to store a list of your items and reflects each item's most recent
+            price.
+            <br />
+            Do you have a gift card or promotional code? We'll ask you to enter your claim code when
+            it's time to pay.
           </div>
         </>
       ) : (

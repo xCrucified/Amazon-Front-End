@@ -12,7 +12,12 @@ interface Props {
 
 export const Checkout: React.FC<Props> = ({ className }) => {
   return (
-    <div className={cn("w-[292px] flex flex-col p-4 pt-3 bg-white rounded-lg", className)}>
+    <div
+      className={cn(
+        "w-[292px] h-[fit-content] flex flex-col p-4 pt-3 bg-white rounded-lg",
+        className
+      )}
+    >
       <div className="w-full flex flex-col text-[13px] leading-[15px] gap-2">
         <Image
           src="/assets/images/check-circle.svg"
@@ -31,14 +36,14 @@ export const Checkout: React.FC<Props> = ({ className }) => {
         <div className="flex flex-col gap-6 text-[19px] mb-3">
           Subtotal (1 item):
           <div>
-            <span className="text-[15px]">£</span>
+            <span className="text-[15px]">£ </span>
             <span className="font-bold text-[28px]">19.99</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Checkbox
             id="gift"
-            className="w-[13px] h-[13px] border-[2px] border-[#636366] rounded-[2px] data-[state=checked]:bg-[#5A6C8D] data-[state=checked]:border-none"
+            className="w-[13px] h-[13px] border-[2px] border-[#636366] rounded-[2px] data-[state=checked]:bg-[#5A6C8D] data-[state=checked]:border-none shadow-none"
           />
           <Label className="text-[11px]">This order contains a gift</Label>
         </div>
@@ -49,10 +54,10 @@ export const Checkout: React.FC<Props> = ({ className }) => {
             width={36}
             height={26}
             alt="info-outline"
-            className="m-[20px]"
+            className="m-[16px]"
           />
           <div className="flex flex-col pt-[16px] pb-[16px] gap-3">
-            <span className="text-[13px] leading-[18px]">
+            <span className="text-[12px] leading-[14px] pr-[20px]">
               Free, fast delivery. No order minimum. Exclusive savings. Start your free 30-day free
               trial of Prime
             </span>
