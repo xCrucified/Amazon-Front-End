@@ -1,6 +1,6 @@
 "use client";
 
-import React, { JSX, useState } from "react";
+import React, { JSX } from "react";
 import { cn } from "@/lib/utilities/utils";
 import Image from "next/image";
 import { Label } from "../ui/label";
@@ -8,94 +8,21 @@ import { Checkbox } from "../ui/checkbox";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Minus, Plus } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { decreaseSelectedVal, increaseSelectedVal, removeFromCart } from "@/store/slices/cartSlice";
 
 interface Props {
   className?: string;
 }
 
-interface ProductProperties {
-  category: string;
-  value: string;
-}
-
-interface Products {
-  id: number;
-  desc: string;
-  inStock: number;
-  selected: number;
-  price: number;
-  properties: ProductProperties[];
-  image: string;
-}
-
-const items: Products[] = [
-  {
-    id: 1,
-    desc: 'Retrospec Solana Yoga Mat 1/2" Thick w/Nylon Strap for Men & Women - Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce',
-    inStock: 10,
-    selected: 1,
-    price: 19.99,
-    properties: [
-      { category: "Color name", value: "Wild Spruce" },
-      { category: "Style", value: "½ Inch" },
-    ],
-    image: "/assets/images/products/mat.svg",
-  },
-  {
-    id: 2,
-    desc: "Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR CamerasCanon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR Cameras",
-    inStock: 2,
-    selected: 1,
-    price: 120.0,
-    properties: [{ category: "Color name", value: "Wild Spruce" }],
-    image: "/assets/images/products/camera-lens.png",
-  },
-  {
-    id: 3,
-    desc: "Camera Lens",
-    inStock: 0,
-    selected: 0,
-    price: 190.0,
-    properties: [{ category: "Color name", value: "Wild Spruce" }],
-    image: "/assets/images/products/camera-lens.png",
-  },
-];
-
-const initialItems: Products[] = [
-  {
-    id: 1,
-    desc: 'Retrospec Solana Yoga Mat 1/2" Thick w/Nylon Strap for Men & Women - Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce',
-    inStock: 10,
-    selected: 1,
-    price: 19.99,
-    properties: [
-      { category: "Color name", value: "Wild Spruce" },
-      { category: "Style", value: "½ Inch" },
-    ],
-    image: "/assets/images/products/mat.svg",
-  },
-  {
-    id: 2,
-    desc: "Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR CamerasCanon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR Cameras",
-    inStock: 2,
-    selected: 1,
-    price: 120.0,
-    properties: [{ category: "Color name", value: "Wild Spruce" }],
-    image: "/assets/images/products/camera-lens.png",
-  },
-  {
-    id: 3,
-    desc: "Camera Lens",
-    inStock: 0,
-    selected: 0,
-    price: 190.0,
-    properties: [{ category: "Color name", value: "Wild Spruce" }],
-    image: "/assets/images/products/camera-lens.png",
-  },
-];
-
 export const Products: React.FC<Props> = ({ className }) => {
-  const [items, setItems] = useState<Products[]>(initialItems);
+  const cart = useSelector((state: RootState) => state.cart.products);
+  const dispatch = useDispatch();
+
+  if (!cart) {
+    return null;
+  }
 
   const setStockLabel = (inStock: number) => {
     if (inStock >= 5) {
@@ -109,11 +36,11 @@ export const Products: React.FC<Props> = ({ className }) => {
 
   const getSubtotal = (): JSX.Element => {
     let total = 0;
-    items.forEach((item) => {
+    Object.values(cart).forEach((item) => {
       total += item.price * item.selected;
     });
 
-    if (items.length === 1) {
+    if (Object.keys(cart).length === 1) {
       return (
         <Label className="text-right text-[19px] pt-5">
           Subtotal (one item): £ <span className="font-bold">{total.toFixed(2)}</span>
@@ -122,33 +49,35 @@ export const Products: React.FC<Props> = ({ className }) => {
     } else {
       return (
         <Label className="text-right text-[19px] pt-5">
-          Subtotal ({items.length} items): £ <span className="font-bold">{total.toFixed(2)}</span>
+          Subtotal ({Object.keys(cart).length} items): £{" "}
+          <span className="font-bold">{total.toFixed(2)}</span>
         </Label>
       );
     }
   };
 
-  const handleDecSelected = (id: number) => () => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.selected > 0 ? { ...item, selected: item.selected - 1 } : item
-      )
-    );
+  const handleDelete = (id: number) => () => {
+    const product = Object.values(cart).find((item) => item.id === id);
+    if (product) {
+      dispatch(removeFromCart(product));
+    }
   };
 
   const handleIncSelected = (id: number) => () => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.selected < item.inStock
-          ? { ...item, selected: item.selected + 1 }
-          : item
-      )
-    );
+    if (cart[id].selected < cart[id].inStock) {
+      dispatch(increaseSelectedVal(id));
+    }
+  };
+
+  const handleDecSelected = (id: number) => () => {
+    if (cart[id].selected > 0) {
+      dispatch(decreaseSelectedVal(id));
+    }
   };
 
   return (
     <div className={cn("flex flex-col border-t-2", className)}>
-      {items.map((item, index) => (
+      {Object.values(cart).map((item, index) => (
         <div key={index} className="flex gap-4 p-4 border-b-2">
           <div className="relative w-[120px] h-[120px] mr-6">
             <Image src={item.image} fill alt="product" className="object-contain" />
@@ -209,6 +138,7 @@ export const Products: React.FC<Props> = ({ className }) => {
                 variant="ghost"
                 type="button"
                 className="w-[fit-contet] text-[#37569E] hover:text-[#222935] rounded-full"
+                onClick={handleDelete(item.id)}
               >
                 Delete
               </Button>

@@ -4,28 +4,42 @@ import Checkout from "@/components/shared/cards/checkout-card";
 import { Products } from "@/components/shared/products";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { clearCart } from "@/store/slices/cartSlice";
+import { RootState } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Page() {
-  const [items, setItems] = useState([""]);
+  const cart = useSelector((state: RootState) => state.cart.products);
+  const dispatch = useDispatch();
+
+  const setItems = () => {
+    return Object.keys(cart).length > 1
+      ? Object.keys(cart).length.toString() + " items"
+      : "one item";
+  };
+
+  const handleDelete = () => {
+    dispatch(clearCart());
+  };
 
   return (
     <>
-      {items.length > 0 ? (
+      {Object.keys(cart).length > 0 ? (
         <>
           <div className="w-[1492px] flex flex-row-reverse p-6 gap-8 mx-auto">
             <Checkout />
             <section className="w-full flex flex-col bg-white rounded-lg mx-auto p-10 pt-8">
               <Label className="w-full flex items-end justify-between">
                 <div className="text-[32px] font-bold">Shopping cart</div>
-                <div className="text-[23px] font-bold leading-[34px]">one item</div>
+                <div className="text-[23px] font-bold leading-[34px]">{setItems()}</div>
               </Label>
               <Button
                 variant="ghost"
                 type="button"
                 className="w-[fit-content] text-[#37569E] hover:text-[#222935] text-base py-1 my-4"
+                onClick={handleDelete}
               >
                 Delete all items
               </Button>
@@ -75,7 +89,7 @@ export default function Page() {
             </div>
             <div className="fixed left-1/2 top-3/4 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center select-none">
               <div className="h-[70px] flex-col justify-center items-center gap-2 inline-flex">
-                <Image src="/assets/images/cart_empty.svg" height={40} width={40} alt="No data" />
+                <Image src="/assets/images/cart-empty.svg" height={40} width={40} alt="No data" />
                 <div className="text-center text-black/25 text-sm leading-snug">No Data</div>
               </div>
             </div>
