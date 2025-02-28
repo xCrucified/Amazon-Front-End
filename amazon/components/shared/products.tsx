@@ -10,7 +10,13 @@ import { Button } from "../ui/button";
 import { Minus, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { decreaseSelectedVal, demarkAsGift, increaseSelectedVal, markAsGift, removeFromCart } from "@/store/slices/cartSlice";
+import {
+  decreaseSelectedVal,
+  demarkAsGift,
+  increaseSelectedVal,
+  markAsGift,
+  removeFromCart,
+} from "@/store/slices/cartSlice";
 
 interface Props {
   className?: string;
@@ -62,7 +68,7 @@ export const Products: React.FC<Props> = ({ className }) => {
     } else {
       dispatch(markAsGift(id));
     }
-  }
+  };
 
   const handleDelete = (id: number) => () => {
     const product = Object.values(cart).find((item) => item.id === id);

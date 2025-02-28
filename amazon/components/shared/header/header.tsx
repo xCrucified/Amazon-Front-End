@@ -27,8 +27,9 @@ export const Header: React.FC<Props> = ({ className }) => {
     dispatch(setIsAuth(shouldHideHeader));
   }, [pathname, dispatch]);
 
+  const cart = useSelector((state: RootState) => state.cart.products);
   const isAuth = useSelector((state: RootState) => state.header.isAuth);
-
+  
   if (isAuth) return null;
 
   return (
@@ -89,7 +90,7 @@ export const Header: React.FC<Props> = ({ className }) => {
               <div className="flex items-center gap-1 duration-300 group-hover:opacity-0 text-[#343a45]">
                 <ShoppingBag size={16} className="relative" strokeWidth={2} />
                 <p>|</p>
-                <b>3</b>
+                <b>{Object.values(cart).length}</b>
               </div>
               <ArrowRight
                 size={20}
