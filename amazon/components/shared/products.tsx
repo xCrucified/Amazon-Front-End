@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 import { Minus, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { decreaseSelectedVal, increaseSelectedVal, removeFromCart } from "@/store/slices/cartSlice";
+import { decreaseSelectedVal, demarkAsGift, increaseSelectedVal, markAsGift, removeFromCart } from "@/store/slices/cartSlice";
 
 interface Props {
   className?: string;
@@ -23,16 +23,6 @@ export const Products: React.FC<Props> = ({ className }) => {
   if (!cart) {
     return null;
   }
-
-  const setStockLabel = (inStock: number) => {
-    if (inStock >= 5) {
-      return <span className="text-emerald-400">In Stock</span>;
-    } else if (inStock > 0 && inStock < 5) {
-      return <span className="text-red-400">Only {inStock} left in Stock</span>;
-    } else {
-      return <span className="text-red-400">Out Of Stock</span>;
-    }
-  };
 
   const getSubtotal = (): JSX.Element => {
     let total = 0;
@@ -55,6 +45,24 @@ export const Products: React.FC<Props> = ({ className }) => {
       );
     }
   };
+
+  const setStockLabel = (inStock: number) => {
+    if (inStock >= 5) {
+      return <span className="text-emerald-400">In Stock</span>;
+    } else if (inStock > 0 && inStock < 5) {
+      return <span className="text-red-400">Only {inStock} left in Stock</span>;
+    } else {
+      return <span className="text-red-400">Out Of Stock</span>;
+    }
+  };
+
+  const handleGiftChange = (id: number) => {
+    if (cart[id].isGift) {
+      dispatch(demarkAsGift(id));
+    } else {
+      dispatch(markAsGift(id));
+    }
+  }
 
   const handleDelete = (id: number) => () => {
     const product = Object.values(cart).find((item) => item.id === id);
@@ -96,6 +104,8 @@ export const Products: React.FC<Props> = ({ className }) => {
             <div className="flex items-center gap-2 pb-3">
               <Checkbox
                 id="gift"
+                checked={item.isGift}
+                onClick={() => handleGiftChange(item.id)}
                 className="w-[13px] h-[13px] border-[2px] border-[#636366] rounded-[2px] data-[state=checked]:bg-[#5A6C8D] data-[state=checked]:border-none shadow-none"
               />
               <Label className="text-[12px]">

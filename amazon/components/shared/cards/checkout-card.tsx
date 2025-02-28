@@ -2,15 +2,27 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utilities/utils";
+import { RootState } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useSelector } from "react-redux";
 
 interface Props {
   className?: string;
 }
 
 export const Checkout: React.FC<Props> = ({ className }) => {
+  const cart = useSelector((state: RootState) => state.cart.products);
+
+  const getSubtotal = (cart: Object) => {
+    let total = 0;
+    Object.values(cart).forEach((item) => {
+      total += item.price * item.selected;
+    });
+    return total.toFixed(2);
+  };
+
   return (
     <div
       className={cn(
@@ -37,7 +49,7 @@ export const Checkout: React.FC<Props> = ({ className }) => {
           Subtotal (1 item):
           <div>
             <span className="text-[15px]">£ </span>
-            <span className="font-bold text-[28px]">19.99</span>
+            <span className="font-bold text-[28px]">{getSubtotal(cart)}</span>
           </div>
         </div>
         <div className="flex items-center gap-2">

@@ -8,6 +8,7 @@ interface ProductProperties {
 interface Product {
   id: number;
   desc: string;
+  isGift: boolean;
   inStock: number;
   selected: number;
   price: number;
@@ -24,6 +25,7 @@ const initialState: Cart = {
     1: {
       id: 1,
       desc: 'Retrospec Solana Yoga Mat 1/2" Thick w/Nylon Strap for Men & Women - Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce',
+      isGift: true,
       inStock: 10,
       selected: 1,
       price: 19.99,
@@ -36,6 +38,7 @@ const initialState: Cart = {
     2: {
       id: 2,
       desc: "Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR CamerasCanon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR Cameras",
+      isGift: false,
       inStock: 2,
       selected: 1,
       price: 120.0,
@@ -45,6 +48,7 @@ const initialState: Cart = {
     3: {
       id: 3,
       desc: "Camera Lens",
+      isGift: false,
       inStock: 0,
       selected: 0,
       price: 190.0,
@@ -65,6 +69,18 @@ const cartSlice = createSlice({
     removeFromCart(state, action: PayloadAction<Product>) {
       delete state.products[action.payload.id];
     },
+    markAsGift(state, action: PayloadAction<number>) {
+      const product = state.products[action.payload];
+      if (product && !product.isGift) {
+        product.isGift = true;
+      }
+    },
+    demarkAsGift(state, action: PayloadAction<number>) {
+      const product = state.products[action.payload];
+      if (product && product.isGift) {
+        product.isGift = false;
+      }
+    },
     increaseSelectedVal(state, action: PayloadAction<number>) {
       const product = state.products[action.payload];
       if (product && product.selected < product.inStock) {
@@ -83,6 +99,13 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, increaseSelectedVal, decreaseSelectedVal, clearCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  markAsGift,
+  demarkAsGift,
+  increaseSelectedVal,
+  decreaseSelectedVal,
+  clearCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;

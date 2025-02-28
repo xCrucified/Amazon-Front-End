@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
-import { IUser } from "@/store/slices/userSlice";
-export const jwtParse = (token: string): IUser | null => {
+
+export const jwtParse = (token: string) => {
   try {
     const data = jwtDecode<any>(token);
     return {
