@@ -17,6 +17,7 @@ import {
   markAsGift,
   removeFromCart,
 } from "@/store/slices/cartSlice";
+import { useRouter } from "next/navigation";
 
 interface Props {
   className?: string;
@@ -24,6 +25,8 @@ interface Props {
 }
 
 export const Products: React.FC<Props> = ({ className, controls }) => {
+  const { push } = useRouter();
+
   const cart = useSelector((state: RootState) => state.cart.products);
   const dispatch = useDispatch();
 
@@ -41,18 +44,64 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
       total += item.price * item.selected;
     });
 
-    if (displayedProducts.length === 1) {
-      return (
-        <Label className="text-right text-[19px] pt-5">
-          Subtotal (one item): £ <span className="font-bold">{total.toFixed(2)}</span>
-        </Label>
-      );
+    if (controls) {
+      if (displayedProducts.length === 1) {
+        return (
+          <Label className="text-right text-[19px] pt-5">
+            Subtotal (one item): £ <span className="font-bold">{total.toFixed(2)}</span>
+          </Label>
+        );
+      } else {
+        return (
+          <Label className="text-right text-[19px] pt-5">
+            Subtotal ({displayedProducts.length} items): £{" "}
+            <span className="font-bold">{total.toFixed(2)}</span>
+          </Label>
+        );
+      }
     } else {
       return (
-        <Label className="text-right text-[19px] pt-5">
-          Subtotal ({displayedProducts.length} items): £{" "}
-          <span className="font-bold">{total.toFixed(2)}</span>
-        </Label>
+        <div className="w-full h-[fit-content] flex justify-between pt-4 pb-2">
+          <div
+            className="mt-auto text-[16px] hover:cursor-pointer flex gap-1 items-center"
+            onClick={() => {
+              push("/cart");
+            }}
+          >
+            <Image
+              src="/assets/images/arrow-bend-down-left.svg"
+              height={0}
+              width={0}
+              className="w-[fit-content] h-[fit-content]"
+              alt="arrow-left"
+            />
+            <span className="ml-2">Edit your order</span>
+          </div>
+          <div className="flex flex-col">
+            <div className="flex w-[fit-content] gap-8">
+              <div className="flex flex-col">
+                <Label className="text-[11px]">Items:</Label>
+                <Label className="text-[11px]">Shippping & Handling:</Label>
+                <Label className="text-[11px]">Total before tax:</Label>
+                <Label className="text-[11px]">Estimated GST/HST:</Label>
+                <Label className="text-[11px]">Esitmated PST/RST/QST:</Label>
+              </div>
+              <div className="flex flex-col text-right">
+                <Label className="text-[11px]">£ {total.toFixed(2)}</Label>
+                <Label className="text-[11px]">£ 0.00</Label>
+                <Label className="text-[11px]">£ 0.00</Label>
+                <Label className="text-[11px]">£ 0.00</Label>
+                <Label className="text-[11px]">£ 0.00</Label>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <Label className="text-[19px] font-bold text-[#e16c60]">Order Total:</Label>
+              <Label className="text-[19px] text-[#e16c60]">
+                £ <span className="font-bold">{total.toFixed(2)}</span>
+              </Label>
+            </div>
+          </div>
+        </div>
       );
     }
   };
@@ -194,7 +243,7 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
           </div>
         </div>
       ))}
-      {controls && getSubtotal()}
+      {getSubtotal()}
     </div>
   );
 };

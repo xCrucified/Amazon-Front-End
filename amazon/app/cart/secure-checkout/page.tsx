@@ -11,7 +11,7 @@ export default function Page() {
   const cart = useSelector((state: RootState) => state.cart.products);
 
   return (
-    <div className="flex w-[1492px] h-[300px] gap-[68px] mx-auto pt-12">
+    <div className="flex w-[1492px] h-[300px] gap-[60px] mx-auto pt-12">
       <section className="w-[812px] flex flex-col gap-4">
         <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-5 rounded-xl">
           <Label className="text-[23px] font-bold pb-4">Add a delivery or pickup address</Label>
@@ -65,13 +65,21 @@ export default function Page() {
           </Link>
         </p>
       </section>
-      <section className="w-[612px] h-[fit-content] flex flex-col gap-4 bg-[#f0f0f0] p-5 rounded-xl">
-        <Label className="w-full flex items-end justify-between">
-          <div className="text-[32px] font-bold leading-[32px]">Items in order</div>
-          <div className="text-[23px] font-bold leading-[34px]">{setItems(cart)}</div>
-        </Label>
-        <Label className="text-[16px] leading-[18px]">Choose a shipping address and payment method in order to calculate shipping, handling, and tax.</Label>
-        <Products />
+      <section className="w-[612px] h-[fit-content] flex flex-col">
+        <div className="flex flex-col gap-4 bg-[#f0f0f0] p-5 rounded-xl">
+          <Label className="w-full flex items-end justify-between">
+            <div className="text-[32px] font-bold leading-[32px]">Items in order</div>
+            <div className="text-[23px] font-bold leading-[34px]">{setItems(cart)}</div>
+          </Label>
+          <Label className="text-[16px] leading-[18px]">
+            Choose a shipping address and payment method in order to calculate shipping, handling,
+            and tax.
+          </Label>
+          <Products />
+        </div>
+        <Link href="/order-price" className="text-[#37569E] text-right text-[14px] mt-4">
+          How are shipping costs calculated?
+        </Link>
       </section>
     </div>
   );
