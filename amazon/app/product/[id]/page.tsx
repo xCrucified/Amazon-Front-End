@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import ReviewGroupList from "../reviews/review-group-list";
 import Link from "next/link";
+import ProductGroupList from "@/components/shared/cards/product-group-list";
 
 interface Props {
   className?: string;
@@ -474,6 +475,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
                     "/assets/images/litakTest.svg",
                   ],
                   rate: 4,
+                  subDescription: "Great beginner lens; no IS and AF is slow",
                   description:
                     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam earum deleniti quo temporibus facere obcaecati sunt accusantium sint! Quo iure obcaecati vel dicta aperiam, est repudiandae nostrum impedit fuga placeat!",
                 },
@@ -488,6 +490,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
                     "/assets/images/litakTest.svg",
                   ],
                   rate: 4,
+                  subDescription: "Great product",
                   description:
                     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam earum deleniti quo temporibus facere obcaecati sunt accusantium sint! Quo iure obcaecati vel dicta aperiam, est repudiandae nostrum impedit fuga placeat!",
                 },
@@ -495,9 +498,93 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             />
           </div>
           <div className="w-full py-[12px] border-b-[3px] border-t-[3px]">
-            <Link className="w-[100%] h-[100%] text-blue-900" href="/product/reviews/all">See more reviews</Link>
+            <Link
+              className="w-[100%] h-[100%] text-blue-900"
+              href="/product/reviews/all"
+            >
+              See more reviews
+            </Link>
           </div>
         </div>
+      </div>
+      <div className="mt-10">
+        <Label className="flex gap-1 font-bold text-[18px] border-b-[3px] mb-5">Continue shopping for <a href="/" className="text-blue-900">See more</a></Label>
+        <ProductGroupList
+          title={""}
+          items={[
+            {
+              id: 0,
+              name: "Retrospec Solana Yoga Mat",
+              imageUrl: "/assets/images/products/mat.svg",
+              items: [
+                {
+                  price: 16.33,
+                },
+              ],
+            },
+            {
+              id: 1,
+              name: "Retrospec Solana Yoga Mat",
+              imageUrl: "/assets/images/products/mat.svg",
+              items: [
+                {
+                  price: 16.33,
+                },
+              ],
+            },
+            {
+              id: 2,
+              name: "Retrospec Solana Yoga Mat",
+              imageUrl: "/assets/images/products/mat.svg",
+              items: [
+                {
+                  price: 16.33,
+                },
+              ],
+            },
+            {
+              id: 3,
+              name: "Retrospec Solana Yoga Mat",
+              imageUrl: "/assets/images/products/mat.svg",
+              items: [
+                {
+                  price: 16.33,
+                },
+              ],
+            },
+            {
+              id: 4,
+              name: "Retrospec Solana Yoga Mat",
+              imageUrl: "/assets/images/products/mat.svg",
+              items: [
+                {
+                  price: 16.33,
+                },
+              ],
+            },
+            {
+              id: 5,
+              name: "Retrospec Solana Yoga Mat",
+              imageUrl: "/assets/images/products/mat.svg",
+              items: [
+                {
+                  price: 16.33,
+                },
+              ],
+            },
+            {
+              id: 6,
+              name: "Retrospec Solana Yoga Mat",
+              imageUrl: "/assets/images/products/mat.svg",
+              items: [
+                {
+                  price: 16.33,
+                },
+              ],
+            },
+          ]}
+          categoryId={4}
+        />
       </div>
     </Container>
   );

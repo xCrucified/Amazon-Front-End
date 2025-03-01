@@ -49,7 +49,7 @@ export const StarRating: React.FC<Props> = ({ className, rate, icon, secondHalf 
       ))}
       {secondHalf ?
         <Label className="relative left-[10px] flex">
-        <p className="text-lg">{Number(rate)}</p>
+        <p className="text-lg">{Number(rate).toFixed(2)}</p>
         {icon ? <img src="/assets/images/filled.svg" alt="star" /> : ""}
       </Label>
       : ""

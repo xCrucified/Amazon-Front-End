@@ -8,6 +8,7 @@ interface Props {
   user: string;
   rate: number;
   description?: string;
+  subDescription?: string;
   images?: string[];
   className?: string;
 }
@@ -17,6 +18,7 @@ export const Review: React.FC<Props> = ({
   user,
   rate,
   description,
+  subDescription,
   images,
   className,
 }) => {
@@ -31,8 +33,9 @@ export const Review: React.FC<Props> = ({
         />
         <p className="font-bold text-[19px]">{user}</p>
       </div>
-      <div>
-        <StarRating rate={rate} icon={true} secondHalf={true} />
+      <div className="flex mb-2">
+        <StarRating className="w-[150px]" rate={rate}/>
+        <p className="font-bold w-full">{subDescription}</p>
       </div>
       <div className="mb-3">
         <p className="text-gray-500 text-[12px]">
@@ -42,7 +45,7 @@ export const Review: React.FC<Props> = ({
       <div className="mb-[17px]">
         <p>{description}</p>
       </div>
-      <div className="flex outline gap-[14px] mt-[17px] justify-start">
+      <div className="flex gap-[14px] mt-[17px] justify-start">
         {images
           ?.map((src, index) => (
             <img
