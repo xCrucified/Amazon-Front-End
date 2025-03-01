@@ -10,15 +10,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
+export const setItems = (cart: Object) => {
+  return Object.keys(cart).length > 1
+    ? Object.keys(cart).length.toString() + " items"
+    : "one item";
+};
+
 export default function Page() {
   const cart = useSelector((state: RootState) => state.cart.products);
   const dispatch = useDispatch();
 
-  const setItems = () => {
-    return Object.keys(cart).length > 1
-      ? Object.keys(cart).length.toString() + " items"
-      : "one item";
-  };
 
   const handleDelete = () => {
     dispatch(clearCart());
@@ -33,7 +34,7 @@ export default function Page() {
             <section className="w-full flex flex-col bg-white rounded-lg mx-auto p-10 pt-8">
               <Label className="w-full flex items-end justify-between">
                 <div className="text-[32px] font-bold">Shopping cart</div>
-                <div className="text-[23px] font-bold leading-[34px]">{setItems()}</div>
+                <div className="text-[23px] font-bold leading-[34px]">{setItems(cart)}</div>
               </Label>
               <Button
                 variant="ghost"
@@ -43,7 +44,7 @@ export default function Page() {
               >
                 Delete all items
               </Button>
-              <Products />
+              <Products controls />
             </section>
           </div>
           <div className="w-[1492px] mx-auto p-6 pt-0 text-[11px] leading-[13px]">

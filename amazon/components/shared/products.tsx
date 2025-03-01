@@ -20,9 +20,10 @@ import {
 
 interface Props {
   className?: string;
+  controls?: boolean;
 }
 
-export const Products: React.FC<Props> = ({ className }) => {
+export const Products: React.FC<Props> = ({ className, controls }) => {
   const cart = useSelector((state: RootState) => state.cart.products);
   const dispatch = useDispatch();
 
@@ -30,13 +31,17 @@ export const Products: React.FC<Props> = ({ className }) => {
     return null;
   }
 
+  const displayedProducts = controls
+    ? Object.values(cart)
+    : Object.values(cart).filter((item) => item.selected > 0);
+
   const getSubtotal = (): JSX.Element => {
     let total = 0;
-    Object.values(cart).forEach((item) => {
+    displayedProducts.forEach((item) => {
       total += item.price * item.selected;
     });
 
-    if (Object.keys(cart).length === 1) {
+    if (displayedProducts.length === 1) {
       return (
         <Label className="text-right text-[19px] pt-5">
           Subtotal (one item): £ <span className="font-bold">{total.toFixed(2)}</span>
@@ -45,7 +50,7 @@ export const Products: React.FC<Props> = ({ className }) => {
     } else {
       return (
         <Label className="text-right text-[19px] pt-5">
-          Subtotal ({Object.keys(cart).length} items): £{" "}
+          Subtotal ({displayedProducts.length} items): £{" "}
           <span className="font-bold">{total.toFixed(2)}</span>
         </Label>
       );
@@ -90,82 +95,106 @@ export const Products: React.FC<Props> = ({ className }) => {
   };
 
   return (
-    <div className={cn("flex flex-col border-t-2", className)}>
-      {Object.values(cart).map((item, index) => (
-        <div key={index} className="flex gap-4 p-4 border-b-2">
-          <div className="relative w-[120px] h-[120px] mr-6">
+    <div
+      className={cn(
+        controls ? "border-t-2" : "border-t border-[#7c7c7c]/60",
+        "flex flex-col",
+        className
+      )}
+    >
+      {displayedProducts.map((item, index) => (
+        <div
+          key={index}
+          className={cn(controls ? "border-b-2" : "border-b border-[#7c7c7c]/60", "flex gap-4 p-4")}
+        >
+          <div
+            className={cn(
+              controls ? "mr-6 w-[120px] h-[120px]" : "w-[140px] h-[140px] pr-4",
+              "relative"
+            )}
+          >
             <Image src={item.image} fill alt="product" className="object-contain" />
           </div>
-          <div className="w-full flex flex-col text-[13px]">
-            <Label className="font-bold pb-1">{item.desc}</Label>
-            <Label className="pb-3">{setStockLabel(item.inStock)}</Label>
-            <section className="pb-3">
+          <div className={cn(!controls && "justify-between", "w-full flex flex-col")}>
+            <Label className={cn(controls ? "font-bold pb-1" : "text-[11px] pb-4")}>
+              {item.desc}
+            </Label>
+            {controls && <Label className="pb-3">{setStockLabel(item.inStock)}</Label>}
+            <section className={cn(controls && "mt-1", "pb-3")}>
               {item.properties.map((property) => (
                 <div className="flex gap-2" key={property.category}>
-                  <Label className="font-bold">{property.category}:</Label>
-                  <Label>{property.value}</Label>
+                  <Label className={cn(!controls && "text-[11px]", "font-bold")}>
+                    {property.category}:
+                  </Label>
+                  <Label className={cn(!controls && "text-[11px]")}>{property.value}</Label>
                 </div>
               ))}
             </section>
-            <div className="flex items-center gap-2 pb-3">
-              <Checkbox
-                id="gift"
-                checked={item.isGift}
-                onClick={() => handleGiftChange(item.id)}
-                className="w-[13px] h-[13px] border-[2px] border-[#636366] rounded-[2px] data-[state=checked]:bg-[#5A6C8D] data-[state=checked]:border-none shadow-none"
-              />
-              <Label className="text-[12px]">
-                This will be a gift.{" "}
-                <Link href="/gifts" className="text-[#37569e]">
-                  Learn more
-                </Link>
-              </Label>
-            </div>
-            <section className="flex items-center w-[fit-content] gap-2 h-[24px]">
-              <div className="flex bg-muted items-center p-1 gap-2 rounded-full">
-                <Button
-                  variant="ghost"
-                  className="hover:bg-transparent h-[fit-content]"
-                  size="icon"
-                  type="button"
-                  onClick={handleDecSelected(item.id)}
-                >
-                  <Minus />
-                </Button>
-                <Label className="text-red-500">{item.selected}</Label>
-                <Button
-                  variant="ghost"
-                  className="hover:bg-transparent h-[fit-content]"
-                  size="icon"
-                  type="button"
-                  onClick={handleIncSelected(item.id)}
-                >
-                  <Plus />
-                </Button>
+            {controls ? (
+              <div className="flex items-center gap-2 pb-3">
+                <Checkbox
+                  id="gift"
+                  checked={item.isGift}
+                  onClick={() => handleGiftChange(item.id)}
+                  className="w-[13px] h-[13px] border-[2px] border-[#636366] rounded-[2px] data-[state=checked]:bg-[#5A6C8D] data-[state=checked]:border-none shadow-none"
+                />
+                <Label className="text-[12px]">
+                  This will be a gift.{" "}
+                  <Link href="/gifts" className="text-[#37569e]">
+                    Learn more
+                  </Link>
+                </Label>
               </div>
-              <Button
-                variant="ghost"
-                type="button"
-                className="w-[fit-contet] text-[#37569E] hover:text-[#222935] rounded-full"
-              >
-                Save for later
-              </Button>
-              <Button
-                variant="ghost"
-                type="button"
-                className="w-[fit-contet] text-[#37569E] hover:text-[#222935] rounded-full"
-                onClick={handleDelete(item.id)}
-              >
-                Delete
-              </Button>
-            </section>
+            ) : (
+              <Label className="text-[11px]">Quantity: {item.selected}</Label>
+            )}
+            {controls && (
+              <section className="flex items-center w-[fit-content] gap-2 h-[24px]">
+                <div className="flex bg-muted items-center p-1 gap-2 rounded-full">
+                  <Button
+                    variant="ghost"
+                    className="hover:bg-transparent h-[fit-content]"
+                    size="icon"
+                    type="button"
+                    onClick={handleDecSelected(item.id)}
+                  >
+                    <Minus />
+                  </Button>
+                  <Label className="text-red-500">{item.selected}</Label>
+                  <Button
+                    variant="ghost"
+                    className="hover:bg-transparent h-[fit-content]"
+                    size="icon"
+                    type="button"
+                    onClick={handleIncSelected(item.id)}
+                  >
+                    <Plus />
+                  </Button>
+                </div>
+                <Button
+                  variant="ghost"
+                  type="button"
+                  className="w-[fit-contet] text-[#37569E] hover:text-[#222935] rounded-full"
+                >
+                  Save for later
+                </Button>
+                <Button
+                  variant="ghost"
+                  type="button"
+                  className="w-[fit-contet] text-[#37569E] hover:text-[#222935] rounded-full"
+                  onClick={handleDelete(item.id)}
+                >
+                  Delete
+                </Button>
+              </section>
+            )}
           </div>
           <div className="flex text-[19px] self-center gap-1 pl-[6]">
             £<span className="font-bold">{item.price.toFixed(2)}</span>
           </div>
         </div>
       ))}
-      {getSubtotal()}
+      {controls && getSubtotal()}
     </div>
   );
 };
