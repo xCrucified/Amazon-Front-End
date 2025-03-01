@@ -1,26 +1,18 @@
 import React from "react";
 import Review from "./review";
+import { cn } from "@/lib/utils";
 
 interface Props {
+  reviews: any[];
   className?: string;
 }
 
-export const ReviewGroupList: React.FC<Props> = ({ className }) => {
+export const ReviewGroupList: React.FC<Props> = ({ className, reviews }) => {
   return (
-    <div className={className}>
-      <Review
-        id={1}
-        user={"BOB"}
-        images={[
-          "/assets/images/litakTest.svg",
-          "/assets/images/litakTest.svg",
-          "/assets/images/litakTest.svg",
-          "/assets/images/litakTest.svg",
-          "/assets/images/litakTest.svg",
-        ]}
-        rate={4}
-        description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam earum deleniti quo temporibus facere obcaecati sunt accusantium sint! Quo iure obcaecati vel dicta aperiam, est repudiandae nostrum impedit fuga placeat!"
-      />
+    <div className={cn("",className)}>
+      {reviews.map((review) => (
+        <Review key={review.id} {...review} />
+      ))}
     </div>
   );
 };

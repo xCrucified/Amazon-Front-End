@@ -15,8 +15,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
-import { Review } from "../reviews/review";
 import ReviewGroupList from "../reviews/review-group-list";
+import Link from "next/link";
 
 interface Props {
   className?: string;
@@ -112,7 +112,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             <Button
               onClick={() => setSelected(1)}
               className={cn(
-                "w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none border-[3px] border-[#a8a8a8] rounded-tl-lg rounded-bl-lg",
+                "w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none -[border3px] border-[#a8a8a8] rounded-tl-lg rounded-bl-lg",
                 selected === 1
                   ? "border-[#5b6c8c] border-4 bg-[#f5f5f5] text-black"
                   : ""
@@ -461,7 +461,41 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             <Label className="font-semibold text-[22px] flex mb-7">
               Reviews with images
             </Label>
-            <ReviewGroupList />
+            <ReviewGroupList
+              reviews={[
+                {
+                  id: 1,
+                  user: "BOB",
+                  images: [
+                    "/assets/images/litakTest.svg",
+                    "/assets/images/litakTest.svg",
+                    "/assets/images/litakTest.svg",
+                    "/assets/images/litakTest.svg",
+                    "/assets/images/litakTest.svg",
+                  ],
+                  rate: 4,
+                  description:
+                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam earum deleniti quo temporibus facere obcaecati sunt accusantium sint! Quo iure obcaecati vel dicta aperiam, est repudiandae nostrum impedit fuga placeat!",
+                },
+                {
+                  id: 2,
+                  user: "ROB",
+                  images: [
+                    "/assets/images/litakTest.svg",
+                    "/assets/images/litakTest.svg",
+                    "/assets/images/litakTest.svg",
+                    "/assets/images/litakTest.svg",
+                    "/assets/images/litakTest.svg",
+                  ],
+                  rate: 4,
+                  description:
+                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam earum deleniti quo temporibus facere obcaecati sunt accusantium sint! Quo iure obcaecati vel dicta aperiam, est repudiandae nostrum impedit fuga placeat!",
+                },
+              ]}
+            />
+          </div>
+          <div className="w-full py-[12px] border-b-[3px] border-t-[3px]">
+            <Link className="w-[100%] h-[100%] text-blue-900" href="/product/reviews/all">See more reviews</Link>
           </div>
         </div>
       </div>

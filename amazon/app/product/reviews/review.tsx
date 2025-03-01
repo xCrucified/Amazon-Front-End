@@ -21,7 +21,7 @@ export const Review: React.FC<Props> = ({
   className,
 }) => {
   return (
-    <div className={cn("w-[739px]", className)}>
+    <div className={cn("w-[739px] mb-[24px]", className)}>
       <div className="flex gap-3 w-full mb-3 items-center">
         <img
           src="/assets/images/image.svg"
