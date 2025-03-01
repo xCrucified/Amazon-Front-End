@@ -22,8 +22,12 @@ export const Header: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const hideHeaderRoutes = ["/registration", "/login"];
-    const shouldHideHeader = hideHeaderRoutes.some((route) => pathname.startsWith(route));
+    console.log("Current pathname:", pathname);
+    const hideHeaderRoutes = ["/registration", "/login", "/cart/secure-checkout"];
+    const shouldHideHeader = hideHeaderRoutes.some((route) =>
+      pathname.startsWith(route)
+    );
+    console.log("Should hide header:", shouldHideHeader);
     dispatch(setIsAuth(shouldHideHeader));
   }, [pathname, dispatch]);
 

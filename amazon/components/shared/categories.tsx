@@ -65,7 +65,7 @@ export const Categories: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const hideHeaderRoutes = ["/registration", "/login"];
+    const hideHeaderRoutes = ["/registration", "/login", "/cart/secure-checkout"];
     const shouldHideHeader = hideHeaderRoutes.some((route) => pathname.startsWith(route));
     dispatch(setIsAuth(shouldHideHeader));
   }, [pathname, dispatch]);

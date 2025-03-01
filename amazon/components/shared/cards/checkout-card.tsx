@@ -5,6 +5,7 @@ import { cn } from "@/lib/utilities/utils";
 import { RootState } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -22,6 +23,11 @@ export const Checkout: React.FC<Props> = ({ className }) => {
     });
     return total.toFixed(2);
   };
+
+  const { push } = useRouter();
+  const handleCheckout = () => {
+    push("/cart/secure-checkout");
+  }
 
   return (
     <div
@@ -59,7 +65,7 @@ export const Checkout: React.FC<Props> = ({ className }) => {
           />
           <Label className="text-[11px]">This order contains a gift</Label>
         </div>
-        <Button variant="figmaPrimary">Proceed to checkout</Button>
+        <Button variant="figmaPrimary" type="button" onClick={handleCheckout}>Proceed to checkout</Button>
         <div className="flex justify-start items-center bg-[#f1f4f7] rounded-lg">
           <Image
             src="/assets/images/InfoOutline.svg"
