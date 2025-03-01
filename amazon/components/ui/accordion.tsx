@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Accordion from "@radix-ui/react-accordion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 
 interface AccordionItemProps extends React.ComponentPropsWithoutRef<typeof Accordion.Item> {
   children: React.ReactNode;
