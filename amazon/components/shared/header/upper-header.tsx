@@ -22,7 +22,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
   const isAuth = useSelector((state: RootState) => state.header.isAuth);  
 
   return (
-    <div className={cn("w-[100%] h-[60px] bg-[rgb(52,58,69)]", className)}>
+    <div className={cn("w-[100%] h-[60px] bg-[#353b46]", className)}>
       <Container className="w-[1175px] h-[100%] flex justify-between p-2 items-center">
         <div className="w-[115px]">
           <CountryDialog />

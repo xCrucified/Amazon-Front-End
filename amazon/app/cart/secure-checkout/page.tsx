@@ -6,9 +6,20 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { setItems } from "../page";
 import Products from "@/components/shared/products";
+import { cn } from "@/lib/utilities/utils";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import AddressForm from "@/components/ui/address-form";
 
 export default function Page() {
   const cart = useSelector((state: RootState) => state.cart.products);
+  const [selected, setSelected] = useState(false);
 
   return (
     <div className="flex w-[1492px] h-[300px] gap-[60px] mx-auto pt-12">
@@ -16,15 +27,41 @@ export default function Page() {
         <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-5 rounded-xl">
           <Label className="text-[23px] font-bold pb-4">Add a delivery or pickup address</Label>
           <div className="flex gap-4">
-            <div className="w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-2 border-[#e8e8e8] gap-4">
+            <div
+              className={cn(
+                selected ? "border-[#e16c60]" : "border-[#e8e8e8]",
+                "w-[fit-content] h-[fit-content] flex flex-col p-4 bg-white rounded-xl border-[3px] gap-4 cursor-pointer transition-all ease-in-out duration-100"
+              )}
+              onClick={() => {
+                selected ? setSelected(false) : setSelected(true);
+              }}
+            >
+              <div
+                className={cn(
+                  selected ? "border-[#e16c60] border-[7px]" : "border-[#5e5e5e] border-[3px]",
+                  "w-[20px] h-[20px] ml-auto rounded-full transition-all ease-in-out duration-100"
+                )}
+              />
               <div className="h-16 flex-col justify-center items-start gap-1 flex">
-                <div className="h-5">Home</div>
-                <div className="h-10 text-[#4b4b4b]">Ukraine, Rivne, 12346, Kosmos 43</div>
+                <Label className="text-[16px] leading-[20px]">Home</Label>
+                <Label className="text-[14px] leading-[20px] text-[#4b4b4b] max-w-[150px]">
+                  Ukraine, Rivne, 12346, Kosmos 43
+                </Label>
               </div>
             </div>
-            <div className="w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-2 border-[#e8e8e8]">
-              Add a new delivery address
-            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-2 border-[#e8e8e8]">
+                  Add a new delivery address
+                </div>
+              </DialogTrigger>
+              <DialogContent className="w-[405px]">
+                <DialogHeader>
+                  <DialogTitle className="text-center text-[23px] font-bold">Add new address</DialogTitle>
+                </DialogHeader>
+                <AddressForm />
+              </DialogContent>
+            </Dialog>
             <div className="w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-2 border-[#e8e8e8]">
               Find a pickup location nearby
             </div>
