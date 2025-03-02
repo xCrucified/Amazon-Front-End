@@ -75,11 +75,23 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
     localStorage.setItem("isRed", JSON.stringify(newState));
   };
 
+  const handleModalClick = () => {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
+        <div className="w-[80%] h-[80%] bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <img src="/assets/images/productImg.png" alt="product" />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Container className={cn(className, "mb-10 p-6")}>
       <div className="w-full h-full flex gap-[56px] mt-[20px]">
         <div className="w-[696px] rounded-md">
-          <img src="/assets/images/productImg.png" alt="product" />
+          <button onClick={handleModalClick}>
+            <img src="/assets/images/productImg.png" alt="product" />
+          </button>
         </div>
         <div className="w-[740px] h-full">
           <div className="flex justify-between items-center">
