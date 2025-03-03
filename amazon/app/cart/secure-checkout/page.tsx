@@ -17,29 +17,33 @@ import {
 import AddressForm from "@/components/ui/address-form";
 import { AddressCard } from "@/components/shared/cards/address-card";
 import { cn } from "@/lib/utilities/utils";
-
-// export const metadata = {
-//   title: "Secure checkout",
-// };
+import { PaymentCard } from "@/components/shared/cards/payment-card";
+import { ChevronRight } from "lucide-react";
+import PaymentCardForm from "@/components/ui/payment-card-form";
 
 export default function Page() {
   const cart = useSelector((state: RootState) => state.cart.products);
   const addresses = useSelector((state: RootState) => state.addresses.addresses);
+  const cards = useSelector((state: RootState) => state.paymentCards.cards);
   const [selectedAddress, setSelectedAddress] = useState<string>("");
-  const [addHovered, setAddHovered] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<string>("");
+  const [addressAddHovered, setAddressAddHovered] = useState(false);
+  const [cardAddHovered, setCardAddHovered] = useState(false);
+  const [addressDialogOpen, setAddressDialogOpen] = useState(false);
   const [findHovered, setFindHovered] = useState(false);
+  const [cardDialogOpen, setCardDialogOpen] = useState(false);
 
   return (
     <div className="flex w-[1492px] h-[300px] gap-[60px] mx-auto pt-12">
       <section className="w-[fit-content] max-w-[900px] flex flex-col gap-4">
-        <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-5 rounded-xl">
+        <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-7 rounded-xl">
           <Label className="text-[23px] font-bold pb-4">Add a delivery or pickup address</Label>
           <div className="flex gap-4 flex-wrap">
             {addresses.map((addr) => (
               <AddressCard
                 key={addr.id}
                 id={addr.id}
-                label={addr.label}
+                name={addr.name}
                 country={addr.country}
                 city={addr.city}
                 postalCode={addr.postalCode}
@@ -49,15 +53,15 @@ export default function Page() {
                 onSelect={(id) => setSelectedAddress(id)}
               />
             ))}
-            <Dialog>
+            <Dialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen}>
               <DialogTrigger asChild>
                 <div
                   className={cn(
-                    addHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
+                    addressAddHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
                     "w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-[3px] cursor-pointer transition-all ease-in-out duration-100"
                   )}
-                  onMouseEnter={() => setAddHovered(true)}
-                  onMouseLeave={() => setAddHovered(false)}
+                  onMouseEnter={() => setAddressAddHovered(true)}
+                  onMouseLeave={() => setAddressAddHovered(false)}
                 >
                   Add a new delivery address
                 </div>
@@ -68,13 +72,18 @@ export default function Page() {
                     Add new address
                   </DialogTitle>
                 </DialogHeader>
-                <AddressForm />
+                <AddressForm
+                  onSuccess={(newAddressId) => {
+                    setAddressDialogOpen(false);
+                    setSelectedAddress(newAddressId);
+                  }}
+                />
               </DialogContent>
             </Dialog>
             <div
               className={cn(
                 findHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
-                "w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-[3px] cursor-pointer transition-all ease-in-out duration-100"
+                "w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-[3px] cursor-not-allowed transition-all ease-in-out duration-100 select-none"
               )}
               onMouseEnter={() => setFindHovered(true)}
               onMouseLeave={() => setFindHovered(false)}
@@ -83,10 +92,59 @@ export default function Page() {
             </div>
           </div>
         </section>
-        <section className="w-full h-[fit-content] p-7 bg-[#f0f0f0] rounded-xl">
-          <Label className="text-[23px] text-black/40 font-bold pb-4 leading-[23px]">
+        <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-7 rounded-xl">
+          <Label
+            className={cn(
+              selectedAddress ? "text-black pb-4" : "text-black/40",
+              "text-[23px] font-bold leading-[23px]"
+            )}
+          >
             Payment method
           </Label>
+          {selectedAddress && (
+            <div className="flex gap-4 flex-wrap">
+              {cards.map((card) => (
+                <PaymentCard
+                  key={card.id}
+                  id={card.id}
+                  name={card.name}
+                  cardNumber={card.cardNumber}
+                  expiry={card.expiry}
+                  cardType={card.cardType}
+                  selected={selectedCard === card.id}
+                  onSelect={(id) => setSelectedCard(id)}
+                />
+              ))}
+              <Dialog open={cardDialogOpen} onOpenChange={setCardDialogOpen}>
+                <DialogTrigger asChild>
+                  <div
+                    className={cn(
+                      cardAddHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
+                      "w-[172px] h-[fit-content] flex flex-col gap-4 p-4 bg-white rounded-xl border-[3px] cursor-pointer transition-all ease-in-out duration-100"
+                    )}
+                    onMouseEnter={() => setCardAddHovered(true)}
+                    onMouseLeave={() => setCardAddHovered(false)}
+                  >
+                    <ChevronRight className="ml-auto" size={18} />
+                    <span>New card</span>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="w-[405px]">
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-[23px] font-bold">
+                      Add new card
+                    </DialogTitle>
+                  </DialogHeader>
+                  <PaymentCardForm
+                    onSuccess={(newCardId) => {
+                      setCardDialogOpen(false);
+                      setSelectedCard(newCardId);
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
         </section>
         <section className="w-full h-[fit-content] p-7 bg-[#f0f0f0] rounded-xl">
           <Label className="text-[23px] text-black/40 font-bold pb-4 leading-[23px]">

@@ -13,7 +13,6 @@ const Countries = [
     { value: "brazil", label: "Brazil" },
     { value: "australia", label: "Australia" },
     { value: "mexico", label: "Mexico" },
-    { value: "russia", label: "Russia" },
     { value: "south_korea", label: "South Korea" },
     { value: "south_africa", label: "South Africa" },
     { value: "argentina", label: "Argentina" },

@@ -5,19 +5,19 @@ import Countries from "@/lib/countries";
 
 interface AddressCardProps {
   id: string;
-  label?: string | "";
+  name: string;
   country: string;
   city: string;
   postalCode: string;
-  street?: string | "";
-  building?: string | "";
+  street: string;
+  building: string;
   selected: boolean;
   onSelect: (id: string) => void;
 }
 
 export const AddressCard: React.FC<AddressCardProps> = ({
   id,
-  label,
+  name,
   country,
   city,
   postalCode,
@@ -45,13 +45,13 @@ export const AddressCard: React.FC<AddressCardProps> = ({
         )}
       />
       <div className="h-[fit-content] flex-col justify-center items-start gap-1 flex">
-        <Label className="text-[16px] leading-[20px]">{label}</Label>
+        <Label className="text-[16px] leading-[20px]">{name}</Label>
         <Label className="flex text-[14px] leading-[20px] text-[#4b4b4b] max-w-[150px] text-wrap">
           {Countries.find((c) => c.value === country)?.label}
           {", " + city}
           {", " + postalCode}
-          {street && ", " + street}
-          {building && ", " + building}
+          {", " + street}
+          {", " + building}
         </Label>
       </div>
     </div>
