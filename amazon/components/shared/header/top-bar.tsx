@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../../ui/button";
 import Categories from "../categories";
 import Image from "next/image";
-import { Modal } from "@/components/ui/modal";
+import { ModalAll } from "@/components/shared/modal/modalAllBtn";
 
 interface Props {
   className?: string;
@@ -25,7 +25,7 @@ export const TopBar: React.FC<Props> = ({ className }) => {
             height={22}
           />
         </Button>
-          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          <ModalAll isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         <Categories />
       </div>
     </div>

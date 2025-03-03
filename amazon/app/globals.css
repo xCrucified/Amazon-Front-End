@@ -4,7 +4,9 @@
 
 html {
   scroll-behavior: smooth;
-}
+  &::-webkit-scrollbar {
+    display: none;
+  }}
 
 @media screen and (prefers-reduced-motion: reduce) {
   html {
@@ -95,6 +97,11 @@ html {
   -webkit-box-shadow:0px 1px 16px 0px rgba(53,65,191,0.34);
 -moz-box-shadow: 0px 1px 16px 0px rgba(53,65,191,0.34);
 box-shadow: 0px 1px 16px 0px rgba(53,65,191,0.34);
+}
+.modal-shadow{
+  -webkit-box-shadow:0px 0px 15px 0px rgba(255,255,255,1);
+  -moz-box-shadow: 0px 0px 15px 0px rgba(255,255,255,1);
+  box-shadow: 0px 0px 15px 0px rgba(255,255,255,1);
 }
 /* w-[50%] h-full bg-[#dedede] text-[#636363] 
 hover:bg-gray-100 rounded-none border-4 border-[#a8a8a8] 
