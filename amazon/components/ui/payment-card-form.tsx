@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
@@ -10,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { cardSchema } from "@/lib/schemas/cardSchema";
 import { addCard } from "@/store/slices/paymentCardsSlice";
+import { Tabs, TabsList, TabsTrigger } from "./tabs";
+import Image from "next/image";
 
 interface Props {
   className?: string;
@@ -17,6 +19,8 @@ interface Props {
 }
 
 export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
+  const [cardType, setCardType] = useState("");
+
   const form = useForm<z.infer<typeof cardSchema>>({
     resolver: zodResolver(cardSchema),
     defaultValues: {
@@ -73,7 +77,6 @@ export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="cardNumber"
@@ -98,7 +101,6 @@ export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="cardHolder"
@@ -123,7 +125,6 @@ export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
             </FormItem>
           )}
         />
-
         <div className="flex gap-4">
           <FormField
             control={form.control}
@@ -174,6 +175,44 @@ export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
             )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="cardType"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel className="text-black">Card Type</FormLabel>
+              <FormControl>
+                <Tabs value={field.value} onValueChange={field.onChange} className="w-full">
+                  <TabsList className="w-full h-12 flex gap-2 bg-[#e8e8e8]">
+                    <TabsTrigger
+                      value="visa"
+                      className="w-full h-full hover:bg-white data-[state=active]:shadow-none"
+                    >
+                      <Image
+                        src={"/assets/images/visa-logo.svg"}
+                        width={48}
+                        height={48}
+                        alt="visa"
+                      />
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="mastercard"
+                      className="w-full h-full hover:bg-white data-[state=active]:shadow-none"
+                    >
+                      <Image
+                        src={"/assets/images/mastercard.svg"}
+                        width={48}
+                        height={48}
+                        alt="mastercard"
+                      />
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </FormControl>
+              <FormMessage className="flex gap-1 items-center leading-[10px]" />
+            </FormItem>
+          )}
+        />
         <Button type="submit" variant="figmaPrimary" className="w-full">
           Add card
         </Button>
