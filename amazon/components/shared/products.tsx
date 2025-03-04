@@ -54,7 +54,7 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
       } else {
         return (
           <Label className="text-right text-[19px] pt-5">
-            Subtotal ({displayedProducts.length} items): £{" "}
+            Subtotal ({displayedProducts.filter((item) => item.selected > 0).length} items): £{" "}
             <span className="font-bold">{total.toFixed(2)}</span>
           </Label>
         );

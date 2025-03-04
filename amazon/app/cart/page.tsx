@@ -11,15 +11,12 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
 export const setItems = (cart: Object) => {
-  return Object.keys(cart).length > 1
-    ? Object.keys(cart).length.toString() + " items"
-    : "one item";
+  return Object.keys(cart).length > 1 ? Object.keys(cart).length.toString() + " items" : "one item";
 };
 
 export default function Page() {
   const cart = useSelector((state: RootState) => state.cart.products);
   const dispatch = useDispatch();
-
 
   const handleDelete = () => {
     dispatch(clearCart());
@@ -88,7 +85,7 @@ export default function Page() {
               Do you have a gift card or promotional code? We'll ask you to enter your claim code
               when it's time to pay.
             </div>
-            <div className="fixed left-1/2 top-3/4 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center select-none">
+            <div className="flex items-center justify-center pt-12 select-none">
               <div className="h-[70px] flex-col justify-center items-center gap-2 inline-flex">
                 <Image src="/assets/images/cart-empty.svg" height={40} width={40} alt="No data" />
                 <div className="text-center text-black/25 text-sm leading-snug">No Data</div>

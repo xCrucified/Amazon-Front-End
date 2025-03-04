@@ -18,7 +18,7 @@ interface Props {
   onSuccess?: (newCardId: string) => void;
 }
 
-export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
+export const PaymentCardForm: React.FC<Props> = ({ className, onSuccess }) => {
   const [cardType, setCardType] = useState("");
 
   const form = useForm<z.infer<typeof cardSchema>>({
@@ -221,4 +221,4 @@ export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
   );
 };
 
-export default AddressForm;
+export default PaymentCardForm;

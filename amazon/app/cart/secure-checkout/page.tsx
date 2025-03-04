@@ -20,6 +20,21 @@ import { cn } from "@/lib/utilities/utils";
 import { PaymentCard } from "@/components/shared/cards/payment-card";
 import { ChevronRight } from "lucide-react";
 import PaymentCardForm from "@/components/ui/payment-card-form";
+import { DateCard } from "@/components/shared/cards/date-card";
+import DeliveryDateForm from "@/components/ui/delivery-date-form";
+
+const dates = [
+  {
+    id: 1,
+    label: "Free delivery:",
+    date: new Date(new Date(new Date().getDate() + 3)),
+  },
+  {
+    id: 2,
+    label: "Custom delivery:",
+    date: new Date(),
+  },
+];
 
 export default function Page() {
   const cart = useSelector((state: RootState) => state.cart.products);
@@ -27,14 +42,17 @@ export default function Page() {
   const cards = useSelector((state: RootState) => state.paymentCards.cards);
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [selectedCard, setSelectedCard] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
   const [addressAddHovered, setAddressAddHovered] = useState(false);
   const [cardAddHovered, setCardAddHovered] = useState(false);
+  const [dateAddHovered, setDateAddHovered] = useState(false);
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
   const [findHovered, setFindHovered] = useState(false);
   const [cardDialogOpen, setCardDialogOpen] = useState(false);
+  const [dateDialogOpen, setDateDialogOpen] = useState(false);
 
   return (
-    <div className="flex w-[1492px] h-[300px] gap-[60px] mx-auto pt-12">
+    <div className="flex w-[1492px] gap-[60px] mx-auto py-12">
       <section className="w-[fit-content] max-w-[900px] flex flex-col gap-4">
         <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-7 rounded-xl">
           <Label className="text-[23px] font-bold pb-4">Add a delivery or pickup address</Label>
@@ -146,10 +164,69 @@ export default function Page() {
             </div>
           )}
         </section>
-        <section className="w-full h-[fit-content] p-7 bg-[#f0f0f0] rounded-xl">
-          <Label className="text-[23px] text-black/40 font-bold pb-4 leading-[23px]">
+        <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-7 rounded-xl">
+          <Label
+            className={cn(
+              selectedCard ? "text-black pb-4" : "text-black/40",
+              "text-[23px] font-bold leading-[23px]"
+            )}
+          >
             Items and shipping
           </Label>
+          {selectedCard && (
+            <div className="flex gap-4 flex-wrap">
+              <DateCard
+                id="1"
+                label="Free delivery"
+                date={new Date().toLocaleDateString()}
+                selected={selectedDate ? true : false}
+                onSelect={(id) => setSelectedDate(id)}
+              />
+              <Dialog open={dateDialogOpen} onOpenChange={setDateDialogOpen}>
+                <DialogTrigger asChild className="cursor-pointer">
+                  <div
+                    className={cn(
+                      dateAddHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
+                      "min-w-[340px] h-[fit-content] flex flex-col gap-4 p-4 bg-white rounded-xl border-[3px] transition-all ease-in-out duration-100"
+                    )}
+                    onMouseEnter={() => setDateAddHovered(true)}
+                    onMouseLeave={() => setDateAddHovered(false)}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span>Delivery option:</span>
+                      <ChevronRight className="ml-auto" size={18} />
+                    </div>
+                    <div className="flex flex-col">
+                      <Label className="text-black/60 text-[16px] leading-[20px] cursor-pointer">
+                        We&apos;ll deliver your order together
+                      </Label>
+                      <Label
+                        className={cn(
+                          dateAddHovered && "underline",
+                          "text-[16px] text-[#37569E] leading-[20px] cursor-pointer"
+                        )}
+                      >
+                        Choose your Onyx day
+                      </Label>
+                    </div>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="w-[405px]">
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-[23px] font-bold">
+                      Delivery Schedule
+                    </DialogTitle>
+                  </DialogHeader>
+                  <DeliveryDateForm
+                    onSuccess={(newDateId) => {
+                      setDateDialogOpen(false);
+                      setSelectedDate(newDateId);
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
         </section>
         <p className="text-[13px] text-black/75 pb-1">
           Need help? Check our{" "}
@@ -180,7 +257,9 @@ export default function Page() {
         <div className="flex flex-col gap-4 bg-[#f0f0f0] p-5 rounded-xl">
           <Label className="w-full flex items-end justify-between">
             <div className="text-[32px] font-bold leading-[32px]">Items in order</div>
-            <div className="text-[23px] font-bold leading-[34px]">{setItems(cart)}</div>
+            <div className="text-[23px] font-bold leading-[34px]">
+              {setItems(Object.values(cart).filter((product) => product.selected > 0))}
+            </div>
           </Label>
           <Label className="text-[16px] leading-[18px]">
             Choose a shipping address and payment method in order to calculate shipping, handling,
