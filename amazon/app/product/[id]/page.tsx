@@ -61,7 +61,6 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const totalSlides = Math.ceil(reviewImages.length / itemsPerPage);
-
   
   const handleImageClick = (imageSrc: string) => {
     setSelectedImage(imageSrc);
@@ -109,7 +108,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             <ModalImage
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
-              image={selectedImage}
+              images={[selectedImage]}
             />
           )}
         </div>

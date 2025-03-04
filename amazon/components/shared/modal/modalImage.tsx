@@ -1,18 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { Container } from "../container";
+import { cn } from "@/lib/utils";
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+  images: string[];
+}
 
 export const ModalImage = ({
   isOpen,
   onClose,
-  image,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  image: string;
-}) => {
+  images,
+}: Props) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -24,6 +26,17 @@ export const ModalImage = ({
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+  const [curr, setCurr] = useState(0);
+  const totalSlides = Math.ceil(images.length / 1);
+
+  const next = useCallback(() => {
+    setCurr((prev) => (prev + 1 < totalSlides ? prev + 1 : prev));
+  }, [totalSlides]);
+
+  const prev = useCallback(() => {
+    setCurr((prev) => (prev > 0 ? prev - 1 : prev));
+  }, []);
 
   if (!isOpen) return null;
 
@@ -39,7 +52,42 @@ export const ModalImage = ({
             <img src="/assets/images/closeImg.svg" alt="X"></img>
           </Button>
           <div>
-            <img src={image} alt="img" />
+            <img src={images[0]} alt="img" />
+          </div>
+          <div className="absolute bottom-[27px] right-[180px]">
+            <Container className="w-[100%] bottom-5 relative flex justify-between items-center">
+              <Button
+                onClick={prev}
+                className={cn(
+                  "bg-inherit ring-0 hover:bg-inherit shadow-none",
+                  curr === 0 ? "opacity-50 cursor-not-allowed" : ""
+                )}
+                disabled={curr === 0}
+              >
+                <img
+                  src="/assets/images/arrow-long-left.svg"
+                  alt="arrow-left"
+                  style={{ filter: curr === 0 ? "grayscale(100%)" : "none" }}
+                />
+              </Button>
+              <Button
+                onClick={next}
+                className={cn(
+                  "bg-inherit ring-0 hover:bg-inherit shadow-none",
+                  curr + 1 >= images.length ? "opacity-50 cursor-not-allowed" : ""
+                )}
+                disabled={curr + 1 >= images.length}
+              >
+                <img
+                  src="/assets/images/arrow-long-right.svg"
+                  alt="arrow-right"
+                  style={{
+                    filter:
+                      curr + 1 >= images.length ? "grayscale(100%)" : "none",
+                  }}
+                />
+              </Button>
+            </Container>
           </div>
         </div>
       </Container>
