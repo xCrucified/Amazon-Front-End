@@ -9,7 +9,7 @@ interface Props {
 
 export const ReviewGroupList: React.FC<Props> = ({ className, reviews }) => {
   return (
-    <div className={cn("",className)}>
+    <div className={cn("", className)}>
       {reviews.map((review) => (
         <Review key={review.id} {...review} />
       ))}

@@ -47,11 +47,11 @@ const reviewImages = [
   "/assets/images/productImg.png",
   "/assets/images/productImg.png",
   "/assets/images/productImg.png",
-]
+];
 
 export const ProductPage: React.FC<Props> = ({ className, params }) => {
   const images = useSelector((state: RootState) => state.images);
-  
+
   const [selected, setSelected] = useState<number | null>(1);
   const [isRed, setIsRed] = useState(false);
   const [curr, setCurr] = useState(0);
@@ -95,23 +95,25 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
     <Container className={cn(className, "mb-10 p-6")}>
       <div className="w-full h-full flex gap-[56px] mt-[20px]">
         <div className="w-[696px] rounded-md">
-        {images.images.map((image, index) => (
-        <button
-          key={index}
-          onClick={() => handleImageClick(index)}
-          className="h-[696px] rounded-lg"
-        >
-          <img src={image.url} alt={`product-${index}`} />
-        </button>
-      )).slice(0, 1)}
+          {images.images
+            .map((image, index) => (
+              <button
+                key={index}
+                onClick={() => handleImageClick(index)}
+                className="h-[696px] rounded-lg"
+              >
+                <img src={image.url} alt={`product-${index}`} />
+              </button>
+            ))
+            .slice(0, 1)}
           {isModalOpen && (
-        <ModalImage
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          images={images.images.map((img) => img.url)}
-          currentIndex={selectedIndex}
-        />
-      )}
+            <ModalImage
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              images={images.images.map((img) => img.url)}
+              currentIndex={selectedIndex}
+            />
+          )}
         </div>
         <div className="w-[740px] h-full">
           <div className="flex justify-between items-center">
@@ -304,11 +306,15 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               onClick={() => handleImageClick(index)}
               className="w-[208px] h-[208px] rounded-lg"
             >
-              <img src={image.url} alt="img" className="outline w-[100%] h-[100%]"/>
+              <img
+                src={image.url}
+                alt="img"
+                className="outline w-[100%] h-[100%]"
+              />
             </button>
           ))}
         </div>
-        
+
         <div className="">
           <div className="grid grid-rows-7 border-t-2">
             <Label className="flex font-semibold text-[28px] gap-[24px] h-[72px] items-center border-b-2">
@@ -436,7 +442,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </div>
             <div className={cn("overflow-hidden w-full mt-5")}>
               <div ref={listRef} className="flex flex-col">
-              <div className="flex gap-3 w-full">
+                <div className="flex gap-3 w-full">
                   {reviewImages.map((src, index) => (
                     <img
                       key={index}
