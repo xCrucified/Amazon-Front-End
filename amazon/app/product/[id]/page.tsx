@@ -108,7 +108,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             <ModalImage
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
-              images={images.images.map((image) => image.url)}
+              images={[selectedImage]}
             />
           )}
         </div>
@@ -305,16 +305,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             >
               <img src={image.url} alt="img" />
             </button>
-            
           ))}
-          {isModalOpen && selectedImage && (
-            <ModalImage
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              images={images.images.map((image) => image.url)}
-            />
-          )}
-            
         </div>
         <div className="">
           <div className="grid grid-rows-7 border-t-2">
@@ -389,9 +380,9 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </div>
             <div className="h-[50%] flex items-center">
               <Label className="text-[16px]">
-                Would you like to 
+                Would you like to 
                 <a href="test" className="text-blue-700 underline">
-                  tell us about a lower price? 
+                  tell us about a lower price? 
                 </a>
               </Label>
             </div>
