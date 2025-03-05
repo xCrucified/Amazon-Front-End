@@ -305,7 +305,16 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             >
               <img src={image.url} alt="img" />
             </button>
+            
           ))}
+          {isModalOpen && selectedImage && (
+            <ModalImage
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              images={images.images.map((image) => image.url)}
+            />
+          )}
+            
         </div>
         <div className="">
           <div className="grid grid-rows-7 border-t-2">
