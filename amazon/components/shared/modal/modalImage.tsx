@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { Container } from "../container";
 import { cn } from "@/lib/utils";
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -52,7 +53,7 @@ export const ModalImage = ({
             <img src="/assets/images/closeImg.svg" alt="X"></img>
           </Button>
           <div>
-            <img src={images[0]} alt="img" />
+            <img src={images[curr]} alt="img" />
           </div>
           <div className="absolute bottom-[27px] right-[180px]">
             <Container className="w-[100%] bottom-5 relative flex justify-between items-center">
