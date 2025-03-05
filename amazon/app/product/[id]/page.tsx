@@ -108,7 +108,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             <ModalImage
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
-              images={[selectedImage]}
+              images={images.images.map((image) => image.url)}
             />
           )}
         </div>
