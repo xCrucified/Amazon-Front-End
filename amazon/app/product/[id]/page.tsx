@@ -57,15 +57,15 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
   const [curr, setCurr] = useState(0);
   const listRef = useRef<HTMLDivElement | null>(null);
   const itemsPerPage = 5;
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const totalSlides = Math.ceil(reviewImages.length / itemsPerPage);
-  
-  const handleImageClick = (imageSrc: string) => {
-    setSelectedImage(imageSrc);
+  const handleImageClick = (index: number) => {
+    setSelectedIndex(index);
     setIsModalOpen(true);
   };
+
+  const totalSlides = Math.ceil(reviewImages.length / itemsPerPage);
 
   const next = useCallback(() => {
     setCurr((prev) => (prev + 1 < totalSlides ? prev + 1 : prev));
@@ -95,22 +95,23 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
     <Container className={cn(className, "mb-10 p-6")}>
       <div className="w-full h-full flex gap-[56px] mt-[20px]">
         <div className="w-[696px] rounded-md">
-          {images.images.slice(0, 1).map((image, index) => (
-            <button
-              key={index}
-              onClick={() => handleImageClick(image.url)}
-              className="w-[100%] h-[100%] rounded-lg"
-            >
-              <img src={image.url} alt="product" />
-            </button>
-          ))}
-          {isModalOpen && selectedImage && (
-            <ModalImage
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              images={[selectedImage]}
-            />
-          )}
+        {images.images.map((image, index) => (
+        <button
+          key={index}
+          onClick={() => handleImageClick(index)}
+          className="h-[100%] rounded-lg"
+        >
+          <img src={image.url} alt={`product-${index}`} />
+        </button>
+      ))}
+          {isModalOpen && (
+        <ModalImage
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          images={images.images.map((img) => img.url)}
+          currentIndex={selectedIndex}
+        />
+      )}
         </div>
         <div className="w-[740px] h-full">
           <div className="flex justify-between items-center">
@@ -300,13 +301,14 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           {images.images.map((image, index) => (
             <button
               key={index}
-              onClick={() => handleImageClick(image.url)}
+              onClick={() => handleImageClick(index)}
               className="w-[208px] h-[208px] rounded-lg"
             >
-              <img src={image.url} alt="img" />
+              <img src={image.url} alt="img" className="outline w-[100%] h-[100%]"/>
             </button>
           ))}
         </div>
+        
         <div className="">
           <div className="grid grid-rows-7 border-t-2">
             <Label className="flex font-semibold text-[28px] gap-[24px] h-[72px] items-center border-b-2">
@@ -380,9 +382,9 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </div>
             <div className="h-[50%] flex items-center">
               <Label className="text-[16px]">
-                Would you like to 
+                Would you like to 
                 <a href="test" className="text-blue-700 underline">
-                  tell us about a lower price? 
+                  tell us about a lower price? 
                 </a>
               </Label>
             </div>
