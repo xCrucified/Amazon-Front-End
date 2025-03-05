@@ -99,11 +99,11 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
         <button
           key={index}
           onClick={() => handleImageClick(index)}
-          className="h-[100%] rounded-lg"
+          className="h-[696px] rounded-lg"
         >
           <img src={image.url} alt={`product-${index}`} />
         </button>
-      ))}
+      )).slice(0, 1)}
           {isModalOpen && (
         <ModalImage
           isOpen={isModalOpen}
@@ -297,7 +297,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
       </div>
 
       <div className="mt-[32px] flex justify-between">
-        <div className="grid grid-cols-3 grid-rows-5 gap-[36px] w-[672px]">
+        <div className="grid grid-cols-3 grid-rows-5 gap-[36px] w-[672px] bg-[#f5f5f5]">
           {images.images.map((image, index) => (
             <button
               key={index}

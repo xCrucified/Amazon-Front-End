@@ -13,23 +13,23 @@ const initialState: ProductImagesState = {
   images: [
     {
       id: 0,
-      url: "/assets/images/banner.png",
+      url: "/assets/images/productImg.png",
     },
     {
       id: 1,
-      url: "/assets/images/products/drone.png",
+      url: "/assets/images/productImg.png",
     },
     {
       id: 2,
-      url: "/assets/images/products/drone.png",
+      url: "/assets/images/productImg.png",
     },
     {
       id: 3,
-      url: "/assets/images/products/kettle.svg",
+      url: "/assets/images/productImg.png",
     },
     {
       id: 4,
-      url: "/assets/images/products/mat.svg",
+      url: "/assets/images/productImg.png",
     },
   ],
 };
