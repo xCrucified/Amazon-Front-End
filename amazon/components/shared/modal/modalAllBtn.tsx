@@ -89,7 +89,6 @@ export const ModalAll = ({
 
   return (
     <>
-    
       <div className="fixed inset-0 bg-black opacity-25 h-[84%] overflow-hidden flex justify-end self-end"></div>
       <Container className="h-[739px] w-[1447px] mt-[155px] z-[51] fixed inset-0 flex items-center justify-center bg-[#f5f5f5] modal-shadow rounded-bl-xl rounded-br-xl">
         <div className="grid grid-cols-3 gap-7 place-content-center w-[90%]">

@@ -494,7 +494,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           </div>
           <div className="mt-10">
             <Label className="font-semibold text-[22px] flex mb-7">
-              Reviews with images
+              Top Reviews
             </Label>
             <ReviewGroupList
               reviews={[
