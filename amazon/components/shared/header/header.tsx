@@ -61,7 +61,7 @@ export const Header: React.FC<Props> = ({ className }) => {
       {/* right side */}
 
       <div className="flex items-center h-[100%] gap-[16px]">
-        <Link href="/saves">
+        <Link href="/wishlist">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
             <Image
               src={"/assets/images/Favorite.svg"}
