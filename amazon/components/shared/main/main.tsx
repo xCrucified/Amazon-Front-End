@@ -150,7 +150,7 @@ export const Main: React.FC<Props> = ({ className }) => {
           categoryId={1}
         />
         <ProductGroupList
-          title={"Best Sellers in Sports & Outdoors"}
+          title={"Best Sellers in Home & Kitchen"}  
           items={[
             {
               id: 0,
@@ -286,7 +286,7 @@ export const Main: React.FC<Props> = ({ className }) => {
           categoryId={2}
         />
         <ProductGroupList
-          title={"Best Sellers in Sports & Outdoors"}
+          title={"Best Sellers in Clothing & Accessories"}
           items={[
             {
               id: 0,

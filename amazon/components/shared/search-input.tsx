@@ -15,7 +15,7 @@ export const SearchInput = () => {
           <div className="flex justify-between items-center absolute right-[40px] gap-4">
             <label className="text-[#343a45] text-lg font-bold">⌘+K</label>
             <Image
-              src={"./assets/images/Search.svg"}
+              src={"/assets/images/Search.svg"}
               alt={""}
               width={128}
               height={128}

@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useEffect } from "react";
-import { Button } from "./button";
-import { Container } from "../shared/container";
+import { Button } from "../../ui/button";
+import { Container } from "../container";
 
 const categories = [
   {
@@ -65,7 +66,7 @@ const categories = [
   },
 ];
 
-export const Modal = ({
+export const ModalAll = ({
   isOpen,
   onClose,
 }: {
@@ -88,7 +89,7 @@ export const Modal = ({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black opacity-25 h-[960px] overflow-hidden flex justify-end self-end"></div>
+      <div className="fixed inset-0 bg-black opacity-25 h-[84%] overflow-hidden flex justify-end self-end"></div>
       <Container className="h-[739px] w-[1447px] mt-[155px] z-[51] fixed inset-0 flex items-center justify-center bg-[#f5f5f5] modal-shadow rounded-bl-xl rounded-br-xl">
         <div className="grid grid-cols-3 gap-7 place-content-center w-[90%]">
           <Button

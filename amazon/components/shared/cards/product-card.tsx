@@ -39,7 +39,7 @@ export const ProductCard: React.FC<Props> = ({
           </div>
 
           <div className="text-[#5a6b8c] gap-4 p-0">
-            <StarRating key={id} rate={rate}></StarRating>
+            <StarRating key={id} rate={rate} secondHalf icon ></StarRating>
             <div className="flex gap-[10px]">
               <div>
                 <span className="text-lg">£</span>

@@ -3,10 +3,10 @@ import "./globals.css";
 import Header from "@/components/shared/header/header";
 import UpperHeader from "@/components/shared/header/upper-header";
 import { Nunito } from "next/font/google";
-import ReduxProvider from "@/components/shared/providers/redux-provider";
+import ReduxProvider from "@/components/shared/ReduxProvider";
 import { TopBar } from "@/components/shared/header/top-bar";
 import { Container } from "@/components/shared/container";
-import NextAuthProvider from "@/components/shared/providers/auth-provider";
+import Footer from "@/components/shared/footer/footer";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],
@@ -27,18 +27,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunito.variable} bg-[#f5f5f5]`}>
-        <NextAuthProvider>
-          <ReduxProvider>
-            <div>
-              <UpperHeader />
-              <Header />
-              <Container className="flex justify-between items-center">
-                <TopBar />
-              </Container>
-              {children}
-            </div>
-          </ReduxProvider>
-        </NextAuthProvider>
+        <ReduxProvider>
+          <div>
+            <UpperHeader />
+            <Header />
+            <Container className="flex justify-between items-center">
+              <TopBar />
+            </Container>
+            {children}
+            <Footer />
+          </div>
+        </ReduxProvider>
       </body>
     </html>
   );

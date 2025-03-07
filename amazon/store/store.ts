@@ -4,6 +4,7 @@ import categoryReducer from "./slices/categorySlice";
 import headerReducer from "./slices/headerSlice";
 import otpReducer from "./slices/otpSlice";
 import cartReducer from "./slices/cartSlice";
+import productImagesReducer from "./slices/productImagesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     header: headerReducer,
     otp: otpReducer,
     cart: cartReducer,
+    images: productImagesReducer,
   },
 });
 
