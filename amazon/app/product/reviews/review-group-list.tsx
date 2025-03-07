@@ -1,6 +1,6 @@
 import React from "react";
 import Review from "./review";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utilities/utils";
 
 interface Props {
   reviews: any[];

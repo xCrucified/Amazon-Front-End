@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -21,6 +20,7 @@ import ProductGroupList from "@/components/shared/cards/product-group-list";
 import { ModalImage } from "@/components/shared/modal/modalImage";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { cn } from "@/lib/utilities/utils";
 
 interface Props {
   images: {
@@ -218,7 +218,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </span>
           </span>
           <div>
-            <Accordion type="multiple" className="w-full mt-[24px]">
+          <Accordion type="single" collapsible className="w-full mt-[24px]">
               <AccordionItem value="item-1" className="border-t-2">
                 <AccordionTrigger className="font-bold">
                   Product details

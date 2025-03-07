@@ -7,7 +7,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/lib/schemas/authSchema";
 
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
@@ -31,8 +30,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/dist/client/components/navigation";
 
-export default function ЖеняБряник({ className }: React.ComponentPropsWithoutRef<"div">) {
+export default function Page({ className }: React.ComponentPropsWithoutRef<"div">) {
   const { push } = useRouter();
 
   const username = useSelector((state: RootState) => state.signup.username);

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { otp } = await req.json();
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  // const API_URL = process.env.NEXT_PUBLIC_API_URL;
   try {
     // const response = await fetch(API_URL + "/api/Account/send-otp", {
     //   method: "POST",

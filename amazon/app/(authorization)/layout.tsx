@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import FooterAuth from "@/components/shared/footers/footer-auth";
 import { useDispatch } from "react-redux";
 import { clearData } from "@/store/slices/signupSlice";
+import FooterAuth from "@/components/shared/footer/footer-auth";
 
 export default function AuthLayout({
   children,

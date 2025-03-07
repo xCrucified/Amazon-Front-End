@@ -1,11 +1,11 @@
 'use client';
 
 import React, {useState} from "react";
-import { cn } from "@/lib/utils";
 import { Button } from "../../ui/button";
 import Categories from "../categories";
 import Image from "next/image";
 import { ModalAll } from "@/components/shared/modal/modalAllBtn";
+import { cn } from "@/lib/utilities/utils";
 
 interface Props {
   className?: string;

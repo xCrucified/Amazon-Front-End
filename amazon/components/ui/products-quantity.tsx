@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { cn } from "@/lib/utils";
 import { Button } from "./button";
+import { cn } from "@/lib/utilities/utils";
 
 interface Props {
   className?: string;

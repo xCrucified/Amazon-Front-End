@@ -3,10 +3,10 @@ import "./globals.css";
 import Header from "@/components/shared/header/header";
 import UpperHeader from "@/components/shared/header/upper-header";
 import { Nunito } from "next/font/google";
-import ReduxProvider from "@/components/shared/ReduxProvider";
 import { TopBar } from "@/components/shared/header/top-bar";
 import { Container } from "@/components/shared/container";
 import Footer from "@/components/shared/footer/footer";
+import ReduxProvider from "@/components/shared/providers/redux-provider";
 
 const nunito = Nunito({
   subsets: ["latin", "cyrillic"],

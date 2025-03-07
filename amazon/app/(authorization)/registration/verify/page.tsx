@@ -62,7 +62,7 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
       handleResendOTP();
       hasSentRef.current = true;
     }
-  }, [email, phoneNumber, replace]);
+  }, [email, phoneNumber, replace, handleResendOTP]);
 
   async function onSubmit() {
     const enteredOTP = form.getValues("otp");
