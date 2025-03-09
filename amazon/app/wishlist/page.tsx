@@ -37,7 +37,7 @@ export const Page: React.FC<Props> = ({ className }) => {
   return (
     <Container
       className={cn(
-        "flex flex-col w-[1026px] min-h-[100vh] mt-10 gap-5",
+        "flex flex-col w-[1026px] mt-10 gap-5",
         className
       )}
     >
@@ -106,7 +106,6 @@ export const Page: React.FC<Props> = ({ className }) => {
           </div>
 
           <ProductItem
-            id={0}
             name={
               "Retrospec Solana Yoga Mat 1/2 Thick w/Nylon Strap for Men & Women – Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce"
             }
@@ -163,7 +162,7 @@ export const Page: React.FC<Props> = ({ className }) => {
             </Select>
           </div>
 
-          <ProductItem
+          {/* <ProductItem
             id={0}
             name={
               "Retrospec Solana Yoga Mat 1/2 Thick w/Nylon Strap for Men & Women – Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce"
@@ -173,7 +172,7 @@ export const Page: React.FC<Props> = ({ className }) => {
             oldPrice={55.55}
             properties={"Hut"}
             createDate={"12.12.2001"}
-          />
+          /> */}
 
           <div className="flex items-center justify-center my-4 w-[97%]">
             <div className="flex-1 border-t-2 border-gray-300"></div>
