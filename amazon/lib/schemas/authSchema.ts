@@ -54,6 +54,7 @@ export const signUpSchema = z
           path: ["credential"],
         });
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
