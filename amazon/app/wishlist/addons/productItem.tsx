@@ -3,6 +3,7 @@
 
 import StarRating from "@/components/ui/star-rating";
 import { cn } from "@/lib/utilities/utils";
+import Link from "next/link";
 import React from "react";
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
   rate: number;
   price: number;
   oldPrice: number;
-  properties: string;
+  properties: string[];
   createDate: string;
   className?: string;
 }
@@ -72,11 +73,11 @@ export const ProductItem: React.FC<Props> = ({
           </del>
           <p className="text-black self-end font-bold">£{price}</p>
         </div>
-        <div className="absolute right-[456px] bottom-[44px]">
-          <button className="absolute bottom-2 right-0 z-10 w-[265px] h-[48px] bg-[#E16C60] rounded-lg font-bold text-white text-[19px]">
+        <div className="absolute grid place-items-center right-[456px] bottom-[192px]">
+          <Link href={"product/" + id} className="absolute grid place-items-center bottom-2 right-0 z-10 w-[265px] h-[48px] bg-[#E16C60] rounded-lg font-bold text-white text-[19px]">
             Add to Card
-          </button>
-          <img className="relative" src="/assets/images/Union.svg" alt="misc" />
+          </Link>
+          <img  src="/assets/images/Union.svg" alt="misc" />
         </div>
       </div>
     </div>
