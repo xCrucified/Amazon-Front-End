@@ -20,7 +20,7 @@ export default function AdminDashboard() {
   return (
     <div className="p-5">
       <h1 className="text-xl font-bold">Админ Панель</h1>
-      <p>Привет, {session?.user?.username}!</p>
+      <p>Привет, {session?.user.username}!</p>
     </div>
   );
 }

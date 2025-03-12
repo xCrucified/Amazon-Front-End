@@ -13,7 +13,7 @@ export default async function AdminPage() {
   return (
     <div className="p-5 h-svh">
       <h1 className="text-xl font-bold">Админ Панель</h1>
-      <p>Добро пожаловать, {session.user?.username}!</p>
+      <p>Добро пожаловать, {session.user.username}!</p>
     </div>
   );
 }
