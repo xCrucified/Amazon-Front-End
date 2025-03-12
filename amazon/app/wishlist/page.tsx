@@ -36,10 +36,7 @@ export const Page: React.FC<Props> = ({ className }) => {
   };
   return (
     <Container
-      className={cn(
-        "flex flex-col w-[1026px] mt-10 gap-5",
-        className
-      )}
+      className={cn("flex flex-col w-[1026px] mt-10 gap-5", className)}
     >
       <div className="flex justify-center items-center">
         <div className="flex justify-between items-center w-full">
@@ -105,21 +102,24 @@ export const Page: React.FC<Props> = ({ className }) => {
             </Select>
           </div>
 
+          <ProductItem
+            name={
+              "Retrospec Solana Yoga Mat 1/2 Thick w/Nylon Strap for Men & Women – Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce"
+            }
+            rate={4}
+            price={33.33}
+            oldPrice={55.55}
+            properties={["Hut", "Bob"]}
+            createDate={"12.12.2001"}
+            id={"1"}
+          />
+
           <div className="flex items-center justify-center my-4 w-[97%]">
             <div className="flex-1 border-t-2 border-gray-300"></div>
             <span className="px-3 text-gray-500 text-sm">End of list</span>
             <div className="flex-1 border-t-2 border-gray-300"></div>
           </div>
         </div>
-
-        <ProductItem
-            name={"Retrospec Solana Yoga Mat 1/2 Thick w/Nylon Strap for Men & Women – Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce"}
-            rate={4}
-            price={33.33}
-            oldPrice={55.55}
-            properties={["Hut", "Bob"]}
-            createDate={"12.12.2001"} id={"1"}
-            />
 
         <div className="flex flex-col justify-center items-center outline rounded-xl">
           <div className="flex justify-between w-full p-4 bg-white">
