@@ -6,11 +6,12 @@ import { useEffect } from "react";
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
-
+  
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
     }
+
   }, [router, status]);
 
   if (status === "loading") {
@@ -20,7 +21,8 @@ export default function AdminDashboard() {
   return (
     <div className="p-5">
       <h1 className="text-xl font-bold">Админ Панель</h1>
-      <p>Привет, {session?.user.username}!</p>
+      <p>Привет, {session?.user.email}!</p>
+      <p>Sosat america</p>
     </div>
   );
 }
