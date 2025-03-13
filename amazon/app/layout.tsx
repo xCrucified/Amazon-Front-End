@@ -35,7 +35,7 @@ export default function RootLayout({
               <TopBar />
             </Container>
             {children}
-            {/*<Footer />*/}
+            <Footer />
           </div>
         </ReduxProvider>
       </body>
