@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
   try {
     await jwtVerify(token, SECRET_KEY);
     return NextResponse.next();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     console.log("Invalid token, redirecting to login.");
     return NextResponse.redirect(new URL("/login", req.url));
