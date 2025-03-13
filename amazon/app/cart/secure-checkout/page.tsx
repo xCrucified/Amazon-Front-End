@@ -44,6 +44,30 @@ export default function Page() {
   const deliveryDate = useSelector((state: RootState) => state.deliveryDate.date);
   const freeDeliveryDate = new Date(new Date().setDate(new Date().getDate() + 3));
 
+  async function ProceedPayment() {
+    console.log("Entered func");
+
+    try {
+      console.log("Entered try");
+      const response = fetch("/api/liqpay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: 10,
+          currency: "UAH",
+          order_id: "123",
+          desciption: "Test Payment",
+        }),
+      });
+      console.log("After fetch");
+
+      const data = (await response).json();
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   return (
     <div className="flex w-[1492px] gap-[60px] mx-auto py-12">
       <section className="w-[fit-content] max-w-[900px] flex flex-col gap-4">
@@ -277,9 +301,11 @@ export default function Page() {
           </Label>
           <Products />
           {selectedDate && (
-            <Button variant="figmaSecondary" type="button">
-              Buy now
-            </Button>
+            <Link href="https://www.youtube.com/watch?v=xMHJGd3wwZk">
+              <Button variant="figmaSecondary" type="button" className="w-full">
+                Buy now
+              </Button>
+            </Link>
           )}
         </div>
         <Link href="/order-price" className="text-[#37569E] text-right text-[14px] mt-4">

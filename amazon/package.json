@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
     "cropperjs": "^1.6.2",
+    "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.7",
     "input-otp": "^1.4.2",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^19",
