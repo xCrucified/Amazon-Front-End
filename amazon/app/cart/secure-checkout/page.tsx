@@ -3,7 +3,7 @@
 import { Label } from "@/components/ui/label";
 import { RootState } from "@/store/store";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../page";
 import Products from "@/components/shared/products";
 import { useState } from "react";
@@ -16,27 +16,18 @@ import {
 } from "@/components/ui/dialog";
 import AddressForm from "@/components/ui/address-form";
 import { AddressCard } from "@/components/shared/cards/address-card";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import { PaymentCard } from "@/components/shared/cards/payment-card";
 import { ChevronRight } from "lucide-react";
 import PaymentCardForm from "@/components/ui/payment-card-form";
 import { DateCard } from "@/components/shared/cards/date-card";
 import DeliveryDateForm from "@/components/ui/delivery-date-form";
-
-const dates = [
-  {
-    id: 1,
-    label: "Free delivery:",
-    date: new Date(new Date(new Date().getDate() + 3)),
-  },
-  {
-    id: 2,
-    label: "Custom delivery:",
-    date: new Date(),
-  },
-];
+import { Button } from "@/components/ui/button";
+import { Months } from "@/lib/months";
+import { setSelected } from "@/store/slices/deliveryDateSlice";
 
 export default function Page() {
+  const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.products);
   const addresses = useSelector((state: RootState) => state.addresses.addresses);
   const cards = useSelector((state: RootState) => state.paymentCards.cards);
@@ -50,6 +41,8 @@ export default function Page() {
   const [findHovered, setFindHovered] = useState(false);
   const [cardDialogOpen, setCardDialogOpen] = useState(false);
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
+  const deliveryDate = useSelector((state: RootState) => state.deliveryDate.date);
+  const freeDeliveryDate = new Date(new Date().setDate(new Date().getDate() + 3));
 
   return (
     <div className="flex w-[1492px] gap-[60px] mx-auto py-12">
@@ -176,51 +169,68 @@ export default function Page() {
           {selectedCard && (
             <div className="flex gap-4 flex-wrap">
               <DateCard
-                id="1"
+                id="0"
                 label="Free delivery"
-                date={new Date().toLocaleDateString()}
-                selected={selectedDate ? true : false}
-                onSelect={(id) => setSelectedDate(id)}
+                date={Months.at(freeDeliveryDate.getMonth())! + " " + freeDeliveryDate.getDate()}
+                selected={selectedDate === "0"}
+                onSelect={(id) => {
+                  setSelectedDate(id);
+                  dispatch(setSelected(false));
+                }}
               />
               <Dialog open={dateDialogOpen} onOpenChange={setDateDialogOpen}>
                 <DialogTrigger asChild className="cursor-pointer">
-                  <div
-                    className={cn(
-                      dateAddHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
-                      "min-w-[340px] h-[fit-content] flex flex-col gap-4 p-4 bg-white rounded-xl border-[3px] transition-all ease-in-out duration-100"
-                    )}
-                    onMouseEnter={() => setDateAddHovered(true)}
-                    onMouseLeave={() => setDateAddHovered(false)}
-                  >
-                    <div className="flex justify-between items-center">
-                      <span>Delivery option:</span>
-                      <ChevronRight className="ml-auto" size={18} />
+                  {deliveryDate ? (
+                    <DateCard
+                      id="1"
+                      label="Onyx delivery"
+                      date={
+                        Months.at(new Date(deliveryDate).getMonth())! +
+                        " " +
+                        new Date(deliveryDate).getDate()
+                      }
+                      selected={selectedDate === "1"}
+                      onSelect={(id) => {
+                        if (selectedDate === "1") {
+                          setDateDialogOpen(true);
+                        }
+                        dispatch(setSelected(true));
+                        setSelectedDate(id);
+                      }}
+                    />
+                  ) : (
+                    <div
+                      className={cn(
+                        dateAddHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
+                        "min-w-[340px] h-[fit-content] flex flex-col gap-4 p-4 bg-white rounded-xl border-[3px] transition-all ease-in-out duration-100"
+                      )}
+                      onMouseEnter={() => setDateAddHovered(true)}
+                      onMouseLeave={() => setDateAddHovered(false)}
+                    >
+                      <div className="flex justify-between items-center">
+                        <span>Delivery option:</span>
+                        <ChevronRight className="ml-auto" size={18} />
+                      </div>
+                      <div className="flex flex-col">
+                        <Label className="text-black/60 text-[16px] leading-[20px] cursor-pointer">
+                          We&apos;ll deliver your order together
+                        </Label>
+                        <Label className="text-[16px] text-[#37569E] leading-[20px] cursor-pointer">
+                          Choose your Onyx day
+                        </Label>
+                      </div>
                     </div>
-                    <div className="flex flex-col">
-                      <Label className="text-black/60 text-[16px] leading-[20px] cursor-pointer">
-                        We&apos;ll deliver your order together
-                      </Label>
-                      <Label
-                        className={cn(
-                          dateAddHovered && "underline",
-                          "text-[16px] text-[#37569E] leading-[20px] cursor-pointer"
-                        )}
-                      >
-                        Choose your Onyx day
-                      </Label>
-                    </div>
-                  </div>
+                  )}
                 </DialogTrigger>
-                <DialogContent className="w-[405px]">
+                <DialogContent className="w-[fit-content]">
                   <DialogHeader>
                     <DialogTitle className="text-center text-[23px] font-bold">
                       Delivery Schedule
                     </DialogTitle>
                   </DialogHeader>
                   <DeliveryDateForm
-                    onSuccess={(newDateId) => {
+                    onSuccess={() => {
                       setDateDialogOpen(false);
-                      setSelectedDate(newDateId);
                     }}
                   />
                 </DialogContent>
@@ -266,6 +276,11 @@ export default function Page() {
             and tax.
           </Label>
           <Products />
+          {selectedDate && (
+            <Button variant="figmaSecondary" type="button">
+              Buy now
+            </Button>
+          )}
         </div>
         <Link href="/order-price" className="text-[#37569E] text-right text-[14px] mt-4">
           How are shipping costs calculated?

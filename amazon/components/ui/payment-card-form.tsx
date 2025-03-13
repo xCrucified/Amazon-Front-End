@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
 import { Input } from "./input";
 import { Button } from "./button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import { useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { cardSchema } from "@/lib/schemas/cardSchema";
@@ -19,8 +19,6 @@ interface Props {
 }
 
 export const PaymentCardForm: React.FC<Props> = ({ className, onSuccess }) => {
-  const [cardType, setCardType] = useState("");
-
   const form = useForm<z.infer<typeof cardSchema>>({
     resolver: zodResolver(cardSchema),
     defaultValues: {

@@ -6,6 +6,7 @@ import otpReducer from "./slices/otpSlice";
 import cartReducer from "./slices/cartSlice";
 import addressesReducer from "./slices/addressesSlice";
 import paymentCardsReducer from "./slices/paymentCardsSlice";
+import deliveryDateReducer from "./slices/deliveryDateSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     otp: otpReducer,
     cart: cartReducer,
     addresses: addressesReducer,
-    paymentCards: paymentCardsReducer
+    paymentCards: paymentCardsReducer,
+    deliveryDate: deliveryDateReducer,
   },
 });
 

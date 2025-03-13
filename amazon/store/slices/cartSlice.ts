@@ -25,7 +25,7 @@ const initialState: Cart = {
     1: {
       id: 1,
       desc: 'Retrospec Solana Yoga Mat 1/2" Thick w/Nylon Strap for Men & Women - Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce',
-      isGift: true,
+      isGift: false,
       inStock: 10,
       selected: 1,
       price: 19.99,

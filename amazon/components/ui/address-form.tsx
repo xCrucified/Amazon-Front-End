@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "./checkbox";
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import Countries from "@/lib/countries";
 import { useDispatch } from "react-redux";

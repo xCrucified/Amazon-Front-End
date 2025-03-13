@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import { getLoginSchema } from "@/lib/schemas/authSchema";
 import { useRouter } from "next/navigation";
 import { z } from "zod";

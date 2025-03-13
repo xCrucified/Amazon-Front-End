@@ -1,7 +1,7 @@
 "use client";
 
 import React, { JSX } from "react";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
@@ -27,6 +27,7 @@ interface Props {
 export const Products: React.FC<Props> = ({ className, controls }) => {
   const { push } = useRouter();
 
+  const isDate = useSelector((state: RootState) => state.deliveryDate.isSelected);
   const cart = useSelector((state: RootState) => state.cart.products);
   const dispatch = useDispatch();
 
@@ -43,6 +44,10 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
     displayedProducts.forEach((item) => {
       total += item.price * item.selected;
     });
+
+    if (isDate) {
+      total += 5;
+    }
 
     if (controls) {
       if (displayedProducts.length === 1) {

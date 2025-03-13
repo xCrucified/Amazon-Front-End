@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuth } from "@/store/slices/headerSlice";

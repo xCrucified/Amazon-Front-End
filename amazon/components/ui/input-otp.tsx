@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import React, { useState, useEffect, useRef } from "react";
 
 interface OTPInputProps {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 
 interface DeliveryDatedProps {
   id: string;
@@ -10,20 +10,14 @@ interface DeliveryDatedProps {
   onSelect: (id: string) => void;
 }
 
-export const DateCard: React.FC<DeliveryDatedProps> = ({
-  id,
-  label,
-  date,
-  selected,
-  onSelect,
-}) => {
+export const DateCard: React.FC<DeliveryDatedProps> = ({ id, label, date, selected, onSelect }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
       className={cn(
         selected ? "border-[#e16c60]" : hovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
-        "w-[172px] h-[fit-content] flex flex-col justify-between p-4 bg-white rounded-xl border-[3px] gap-4 cursor-pointer transition-all ease-in-out duration-100"
+        "w-[172px] flex flex-col justify-between p-4 bg-white rounded-xl border-[3px] gap-4 cursor-pointer transition-all ease-in-out duration-100"
       )}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
