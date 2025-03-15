@@ -5,7 +5,7 @@ import { RootState } from "@/store/store";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../page";
-import Products from "@/components/shared/products";
+import Products from "@/components/shared/cart-payment-products";
 import { useState } from "react";
 import {
   Dialog,
@@ -14,62 +14,60 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddressForm from "@/components/ui/address-form";
 import { AddressCard } from "@/components/shared/cards/address-card";
 import { cn } from "@/lib/utils";
 import { PaymentCard } from "@/components/shared/cards/payment-card";
 import { ChevronRight } from "lucide-react";
-import PaymentCardForm from "@/components/ui/payment-card-form";
 import { DateCard } from "@/components/shared/cards/date-card";
-import DeliveryDateForm from "@/components/ui/delivery-date-form";
 import { Button } from "@/components/ui/button";
 import { Months } from "@/lib/months";
 import { setSelected } from "@/store/slices/deliveryDateSlice";
+import AddressForm from "@/components/shared/forms/address-form";
+import PaymentCardForm from "@/components/shared/forms/payment-card-form";
+import DeliveryDateForm from "@/components/shared/forms/delivery-date-form";
 
 export default function Page() {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.products);
   const addresses = useSelector((state: RootState) => state.addresses.addresses);
   const cards = useSelector((state: RootState) => state.paymentCards.cards);
-  const [selectedAddress, setSelectedAddress] = useState<string>("");
+  const [selectedAddress, setSelectedAddress] = useState<number>();
   const [selectedCard, setSelectedCard] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [addressAddHovered, setAddressAddHovered] = useState(false);
   const [cardAddHovered, setCardAddHovered] = useState(false);
   const [dateAddHovered, setDateAddHovered] = useState(false);
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
-  const [findHovered, setFindHovered] = useState(false);
+  // const [findHovered, setFindHovered] = useState(false);
   const [cardDialogOpen, setCardDialogOpen] = useState(false);
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
   const deliveryDate = useSelector((state: RootState) => state.deliveryDate.date);
   const freeDeliveryDate = new Date(new Date().setDate(new Date().getDate() + 3));
 
-  async function ProceedPayment() {
-    console.log("Entered func");
+  // async function ProceedPayment() {
+  //   try {
+  //     console.log("Entered try");
+  //     const response = fetch("/api/liqpay", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         amount: 10,
+  //         currency: "UAH",
+  //         order_id: "123",
+  //         desciption: "Test Payment",
+  //       }),
+  //     });
 
-    try {
-      console.log("Entered try");
-      const response = fetch("/api/liqpay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: 10,
-          currency: "UAH",
-          order_id: "123",
-          desciption: "Test Payment",
-        }),
-      });
-      console.log("After fetch");
-
-      const data = (await response).json();
-      console.log(data);
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  //     const data = (await response).json();
+  //     console.log(data);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
 
   return (
     <div className="flex w-[1492px] gap-[60px] mx-auto py-12">
+      {/* left side */}
       <section className="w-[fit-content] max-w-[900px] flex flex-col gap-4">
         <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-7 rounded-xl">
           <Label className="text-[23px] font-bold pb-4">Add a delivery or pickup address</Label>
@@ -115,7 +113,7 @@ export default function Page() {
                 />
               </DialogContent>
             </Dialog>
-            <div
+            {/* <div
               className={cn(
                 findHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
                 "w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-[3px] cursor-not-allowed transition-all ease-in-out duration-100 select-none"
@@ -124,7 +122,7 @@ export default function Page() {
               onMouseLeave={() => setFindHovered(false)}
             >
               Find a pickup location nearby
-            </div>
+            </div> */}
           </div>
         </section>
         <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-7 rounded-xl">
@@ -287,6 +285,7 @@ export default function Page() {
           </Link>
         </p>
       </section>
+      {/* right side */}
       <section className="w-[612px] h-[fit-content] flex flex-col">
         <div className="flex flex-col gap-4 bg-[#f0f0f0] p-5 rounded-xl">
           <Label className="w-full flex items-end justify-between">

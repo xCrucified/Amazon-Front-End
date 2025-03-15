@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Address {
-  id: string;
+  id: number;
   name: string;
   fullname: string;
   phoneNumber: string;
@@ -20,7 +20,7 @@ interface AddressesState {
 const initialState: AddressesState = {
   addresses: [
     {
-      id: "1",
+      id: 1,
       name: "Home",
       fullname: "Andrew",
       phoneNumber: "+380987536324",
@@ -32,7 +32,7 @@ const initialState: AddressesState = {
       isDefault: true,
     },
     {
-      id: "2",
+      id: 2,
       name: "Office",
       fullname: "Andrew",
       phoneNumber: "+380987536324",
@@ -50,7 +50,7 @@ const addressesSlice = createSlice({
   name: "addresses",
   initialState,
   reducers: {
-    markAsDefault(state, action: PayloadAction<string>) {
+    markAsDefault(state, action: PayloadAction<number>) {
       state.addresses.forEach((addr) => {
         addr.isDefault = addr.id === action.payload;
       });
@@ -69,7 +69,7 @@ const addressesSlice = createSlice({
         state.addresses[index] = action.payload;
       }
     },
-    removeAddress(state, action: PayloadAction<string>) {
+    removeAddress(state, action: PayloadAction<number>) {
       state.addresses = state.addresses.filter((addr) => addr.id !== action.payload);
     },
   },

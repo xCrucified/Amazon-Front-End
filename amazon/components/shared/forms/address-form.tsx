@@ -1,25 +1,26 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
 import { addressSchema } from "@/lib/schemas/addressSchema";
-import { Input } from "./input";
-import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "./select";
-import { Button } from "./button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Checkbox } from "./checkbox";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import Countries from "@/lib/countries";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addAddress } from "@/store/slices/addressesSlice";
 import { v4 as uuid } from "uuid";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { RootState } from "@/store/store";
 
 interface Props {
   className?: string;
-  onSuccess?: (newAddressId: string) => void;
+  onSuccess?: (newAddressId: number) => void;
 }
 
 export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
@@ -41,7 +42,7 @@ export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
   const dispatch = useDispatch();
 
   async function onSubmit(values: z.infer<typeof addressSchema>) {
-    const newId = uuid();
+    const newId = useSelector((state: RootState) => state.addresses.addresses.length);
     dispatch(
       addAddress({
         id: newId,

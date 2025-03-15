@@ -1,7 +1,7 @@
 "use client";
 
 import Checkout from "@/components/shared/cards/checkout-card";
-import { Products } from "@/components/shared/products";
+import { Products } from "@/components/shared/cart-payment-products";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { clearCart } from "@/store/slices/cartSlice";

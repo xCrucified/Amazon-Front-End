@@ -1,16 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
-import { Input } from "./input";
-import { Button } from "./button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { cardSchema } from "@/lib/schemas/cardSchema";
 import { addCard } from "@/store/slices/paymentCardsSlice";
-import { Tabs, TabsList, TabsTrigger } from "./tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 
 interface Props {

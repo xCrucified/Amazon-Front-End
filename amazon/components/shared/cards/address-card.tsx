@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Countries from "@/lib/countries";
 
 interface AddressCardProps {
-  id: string;
+  id: number;
   name: string;
   country: string;
   city: string;
@@ -12,7 +12,7 @@ interface AddressCardProps {
   street: string;
   building: string;
   selected: boolean;
-  onSelect: (id: string) => void;
+  onSelect: (id: number) => void;
 }
 
 export const AddressCard: React.FC<AddressCardProps> = ({

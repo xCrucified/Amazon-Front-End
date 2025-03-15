@@ -7,11 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { usePathname } from "next/navigation";
-import { setIsAuth } from "@/store/slices/headerSlice";
 import { Container } from "../container";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "../search-input";
+import { usePathname } from "next/navigation";
+import { setIsAuth } from "@/store/slices/headerSlice";
 
 interface Props {
   className?: string;
@@ -22,18 +22,14 @@ export const Header: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("Current pathname:", pathname);
     const hideHeaderRoutes = ["/registration", "/login", "/cart/secure-checkout"];
-    const shouldHideHeader = hideHeaderRoutes.some((route) =>
-      pathname.startsWith(route)
-    );
-    console.log("Should hide header:", shouldHideHeader);
+    const shouldHideHeader = hideHeaderRoutes.some((route) => pathname.startsWith(route));
     dispatch(setIsAuth(shouldHideHeader));
   }, [pathname, dispatch]);
 
   const cart = useSelector((state: RootState) => state.cart.products);
   const isAuth = useSelector((state: RootState) => state.header.isAuth);
-  
+
   if (isAuth) return null;
 
   return (
@@ -56,19 +52,16 @@ export const Header: React.FC<Props> = ({ className }) => {
           </Button>
         </Link>
       </div>
-
       {/* search bar */}
       <div className="relative right-16">
         <SearchInput />
       </div>
-
       {/* right side */}
-
       <div className="flex items-center h-[100%] gap-[16px]">
         <Link href="/saves">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
             <Image
-              src={"./assets/images/Favorite.svg"}
+              src={"/assets/images/Favorite.svg"}
               alt={""}
               width={128}
               height={128}
@@ -79,7 +72,7 @@ export const Header: React.FC<Props> = ({ className }) => {
         <Link href="/account">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
             <Image
-              src="./assets/images/User.svg"
+              src="/assets/images/User.svg"
               alt={""}
               width={128}
               height={128}
@@ -87,7 +80,6 @@ export const Header: React.FC<Props> = ({ className }) => {
             />
           </Button>
         </Link>
-
         <div>
           <Link href="/cart">
             <Button className="group relative bg-[#FFF] hover:bg-gray-300 h-[56px] w-[68px] p-4">
