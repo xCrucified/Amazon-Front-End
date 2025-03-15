@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { Button } from "@/components/ui/button";
 import StarRating from "@/components/ui/star-rating";
 import { cn } from "@/lib/utilities/utils";
-import Link from "next/link";
 import React from "react";
 
 interface Props {
@@ -27,9 +27,13 @@ export const ProductItem: React.FC<Props> = ({
   createDate,
   className,
 }) => {
+  // href={"product/" + id}
   return (
     <div className={cn("flex w-full h-full", className)}>
-      <div key={id} className="flex p-3 mx-[24px] gap-[36px] w-full rounded-2xl bg-white">
+      <div
+        key={id}
+        className="flex p-3 mx-[24px] gap-[36px] w-full rounded-2xl bg-white"
+      >
         <img
           src="/assets/images/products/mat.svg"
           className="w-[211px] h-[213px]"
@@ -73,11 +77,13 @@ export const ProductItem: React.FC<Props> = ({
           </del>
           <p className="text-black self-end font-bold">£{price}</p>
         </div>
-        <div className="absolute grid place-items-center right-[456px] bottom-[192px]">
-          <Link href={"product/" + id} className="absolute grid place-items-center bottom-2 right-0 z-10 w-[265px] h-[48px] bg-[#E16C60] rounded-lg font-bold text-white text-[19px]">
-            Add to Card
-          </Link>
-          <img  src="/assets/images/Union.svg" alt="misc" />
+        <div className="mt-[192px]">
+          <div className="absolute grid place-items-center right-[456px] z-50">
+            <Button className="absolute grid place-items-center bottom-2 right-0 z-10 w-[265px] h-[48px] bg-[#E16C60] rounded-lg font-bold text-white text-[19px]">
+              Add to Card
+            </Button>
+            <img src="/assets/images/Union.svg" alt="misc" />
+          </div>
         </div>
       </div>
     </div>
