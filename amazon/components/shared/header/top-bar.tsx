@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import React, {useState} from "react";
 import { Button } from "../../ui/button";
 import Categories from "../categories";
 import Image from "next/image";
 import { ModalAll } from "@/components/shared/modal/modalAllBtn";
-import { cn } from "@/lib/utilities/utils";
+import { usePathname } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsAuth } from "@/store/slices/headerSlice";
+import { RootState } from "@/store/store";
 
 interface Props {
   className?: string;

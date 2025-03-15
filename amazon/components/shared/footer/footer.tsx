@@ -2,14 +2,19 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { RootState } from "@/store/store";
 import Link from "next/link";
 import React from "react";
+import { useSelector } from "react-redux";
 
 interface Props {
   className?: string;
 }
 
 export const Footer: React.FC<Props> = ({ className }) => {
+  const isAuth = useSelector((state: RootState) => state.header.isAuth);
+  if (isAuth) return null;
+
   return (
     <footer className={cn("h-[472px] bg-[#343a45] text-white", className)}>
       <Button
