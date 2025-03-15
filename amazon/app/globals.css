@@ -4,7 +4,9 @@
 
 html {
   scroll-behavior: smooth;
-}
+  &::-webkit-scrollbar {
+    display: none;
+  }}
 
 @media screen and (prefers-reduced-motion: reduce) {
   html {
@@ -91,10 +93,34 @@ html {
   @apply border-t-primary border-l-primary !important;
 }
 
-#border-topText{
-  clip-path: path("M0,0 H324 V47 Q162 60 0 47 Z");
+.quantity-item {
+  -webkit-box-shadow:0px 1px 16px 0px rgba(53,65,191,0.34);
+-moz-box-shadow: 0px 1px 16px 0px rgba(53,65,191,0.34);
+box-shadow: 0px 1px 16px 0px rgba(53,65,191,0.34);
+}
+.modal-shadow{
+  -webkit-box-shadow:0px 0px 15px 0px rgba(255,255,255,1);
+  -moz-box-shadow: 0px 0px 15px 0px rgba(255,255,255,1);
+  box-shadow: 0px 0px 15px 0px rgba(255,255,255,1);
+}
+/* w-[50%] h-full bg-[#dedede] text-[#636363] 
+hover:bg-gray-100 rounded-none border-4 border-[#a8a8a8] 
+focus:border-[#5b6c8c] focus:border-4 focus:bg-[#f5f5f5] 
+focus:text-black rounded-tl-lg rounded-bl-lg */
+.modal-shadow {
+  -webkit-box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 1);
+  -moz-box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 1);
 }
 
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {

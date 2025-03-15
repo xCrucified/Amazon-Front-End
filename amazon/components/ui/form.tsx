@@ -12,7 +12,7 @@ import {
   useFormContext,
 } from "react-hook-form"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utilities/utils"
 import { Label } from "@/components/ui/label"
 
 const Form = FormProvider
@@ -160,6 +160,7 @@ const FormMessage = React.forwardRef<
       className={cn("text-[0.8rem] font-medium text-destructive", className)}
       {...props}
     >
+      <img src="/assets/images/InfoFullRed.svg" />
       {body}
     </p>
   )
