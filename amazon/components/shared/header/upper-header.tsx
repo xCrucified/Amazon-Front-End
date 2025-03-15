@@ -1,3 +1,6 @@
+"use client";
+
+import { cn } from "@/lib/utils";
 import React from "react";
 import { Container } from "../container";
 import Link from "next/link";
@@ -12,7 +15,7 @@ interface Props {
 
 export const UpperHeader: React.FC<Props> = ({ className }) => {
   return (
-    <div className={cn("w-[100%] h-[60px] bg-[rgb(52,58,69)]", className)}>
+    <div className={cn("w-[100%] h-[60px] bg-[#353b46]", className)}>
       <Container className="w-[1175px] h-[100%] flex justify-between p-2 items-center">
         <div className="w-[115px]">
           <CountryDialog />

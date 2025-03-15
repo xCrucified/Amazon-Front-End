@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import { RootState } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -21,6 +22,11 @@ export const Checkout: React.FC<Props> = ({ className }) => {
       total += item.price * item.selected;
     });
     return total.toFixed(2);
+  };
+
+  const { push } = useRouter();
+  const handleCheckout = () => {
+    push("/cart/secure-checkout");
   };
 
   return (
@@ -46,7 +52,9 @@ export const Checkout: React.FC<Props> = ({ className }) => {
           </Link>
         </span>
         <div className="flex flex-col gap-6 text-[19px] mb-3">
-          Subtotal (1 item):
+          Subtotal ({Object.values(cart).filter((item) => item.selected > 0).length}{" "}
+          {Object.values(cart).filter((item) => item.selected > 0).length === 1 ? "item" : "items"}
+          ):
           <div>
             <span className="text-[15px]">£ </span>
             <span className="font-bold text-[28px]">{getSubtotal(cart)}</span>
@@ -59,7 +67,9 @@ export const Checkout: React.FC<Props> = ({ className }) => {
           />
           <Label className="text-[11px]">This order contains a gift</Label>
         </div>
-        <Button variant="figmaPrimary">Proceed to checkout</Button>
+        <Button variant="figmaPrimary" type="button" onClick={handleCheckout}>
+          Proceed to checkout
+        </Button>
         <div className="flex justify-start items-center bg-[#f1f4f7] rounded-lg">
           <Image
             src="/assets/images/InfoOutline.svg"

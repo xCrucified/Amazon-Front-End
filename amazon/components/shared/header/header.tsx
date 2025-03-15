@@ -1,17 +1,17 @@
 "use client";
 
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import React, { useEffect } from "react";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { usePathname } from "next/navigation";
-import { setIsAuth } from "@/store/slices/headerSlice";
 import { Container } from "../container";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "../search-input";
+import { usePathname } from "next/navigation";
+import { setIsAuth } from "@/store/slices/headerSlice";
 
 interface Props {
   className?: string;
@@ -22,14 +22,14 @@ export const Header: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const hideHeaderRoutes = ["/registration", "/login"];
+    const hideHeaderRoutes = ["/registration", "/login", "/cart/secure-checkout"];
     const shouldHideHeader = hideHeaderRoutes.some((route) => pathname.startsWith(route));
     dispatch(setIsAuth(shouldHideHeader));
   }, [pathname, dispatch]);
 
   const cart = useSelector((state: RootState) => state.cart.products);
   const isAuth = useSelector((state: RootState) => state.header.isAuth);
-  
+
   if (isAuth) return null;
 
   return (
@@ -52,14 +52,11 @@ export const Header: React.FC<Props> = ({ className }) => {
           </Button>
         </Link>
       </div>
-
       {/* search bar */}
       <div className="relative right-16">
         <SearchInput />
       </div>
-
       {/* right side */}
-
       <div className="flex items-center h-[100%] gap-[16px]">
         <Link href="/saves">
           <Button className="bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[68px] p-4">
@@ -83,7 +80,6 @@ export const Header: React.FC<Props> = ({ className }) => {
             />
           </Button>
         </Link>
-
         <div>
           <Link href="/cart">
             <Button className="group relative bg-[#FFF] hover:bg-gray-300 h-[56px] w-[68px] p-4">

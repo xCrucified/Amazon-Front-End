@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuth } from "@/store/slices/headerSlice";
@@ -65,7 +65,7 @@ export const Categories: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const hideHeaderRoutes = ["/registration", "/login"];
+    const hideHeaderRoutes = ["/registration", "/login", "/cart/secure-checkout"];
     const shouldHideHeader = hideHeaderRoutes.some((route) => pathname.startsWith(route));
     dispatch(setIsAuth(shouldHideHeader));
   }, [pathname, dispatch]);

@@ -1,5 +1,7 @@
 'use client';
 
+import React, { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import React, {useState} from "react";
 import { Button } from "../../ui/button";
 import Categories from "../categories";
@@ -13,6 +15,19 @@ interface Props {
 
 export const TopBar: React.FC<Props> = ({ className }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const pathname = usePathname();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const hideHeaderRoutes = ["/registration", "/login", "/cart/secure-checkout"];
+    const shouldHideHeader = hideHeaderRoutes.some((route) => pathname.startsWith(route));
+    dispatch(setIsAuth(shouldHideHeader));
+  }, [pathname, dispatch]);
+
+  const isAuth = useSelector((state: RootState) => state.header.isAuth);
+
+  if (isAuth) return null;
 
   return (
     <div className={cn("h-[56px] w-[1492px] p-6", className)}>

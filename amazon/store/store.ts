@@ -4,6 +4,9 @@ import categoryReducer from "./slices/categorySlice";
 import headerReducer from "./slices/headerSlice";
 import otpReducer from "./slices/otpSlice";
 import cartReducer from "./slices/cartSlice";
+import addressesReducer from "./slices/addressesSlice";
+import paymentCardsReducer from "./slices/paymentCardsSlice";
+import deliveryDateReducer from "./slices/deliveryDateSlice";
 import productImagesReducer from "./slices/productImagesSlice";
 
 export const store = configureStore({
@@ -13,6 +16,9 @@ export const store = configureStore({
     header: headerReducer,
     otp: otpReducer,
     cart: cartReducer,
+    addresses: addressesReducer,
+    paymentCards: paymentCardsReducer,
+    deliveryDate: deliveryDateReducer,
     images: productImagesReducer,
   },
 });

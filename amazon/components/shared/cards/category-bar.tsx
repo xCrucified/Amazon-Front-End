@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Container } from "../container";
 import { Title } from "@/components/ui/title";
 // import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import React from "react";
 import { Label } from "@/components/ui/label";
 // import { useAppDispatch } from "@/hooks/hooks";
