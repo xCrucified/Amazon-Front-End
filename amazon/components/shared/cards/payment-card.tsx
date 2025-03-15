@@ -39,7 +39,7 @@ export const PaymentCard: React.FC<PaymentCardProps> = ({
       <div className="flex items-center justify-between">
         <Image
           src={
-            cardType === "visa" ? "/assets/images/visa-logo.svg" : "/assets/images/mastercard.svg"
+            cardType === "visa" ? "/assets/images/visa-logo.svg" : "/assets/images/mastercard copy.svg"
           }
           height={48}
           width={48}

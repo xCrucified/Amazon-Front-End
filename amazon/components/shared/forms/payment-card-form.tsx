@@ -198,7 +198,7 @@ export const PaymentCardForm: React.FC<Props> = ({ className, onSuccess }) => {
                       className="w-full h-full hover:bg-white data-[state=active]:shadow-none"
                     >
                       <Image
-                        src={"/assets/images/mastercard.svg"}
+                        src={"/assets/images/mastercard copy.svg"}
                         width={48}
                         height={48}
                         alt="mastercard"
