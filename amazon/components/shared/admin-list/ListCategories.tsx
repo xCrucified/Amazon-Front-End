@@ -16,7 +16,7 @@ const ListCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "Category/all");
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "api/Category/all");
         if (!response.ok) {
           throw new Error("Failed to load categories");
         }
