@@ -12,11 +12,13 @@ interface Category {
 const ListCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-// "http://localhost:5237/api/Category/all"
+  // "http://localhost:5237/api/Category/all"
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "api/Category/all");
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_API_URL + "api/Category/all"
+        );
         if (!response.ok) {
           throw new Error("Failed to load categories");
         }
@@ -39,16 +41,21 @@ const ListCategories = () => {
 
   const handleDelete = async (categoryId: number) => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `api/Category/${categoryId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + `api/Category/${categoryId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete the product");
       }
 
       // Remove the deleted product from the state
-      setCategories(categories.filter((category) => category.id !== categoryId));
+      setCategories(
+        categories.filter((category) => category.id !== categoryId)
+      );
     } catch (error) {
       console.log(error);
     }
@@ -75,8 +82,18 @@ const ListCategories = () => {
               <td className="p-3">{category.id}</td>
               <td className="p-3">{category.name}</td>
               <div className="flex justify-end mr-10 gap-3">
-              <Button onClick={() => handleEdit(category.id)} className="bg-purple-400 hover:opacity-80">Edit</Button>
-              <Button onClick={() => handleDelete(category.id)} className="bg-red-400 hover:opacity-80">Remove</Button>
+                <Button
+                  onClick={() => handleEdit(category.id)}
+                  className="bg-purple-400 hover:opacity-80"
+                >
+                  Edit
+                </Button>
+                <Button
+                  onClick={() => handleDelete(category.id)}
+                  className="bg-red-400 hover:opacity-80"
+                >
+                  Remove
+                </Button>
               </div>
             </tr>
           ))}
