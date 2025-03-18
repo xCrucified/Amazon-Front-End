@@ -22,11 +22,10 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={cn("w-[100%] h-[60px] bg-[#353b46]", className)}>
-      <Container className="w-[1175px] h-[100%] flex justify-between p-2 items-center">
+      <Container className="w-[1400px] h-[100%] grid grid-cols-3 content-center items-center place-items-center gap-24 p-2 ">
         <div className="w-[115px]">
           <CountryDialog />
         </div>
-
         {session.status === "authenticated" ? (
           <>
             <div className="text-white">Hello, {session.data.user.email}</div>
@@ -36,7 +35,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
           </>
         ) : (
           !isAuth && (
-            <div className="w-[220px] text-white flex gap-1">
+            <div className="w-[fit-content] text-white flex gap-1">
               <label>New customer?</label>
               <Link href="/login" className="border-b-[1.5px] border-dotted">
                 Start here.
@@ -44,8 +43,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
             </div>
           )
         )}
-
-        <div className="w-[120px] flex justify-center">
+        <div className="w-[120px] flex justify-center hidden">
           <Image src="/assets/images/Language.svg" alt="coord" width={20} height={20} />
           <ComboboxLanguage className="text-white" />
         </div>
