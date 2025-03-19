@@ -52,7 +52,6 @@ const ListCategories = () => {
         throw new Error("Failed to delete the product");
       }
 
-      // Remove the deleted product from the state
       setCategories(
         categories.filter((category) => category.id !== categoryId)
       );

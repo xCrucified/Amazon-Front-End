@@ -5,7 +5,6 @@ import React from "react";
 import { Container } from "../container";
 import Link from "next/link";
 import { CountryDialog } from "../country-dialog";
-import ComboboxLanguage from "../checkbox-language";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
@@ -51,9 +50,10 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
         ) : (
           <></>
         )}
-        <div className="w-[120px] flex justify-center">
+        <div className="w-[120px] flex justify-center gap-2 hover:cursor-no-drop">
           <Image src="/assets/images/Language.svg" alt="coord" width={20} height={20} />
-          <ComboboxLanguage className="text-white" />
+          {/* <ComboboxLanguage className="text-white" /> */}
+          <p className="text-white text-[18px]">English</p>
         </div>
       </Container>
     </div>

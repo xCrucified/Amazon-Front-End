@@ -16,7 +16,7 @@ const ListCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "Product/all");
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "api/Product/all");
         if (!response.ok) {
           throw new Error("Failed to load categories");
         }
@@ -74,10 +74,8 @@ const ListCategories = () => {
             <tr key={product.id} className="border-t border-gray-200">
               <td className="p-3">{product.id}</td>
               <td className="p-3">{product.name}</td>
-              <div className="flex justify-end mr-10 gap-3">
               <Button onClick={() => handleEdit(product.id)} className="bg-purple-400 hover:opacity-80">Edit</Button>
               <Button onClick={() => handleDelete(product.id)} className="bg-red-400 hover:opacity-80">Remove</Button>
-              </div>
             </tr>
           ))}
         </tbody>
