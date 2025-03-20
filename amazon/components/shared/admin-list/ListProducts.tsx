@@ -39,7 +39,7 @@ const ListCategories = () => {
 
   const handleDelete = async (productId: number) => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `Product/${productId}`, {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `api/Product/${productId}`, {
         method: "DELETE",
       });
 

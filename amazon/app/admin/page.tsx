@@ -5,10 +5,12 @@ import React, { useState } from "react";
 import ListCategories from "@/components/shared/admin-list/ListCategories";
 import ListProducts from "@/components/shared/admin-list/ListProducts";
 import ListUsers from "@/components/shared/admin-list/ListUsers";
+import ListSubCategories from "@/components/shared/admin-list/ListSubCategories";
 
 const navItems = [
   { id: "categories", label: "Categories" },
   { id: "products", label: "Products" },
+  { id: "subCategories", label: "SubCategories" },
   { id: "users", label: "Users" },
 ] as const;
 
@@ -18,6 +20,7 @@ const UserPage = () => {
   const tabs = {
     categories: () => <ListCategories />,
     products: () => <ListProducts />,
+    subCategories: () => <ListSubCategories />,
     users: () => <ListUsers />,
   } as const;
 
