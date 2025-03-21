@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type CardType = "visa" | "mastercard";
 
 export interface PaymentCard {
-  id: string;
   name: string;
   cardNumber: string;
   cardHolder: string;
@@ -19,22 +18,20 @@ interface PaymentCardsState {
 const initialState: PaymentCardsState = {
   cards: [
     {
-      id: "1",
       name: "Monzo",
-      cardNumber: "1234 5678 9101 1121",
+      cardNumber: "1234567891011121",
       cardHolder: "Andrew Garfield",
-      expiry: "01/22",
+      expiry: "01/26",
       cardType: "mastercard",
       cvv: "123",
     },
     {
-      id: "2",
       name: "Lloyds Bank",
-      cardNumber: "4321 8756 1234 3724",
+      cardNumber: "4321875612343724",
       cardHolder: "Andrew Garfield",
-      expiry: "02/22",
+      expiry: "02/26",
       cardType: "visa",
-      cvv: "321"
+      cvv: "321",
     },
   ],
 };
@@ -47,10 +44,10 @@ export const paymentCardsSlice = createSlice({
       state.cards.push(action.payload);
     },
     removeCard(state, action: PayloadAction<string>) {
-      state.cards = state.cards.filter((card) => card.id !== action.payload);
+      state.cards = state.cards.filter((card) => card.cardNumber !== action.payload);
     },
     updateCard(state, action: PayloadAction<PaymentCard>) {
-      const index = state.cards.findIndex((card) => card.id === action.payload.id);
+      const index = state.cards.findIndex((card) => card.cardNumber === action.payload.cardNumber);
       if (index !== -1) {
         state.cards[index] = action.payload;
       }

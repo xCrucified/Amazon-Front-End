@@ -11,7 +11,7 @@ export const jwtParse = (token: string) => {
       exp: data["exp"],
     };
   } catch (error) {
-    console.log("Jwt parse error: ", error);
+    console.error(error);
     return null;
   }
 };

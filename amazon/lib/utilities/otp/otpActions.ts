@@ -6,8 +6,8 @@ export async function sendOTP() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ otp: generatedOTP }),
     });
-    console.log("Expected OTP:", generatedOTP);
-  } catch (error) {
-    console.error("sendOTP error: ", error);
+    // console.log("Expected OTP:", generatedOTP);
+  } catch (e) {
+    console.error(e);
   }
 }

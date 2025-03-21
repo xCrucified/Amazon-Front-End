@@ -1,17 +1,24 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
-import { useDispatch } from "react-redux";
-import { v4 as uuid } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
 import { cardSchema } from "@/lib/schemas/cardSchema";
 import { addCard } from "@/store/slices/paymentCardsSlice";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
+import { setOrderCard } from "@/store/slices/orderSlice";
 
 interface Props {
   className?: string;
@@ -34,19 +41,17 @@ export const PaymentCardForm: React.FC<Props> = ({ className, onSuccess }) => {
   const dispatch = useDispatch();
 
   async function onSubmit(values: z.infer<typeof cardSchema>) {
-    const newId = uuid();
-    dispatch(
-      addCard({
-        id: newId,
-        name: values.name,
-        cardNumber: values.cardNumber,
-        cardHolder: values.cardHolder,
-        expiry: values.expiry,
-        cardType: values.cardType,
-        cvv: values.cvv,
-      })
-    );
-    onSuccess?.(newId);
+    const card = {
+      name: values.name,
+      cardNumber: values.cardNumber,
+      cardHolder: values.cardHolder,
+      expiry: values.expiry,
+      cardType: values.cardType,
+      cvv: values.cvv,
+    };
+    dispatch(addCard(card));
+    dispatch(setOrderCard(card));
+    onSuccess?.(values.cardNumber);
   }
 
   return (

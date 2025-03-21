@@ -1,18 +1,31 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { useDispatch } from "react-redux";
 import { setDate as sDate } from "@/store/slices/deliveryDateSlice";
+import { setOrderDate } from "@/store/slices/orderSlice";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { getMonth, getYear, setMonth, setYear } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Months } from "@/lib/months";
-
 
 interface Props {
   className?: string;
@@ -75,6 +88,7 @@ export const DeliveryDateForm: React.FC<Props> = ({
 
   async function onSubmit(values: z.infer<typeof dateSchema>) {
     dispatch(sDate(values.date.toISOString()));
+    dispatch(setOrderDate(values.date.toISOString()));
     onSuccess?.();
   }
 

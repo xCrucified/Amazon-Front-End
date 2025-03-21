@@ -5,7 +5,7 @@ interface ProductProperties {
   value: string;
 }
 
-interface Product {
+export interface Product {
   id: number;
   desc: string;
   isGift: boolean;

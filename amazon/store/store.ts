@@ -8,6 +8,7 @@ import addressesReducer from "./slices/addressesSlice";
 import paymentCardsReducer from "./slices/paymentCardsSlice";
 import deliveryDateReducer from "./slices/deliveryDateSlice";
 import productImagesReducer from "./slices/productImagesSlice";
+import orderReducer from "./slices/orderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     paymentCards: paymentCardsReducer,
     deliveryDate: deliveryDateReducer,
     images: productImagesReducer,
+    order: orderReducer,
   },
 });
 

@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface PaymentCardProps {
-  id: string;
   name: string;
   cardNumber: string;
   expiry: string;
@@ -14,7 +13,6 @@ interface PaymentCardProps {
 }
 
 export const PaymentCard: React.FC<PaymentCardProps> = ({
-  id,
   name,
   cardNumber,
   expiry,
@@ -34,7 +32,7 @@ export const PaymentCard: React.FC<PaymentCardProps> = ({
       )}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={() => onSelect(id)}
+      onClick={() => onSelect(cardNumber)}
     >
       <div className="flex items-center justify-between">
         <Image

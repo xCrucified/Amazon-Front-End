@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface Address {
+export interface Address {
   id: number;
   name: string;
   fullname: string;
@@ -20,7 +20,7 @@ interface AddressesState {
 const initialState: AddressesState = {
   addresses: [
     {
-      id: 1,
+      id: 0,
       name: "Home",
       fullname: "Andrew",
       phoneNumber: "+380987536324",
@@ -32,7 +32,7 @@ const initialState: AddressesState = {
       isDefault: true,
     },
     {
-      id: 2,
+      id: 1,
       name: "Office",
       fullname: "Andrew",
       phoneNumber: "+380987536324",
@@ -56,12 +56,10 @@ const addressesSlice = createSlice({
       });
     },
     addAddress(state, action: PayloadAction<Address>) {
-      // Add the new address
       state.addresses.push(action.payload);
-      // Mark the new address as default
-      state.addresses.forEach((addr) => {
-        addr.isDefault = addr.id === action.payload.id;
-      });
+      if (action.payload.isDefault) {
+        state.addresses.forEach((addr) => (addr.isDefault = addr.id === action.payload.id));
+      }
     },
     updateAddress(state, action: PayloadAction<Address>) {
       const index = state.addresses.findIndex((addr) => addr.id === action.payload.id);

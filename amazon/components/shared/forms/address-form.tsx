@@ -10,13 +10,27 @@ import { ChevronDown } from "lucide-react";
 import Countries from "@/lib/countries";
 import { useDispatch, useSelector } from "react-redux";
 import { addAddress } from "@/store/slices/addressesSlice";
-import { v4 as uuid } from "uuid";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/store/store";
+import { setOrderAddress, setOrderId } from "@/store/slices/orderSlice";
+import { v4 as uuid } from "uuid";
 
 interface Props {
   className?: string;
@@ -40,23 +54,24 @@ export const AddressForm: React.FC<Props> = ({ className, onSuccess }) => {
   });
 
   const dispatch = useDispatch();
+  const newId = useSelector((state: RootState) => state.addresses.addresses.length);
 
   async function onSubmit(values: z.infer<typeof addressSchema>) {
-    const newId = useSelector((state: RootState) => state.addresses.addresses.length);
-    dispatch(
-      addAddress({
-        id: newId,
-        name: values.name,
-        fullname: values.fullname,
-        phoneNumber: values.phoneNumber,
-        country: values.country,
-        city: values.city,
-        street: values.street,
-        building: values.building,
-        postalCode: values.postalCode,
-        isDefault: values.makeDefault || false,
-      })
-    );
+    const address = {
+      id: newId,
+      name: values.name,
+      fullname: values.fullname,
+      phoneNumber: values.phoneNumber,
+      country: values.country,
+      city: values.city,
+      street: values.street,
+      building: values.building,
+      postalCode: values.postalCode,
+      isDefault: values.makeDefault!,
+    };
+
+    dispatch(addAddress(address));
+    dispatch(setOrderAddress(address));
     onSuccess?.(newId);
   }
 

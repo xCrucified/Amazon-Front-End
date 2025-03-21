@@ -43,10 +43,10 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
             </div>
           )
         )}
-        <div className="w-[120px] flex justify-center hidden">
+        {/* <div className="w-[120px] flex justify-center hidden">
           <Image src="/assets/images/Language.svg" alt="coord" width={20} height={20} />
           <ComboboxLanguage className="text-white" />
-        </div>
+        </div> */}
       </Container>
     </div>
   );

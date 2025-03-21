@@ -1,32 +1,49 @@
+"use server";
+
 import { NextResponse } from "next/server";
-import CryptoJS from "crypto-js";
+import crypto from "crypto";
 
 const PUBLIC_KEY = process.env.LIQPAY_PUBLIC_KEY!;
 const PRIVATE_KEY = process.env.LIQPAY_PRIVATE_KEY!;
-const CALLBACK_URL = process.env.NEXT_PUBLIC_LIQPAY_CALLBACK_URL!;
 
 export async function POST(req: Request) {
   try {
-    const { amount, currency, order_id, description } = await req.json();
+    const { amount, description, order_id, card, card_exp_month, card_exp_year, card_cvv } =
+      await req.json();
 
     const paymentData = {
-      version: 3,
       public_key: PUBLIC_KEY,
+      version: 3,
       action: "pay",
       amount,
-      currency,
+      currency: "USD",
       description,
       order_id,
-      result_url: CALLBACK_URL,
-      server_url: CALLBACK_URL,
+      card,
+      card_exp_month,
+      card_exp_year,
+      card_cvv,
+      phone: "380950000001",
+      sandbox: 1,
     };
 
-    const jsonString = JSON.stringify(paymentData);
-    const data = Buffer.from(jsonString).toString("base64");
-    const signature = CryptoJS.SHA1(PRIVATE_KEY + data + PRIVATE_KEY).toString(CryptoJS.enc.Base64);
+    const data = Buffer.from(JSON.stringify(paymentData)).toString("base64");
+    const signature = crypto
+      .createHash("sha1")
+      .update(PRIVATE_KEY + data + PRIVATE_KEY)
+      .digest("base64");
 
-    return NextResponse.json({ data, signature });
+    const response = fetch("https://www.liqpay.ua/api/request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data, signature }),
+    })
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.error("Помилка:", error));
+
+    return NextResponse.json({ response });
   } catch (error) {
-    return NextResponse.json({ error: "Помилка створення платежу" }, { status: 500 });
+    return NextResponse.json({ error: "Помилка:" + error }, { status: 500 });
   }
 }

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../page";
 import Products from "@/components/shared/cart-payment-products";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -25,45 +25,73 @@ import { setSelected } from "@/store/slices/deliveryDateSlice";
 import AddressForm from "@/components/shared/forms/address-form";
 import PaymentCardForm from "@/components/shared/forms/payment-card-form";
 import DeliveryDateForm from "@/components/shared/forms/delivery-date-form";
+import {
+  setOrderAddress,
+  setOrderCard,
+  setOrderDate,
+  setOrderId,
+  setOrderProducts,
+} from "@/store/slices/orderSlice";
+import { v4 as uuid } from "uuid";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const { push } = useRouter();
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.products);
   const addresses = useSelector((state: RootState) => state.addresses.addresses);
   const cards = useSelector((state: RootState) => state.paymentCards.cards);
-  const [selectedAddress, setSelectedAddress] = useState<number>();
+  const order = useSelector((state: RootState) => state.order);
+  const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
   const [selectedCard, setSelectedCard] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [addressAddHovered, setAddressAddHovered] = useState(false);
   const [cardAddHovered, setCardAddHovered] = useState(false);
   const [dateAddHovered, setDateAddHovered] = useState(false);
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
-  // const [findHovered, setFindHovered] = useState(false);
   const [cardDialogOpen, setCardDialogOpen] = useState(false);
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
   const deliveryDate = useSelector((state: RootState) => state.deliveryDate.date);
   const freeDeliveryDate = new Date(new Date().setDate(new Date().getDate() + 3));
 
-  // async function ProceedPayment() {
-  //   try {
-  //     console.log("Entered try");
-  //     const response = fetch("/api/liqpay", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         amount: 10,
-  //         currency: "UAH",
-  //         order_id: "123",
-  //         desciption: "Test Payment",
-  //       }),
-  //     });
+  useEffect(() => {
+    if (!order.id) {
+      const newId = uuid();
+      dispatch(setOrderId(newId));
+    }
+    dispatch(setOrderProducts(Object.values(cart).filter((product) => product.selected > 0)));
+  }, []);
 
-  //     const data = (await response).json();
-  //     console.log(data);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
+  async function Redirect() {
+    push("/cart/secure-checkout/paymenting");
+    // const exp = order.card!.expiry.split("/");
+    // const card_exp_month = exp[0];
+    // const card_exp_year = "20" + exp[1];
+
+    // let amount = 0;
+    // order.products.forEach((p) => (amount += p.price * p.selected));
+
+    // try {
+    //   const response = await fetch("/api/liqpay", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({
+    //       amount,
+    //       currency: "UAH",
+    //       desciption: "Test payment: " + order.id,
+    //       order_id: order.id,
+    //       card: order.card?.cardNumber.trim(),
+    //       card_exp_month,
+    //       card_exp_year,
+    //       card_cvv: "123",
+    //     }),
+    //   });
+    //   const data = await response.json();
+    //   console.log(data);
+    // } catch (e) {
+    //   console.error(e);
+    // }
+  }
 
   return (
     <div className="flex w-[1492px] gap-[60px] mx-auto py-12">
@@ -83,7 +111,10 @@ export default function Page() {
                 street={addr.street}
                 building={addr.building}
                 selected={selectedAddress === addr.id}
-                onSelect={(id) => setSelectedAddress(id)}
+                onSelect={(id) => {
+                  setSelectedAddress(id);
+                  dispatch(setOrderAddress(addresses.find((a) => a.id === id)!));
+                }}
               />
             ))}
             <Dialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen}>
@@ -113,39 +144,31 @@ export default function Page() {
                 />
               </DialogContent>
             </Dialog>
-            {/* <div
-              className={cn(
-                findHovered ? "border-[#e16c60]" : "border-[#e8e8e8]",
-                "w-[172px] h-[fit-content] p-4 bg-white rounded-xl border-[3px] cursor-not-allowed transition-all ease-in-out duration-100 select-none"
-              )}
-              onMouseEnter={() => setFindHovered(true)}
-              onMouseLeave={() => setFindHovered(false)}
-            >
-              Find a pickup location nearby
-            </div> */}
           </div>
         </section>
         <section className="flex flex-col w-full h-[fit-content] bg-[#f0f0f0] p-7 rounded-xl">
           <Label
             className={cn(
-              selectedAddress ? "text-black pb-4" : "text-black/40",
+              selectedAddress !== null ? "text-black pb-4" : "text-black/40",
               "text-[23px] font-bold leading-[23px]"
             )}
           >
             Payment method
           </Label>
-          {selectedAddress && (
+          {selectedAddress !== null && (
             <div className="flex gap-4 flex-wrap">
               {cards.map((card) => (
                 <PaymentCard
-                  key={card.id}
-                  id={card.id}
+                  key={card.cardNumber}
                   name={card.name}
                   cardNumber={card.cardNumber}
                   expiry={card.expiry}
                   cardType={card.cardType}
-                  selected={selectedCard === card.id}
-                  onSelect={(id) => setSelectedCard(id)}
+                  selected={selectedCard === card.cardNumber}
+                  onSelect={(number) => {
+                    setSelectedCard(number);
+                    dispatch(setOrderCard(card));
+                  }}
                 />
               ))}
               <Dialog open={cardDialogOpen} onOpenChange={setCardDialogOpen}>
@@ -198,6 +221,7 @@ export default function Page() {
                 onSelect={(id) => {
                   setSelectedDate(id);
                   dispatch(setSelected(false));
+                  dispatch(setOrderDate(freeDeliveryDate.toISOString()));
                 }}
               />
               <Dialog open={dateDialogOpen} onOpenChange={setDateDialogOpen}>
@@ -217,6 +241,7 @@ export default function Page() {
                           setDateDialogOpen(true);
                         }
                         dispatch(setSelected(true));
+                        dispatch(setOrderDate(deliveryDate));
                         setSelectedDate(id);
                       }}
                     />
@@ -253,6 +278,7 @@ export default function Page() {
                   <DeliveryDateForm
                     onSuccess={() => {
                       setDateDialogOpen(false);
+                      setSelectedDate("1");
                     }}
                   />
                 </DialogContent>
@@ -300,11 +326,9 @@ export default function Page() {
           </Label>
           <Products />
           {selectedDate && (
-            <Link href="https://www.youtube.com/watch?v=xMHJGd3wwZk">
-              <Button variant="figmaSecondary" type="button" className="w-full">
-                Buy now
-              </Button>
-            </Link>
+            <Button variant="figmaSecondary" type="button" className="w-full" onClick={Redirect}>
+              Buy now
+            </Button>
           )}
         </div>
         <Link href="/order-price" className="text-[#37569E] text-right text-[14px] mt-4">
