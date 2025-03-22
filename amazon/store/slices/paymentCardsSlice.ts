@@ -19,7 +19,7 @@ const initialState: PaymentCardsState = {
   cards: [
     {
       name: "Monzo",
-      cardNumber: "1234567891011121",
+      cardNumber: "4242424242424242",
       cardHolder: "Andrew Garfield",
       expiry: "01/26",
       cardType: "mastercard",

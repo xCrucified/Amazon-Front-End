@@ -1,14 +1,14 @@
 "use server";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 
 const PUBLIC_KEY = process.env.LIQPAY_PUBLIC_KEY!;
 const PRIVATE_KEY = process.env.LIQPAY_PRIVATE_KEY!;
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const { amount, description, order_id, card, card_exp_month, card_exp_year, card_cvv } =
+    const { amount, description, order_id, card, card_exp_month, card_exp_year, card_cvv, items } =
       await req.json();
 
     const paymentData = {
@@ -25,7 +25,10 @@ export async function POST(req: Request) {
       card_cvv,
       phone: "380950000001",
       sandbox: 1,
+      items,
     };
+
+    console.log(paymentData);
 
     const data = Buffer.from(JSON.stringify(paymentData)).toString("base64");
     const signature = crypto

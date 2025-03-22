@@ -64,33 +64,6 @@ export default function Page() {
 
   async function Redirect() {
     push("/cart/secure-checkout/paymenting");
-    // const exp = order.card!.expiry.split("/");
-    // const card_exp_month = exp[0];
-    // const card_exp_year = "20" + exp[1];
-
-    // let amount = 0;
-    // order.products.forEach((p) => (amount += p.price * p.selected));
-
-    // try {
-    //   const response = await fetch("/api/liqpay", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    //       amount,
-    //       currency: "UAH",
-    //       desciption: "Test payment: " + order.id,
-    //       order_id: order.id,
-    //       card: order.card?.cardNumber.trim(),
-    //       card_exp_month,
-    //       card_exp_year,
-    //       card_cvv: "123",
-    //     }),
-    //   });
-    //   const data = await response.json();
-    //   console.log(data);
-    // } catch (e) {
-    //   console.error(e);
-    // }
   }
 
   return (

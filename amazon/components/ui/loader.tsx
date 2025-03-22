@@ -11,7 +11,7 @@ const Loader: React.FC<LoaderProps> = ({ text }) => {
 
   if (visibleText) {
     useEffect(() => {
-      setTimeout(() => {        
+      setTimeout(() => {
         if (visibleText.length < text!.length + 3) {
           setText(visibleText + ".");
         } else {

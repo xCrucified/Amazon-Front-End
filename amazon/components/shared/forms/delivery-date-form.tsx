@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { useDispatch } from "react-redux";
-import { setDate as sDate } from "@/store/slices/deliveryDateSlice";
+import { setDate as sDate, setSelected } from "@/store/slices/deliveryDateSlice";
 import { setOrderDate } from "@/store/slices/orderSlice";
 import { Input } from "@/components/ui/input";
 import {
@@ -88,6 +88,7 @@ export const DeliveryDateForm: React.FC<Props> = ({
 
   async function onSubmit(values: z.infer<typeof dateSchema>) {
     dispatch(sDate(values.date.toISOString()));
+    dispatch(setSelected(true));
     dispatch(setOrderDate(values.date.toISOString()));
     onSuccess?.();
   }

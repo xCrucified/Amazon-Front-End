@@ -20,8 +20,12 @@ const stateSlice = createSlice({
     setSelected: (state, action: PayloadAction<boolean>) => {
       state.isSelected = action.payload;
     },
+    clearDeliveyDate(state) {
+      state.date = "";
+      state.isSelected = false;
+    }
   },
 });
 
-export const { setDate, setSelected } = stateSlice.actions;
+export const { setDate, setSelected, clearDeliveyDate } = stateSlice.actions;
 export default stateSlice.reducer;

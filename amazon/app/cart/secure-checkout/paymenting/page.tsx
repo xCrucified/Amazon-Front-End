@@ -1,6 +1,7 @@
 "use client";
 
 import Loader from "@/components/ui/loader";
+import { clearDeliveyDate } from "@/store/slices/deliveryDateSlice";
 import { clearOrder } from "@/store/slices/orderSlice";
 import { RootState } from "@/store/store";
 import Image from "next/image";
@@ -12,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Page() {
   const { push } = useRouter();
   const order = useSelector((state: RootState) => state.order);
+  const isDate = useSelector((state: RootState) => state.deliveryDate.isSelected);
   const dispatch = useDispatch();
   const [response, setResponse] = useState<any>(null);
 
@@ -19,7 +21,7 @@ export default function Page() {
     const fetchPaymentData = async () => {
       const exp = order.card!.expiry.split("/");
       const card_exp_month = exp[0];
-      const card_exp_year = "20" + exp[1];
+      const card_exp_year = exp[1];
 
       let amount = 0;
       order.products.forEach((p) => (amount += p.price * p.selected));
@@ -29,14 +31,22 @@ export default function Page() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount,
+            amount: isDate ? amount + 5 : amount,
             currency: "UAH",
-            desciption: "Test payment: " + order.id,
+            description: "Test: " + order.id,
             order_id: order.id,
             card: order.card?.cardNumber.trim(),
             card_exp_month,
             card_exp_year,
             card_cvv: order.card?.cvv.trim(),
+            items: order.products.map((p) =>
+              JSON.stringify({
+                amount: p.selected,
+                price: p.price,
+                cost: (p.price * p.selected).toFixed(2),
+                id: p.id,
+              })
+            ),
           }),
         });
         setResponse(await response.json());
@@ -91,6 +101,7 @@ export default function Page() {
           onClick={() => {
             push("/");
             dispatch(clearOrder());
+            dispatch(clearDeliveyDate());
           }}
         />
       </div>
