@@ -33,19 +33,16 @@ export const ProductCard: React.FC<Props> = ({
           <div>
             <p className="text-sm text-[#757575]">Mats</p>
             <Label className="text-[20px] font-bold max-w-[252px] flex flex-col">
-              {name.length > 24 ? `${name.slice(0, name.lastIndexOf(' '))}...` : name}
+              {name.length > 24 ? `${name.slice(0, name.lastIndexOf(" "))}...` : name}
             </Label>
-          
           </div>
 
           <div className="text-[#5a6b8c] gap-4 p-0">
-            <StarRating key={id} rate={rate} secondHalf icon ></StarRating>
+            <StarRating key={id} rate={rate} secondHalf icon></StarRating>
             <div className="flex gap-[10px]">
               <div>
                 <span className="text-lg">£</span>
-                <Label className="text-3xl font-bold w-[82.4px] h-[23px] ">
-                  {Number(price)}
-                </Label>
+                <Label className="text-3xl font-bold w-[82.4px] h-[23px] ">{Number(price)}</Label>
               </div>
               <div>
                 <Label className="text-base text-[#a2a5ab]">
@@ -55,19 +52,13 @@ export const ProductCard: React.FC<Props> = ({
             </div>
           </div>
 
-          <Link
-            href={`product/${id}`}
-            className="absolute left-[207px] bottom-[-10px]"
-          >
+          <Link href={`${id}`} replace className="absolute left-[207px] bottom-[-10px]">
             <img
               src="/assets/images/products/cart-btn.svg"
               alt="toCart"
               className="absolute p-2 bg-[#343a45] left-[20px] top-[20px] rounded-xl w-[48px] h-[48px] "
             />
-            <img
-              src="/assets/images/products/btn-cart-product.svg"
-              alt="add-cart"
-            />
+            <img src="/assets/images/products/btn-cart-product.svg" alt="add-cart" />
           </Link>
         </div>
       </div>

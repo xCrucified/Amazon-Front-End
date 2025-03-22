@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { Container } from "../container";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 
 interface Props {
   isOpen: boolean;

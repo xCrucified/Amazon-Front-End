@@ -20,7 +20,7 @@ import ProductGroupList from "@/components/shared/cards/product-group-list";
 import { ModalImage } from "@/components/shared/modal/modalImage";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 
 interface Props {
   images: {
@@ -118,19 +118,11 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
         <div className="w-[740px] h-full">
           <div className="flex justify-between items-center">
             <Label className="text-[23px] font-bold w-[594px]">
-              Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR
-              Cameras
+              Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR Cameras
             </Label>
-            <Button
-              className="bg-inherit hover:bg-inherit shadow-none"
-              onClick={handleButtonClick}
-            >
+            <Button className="bg-inherit hover:bg-inherit shadow-none" onClick={handleButtonClick}>
               <img
-                src={
-                  isRed
-                    ? "/assets/images/HeartBtn-F.svg"
-                    : "/assets/images/HeartBtn-N.svg"
-                }
+                src={isRed ? "/assets/images/HeartBtn-F.svg" : "/assets/images/HeartBtn-N.svg"}
                 alt="save"
                 width={32}
                 height={32}
@@ -148,9 +140,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               onClick={() => setSelected(1)}
               className={cn(
                 "w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none -[border3px] border-[#a8a8a8] rounded-tl-lg rounded-bl-lg",
-                selected === 1
-                  ? "border-[#5b6c8c] border-4 bg-[#f5f5f5] text-black"
-                  : ""
+                selected === 1 ? "border-[#5b6c8c] border-4 bg-[#f5f5f5] text-black" : ""
               )}
             >
               <div className="w-[308px] h-[100%] flex gap-2 flex-col justify-between">
@@ -166,9 +156,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               onClick={() => setSelected(2)}
               className={cn(
                 "w-[50%] h-full bg-[#dedede] text-[#636363] hover:bg-gray-100 rounded-none border-[3px] border-[#a8a8a8] rounded-tr-lg rounded-br-lg",
-                selected === 2
-                  ? "border-[#5b6c8c] border-4 bg-[#f5f5f5] text-black"
-                  : ""
+                selected === 2 ? "border-[#5b6c8c] border-4 bg-[#f5f5f5] text-black" : ""
               )}
             >
               <div className="w-[308px] h-[100%] flex gap-2 flex-col justify-between">
@@ -205,9 +193,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
           </div>
           <span className="h-[64px] w-full bg-black relative">
             <span className="flex gap-1">
-              <p className="text-blue-300 border-b-blue-300 border-b-2">
-                FREE delivery
-              </p>
+              <p className="text-blue-300 border-b-blue-300 border-b-2">FREE delivery</p>
               <p className="font-bold">Monday, January 20.</p>
               <p>Order within</p>
               <p className="text-green-500">20 hrs 15 mins</p>
@@ -218,11 +204,9 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </span>
           </span>
           <div>
-          <Accordion type="single" collapsible className="w-full mt-[24px]">
+            <Accordion type="single" collapsible className="w-full mt-[24px]">
               <AccordionItem value="item-1" className="border-t-2">
-                <AccordionTrigger className="font-bold">
-                  Product details
-                </AccordionTrigger>
+                <AccordionTrigger className="font-bold">Product details</AccordionTrigger>
                 <AccordionContent>
                   <div className="flex justify-between items-center mb-2">
                     <Label>Ships Brand</Label>
@@ -247,46 +231,36 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger className="font-bold">
-                  About this item
-                </AccordionTrigger>
+                <AccordionTrigger className="font-bold">About this item</AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-disc ml-5">
                     <li>
-                      75-300mm telephoto zoom lens with f/4-5.6 maximum aperture
-                      for Canon SLR cameras
+                      75-300mm telephoto zoom lens with f/4-5.6 maximum aperture for Canon SLR
+                      cameras
                     </li>
                     <li>
-                      Improved mechanism makes zooming smoother; front part of
-                      zoom ring sports silver ring
+                      Improved mechanism makes zooming smoother; front part of zoom ring sports
+                      silver ring
                     </li>
-                    <li>
-                      Measures 2.8 inches in diameter and 4.8 inches long;
-                      weighs 16.8 ounces
-                    </li>
+                    <li>Measures 2.8 inches in diameter and 4.8 inches long; weighs 16.8 ounces</li>
                     <li>Filter size: 58mm</li>
                     <li>Maximum aperture: 1:4-5.6</li>
                   </ul>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger className="font-bold">
-                  Payment
-                </AccordionTrigger>
+                <AccordionTrigger className="font-bold">Payment</AccordionTrigger>
                 <AccordionContent>
-                  We work hard to protect your security and privacy. Our payment
-                  security system encrypts your information during transmission.
-                  We don’t share your credit card details with third-party
-                  sellers, and we don’t sell your information to others.
+                  We work hard to protect your security and privacy. Our payment security system
+                  encrypts your information during transmission. We don’t share your credit card
+                  details with third-party sellers, and we don’t sell your information to others.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-4">
-                <AccordionTrigger className="font-bold">
-                  Returns
-                </AccordionTrigger>
+                <AccordionTrigger className="font-bold">Returns</AccordionTrigger>
                 <AccordionContent>
-                  This item can be returned in its original condition for a full
-                  refund or replacement within 30 days of receipt.
+                  This item can be returned in its original condition for a full refund or
+                  replacement within 30 days of receipt.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -306,11 +280,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
               onClick={() => handleImageClick(index)}
               className="w-[208px] h-[208px] rounded-lg"
             >
-              <img
-                src={image.url}
-                alt="img"
-                className="outline w-[100%] h-[100%]"
-              />
+              <img src={image.url} alt="img" className="outline w-[100%] h-[100%]" />
             </button>
           ))}
         </div>
@@ -342,26 +312,21 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </div>
           </div>
           <div className="flex flex-col gap-4 w-[715px]">
-            <Label className="font-semibold text-[22px]">
-              Product description
-            </Label>
+            <Label className="font-semibold text-[22px]">Product description</Label>
             <p
               className="font-thin w-[572px]"
               style={{ fontFamily: "sans-serif", fontStyle: "normal" }}
             >
-              Capture the far-off action of fast-paced sports or zoom in for an
-              intimate portrait with the Canon EF 75-300mm telephoto zoom lens.
-              The optical system, construction, and exterior are the same as the
-              EF 75-300 mm f/4-5.6 III USM’s. The difference is that it uses a
-              DC motor instead of a USM to drive the AF. As with all Canon lens,
-              this 75-300 model carries a one-year warranty.
+              Capture the far-off action of fast-paced sports or zoom in for an intimate portrait
+              with the Canon EF 75-300mm telephoto zoom lens. The optical system, construction, and
+              exterior are the same as the EF 75-300 mm f/4-5.6 III USM’s. The difference is that it
+              uses a DC motor instead of a USM to drive the AF. As with all Canon lens, this 75-300
+              model carries a one-year warranty.
             </p>
           </div>
           <div className="mt-16 border-b-2 border-t-2 h-[140px]">
             <div className="border-b-2 h-[50%] flex items-center">
-              <Label className="font-semibold text-[22px]">
-                Additional Information
-              </Label>
+              <Label className="font-semibold text-[22px]">Additional Information</Label>
             </div>
             <div className="flex justify-between items-center h-[50%]">
               <Label className="text-[15.5px]">Best Sellers Rank</Label>
@@ -404,11 +369,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
 
       <div className="mt-5 flex justify-between">
         <div className="flex w-[672px] h-full relative">
-          <Input
-            type="search"
-            placeholder="Search in reviews, Q&A…"
-            className="pl-10"
-          />
+          <Input type="search" placeholder="Search in reviews, Q&A…" className="pl-10" />
           <img
             src="/assets/images/Search.svg"
             alt="search"
@@ -420,25 +381,18 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
         </div>
         <div className="flex w-[715px] h-full relative flex-col">
           <div className="">
-            <Label className="font-semibold text-[22px] relative">
-              Customers say
-            </Label>
+            <Label className="font-semibold text-[22px] relative">Customers say</Label>
             <p className="mt-2">
-              Customers find the camera lens offers good value for money. They
-              say it works well, is useful for amateur photographers, and a
-              great starter lens. Many customers are satisfied with the zoom
-              quality and ease of use. However, some have mixed opinions on the
-              overall quality and focus ability.
+              Customers find the camera lens offers good value for money. They say it works well, is
+              useful for amateur photographers, and a great starter lens. Many customers are
+              satisfied with the zoom quality and ease of use. However, some have mixed opinions on
+              the overall quality and focus ability.
             </p>
           </div>
           <div className="mt-5">
             <div className="flex justify-between">
-              <Label className="font-semibold text-[22px] relative">
-                Reviews with images
-              </Label>
-              <button className="text-blue-700 underline">
-                See all customer images
-              </button>
+              <Label className="font-semibold text-[22px] relative">Reviews with images</Label>
+              <button className="text-blue-700 underline">See all customer images</button>
             </div>
             <div className={cn("overflow-hidden w-full mt-5")}>
               <div ref={listRef} className="flex flex-col">
@@ -474,9 +428,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
                   onClick={next}
                   className={cn(
                     "bg-inherit ring-0 hover:bg-inherit shadow-none",
-                    curr + 1 >= totalSlides
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
+                    curr + 1 >= totalSlides ? "opacity-50 cursor-not-allowed" : ""
                   )}
                   disabled={curr + 1 >= totalSlides}
                 >
@@ -484,8 +436,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
                     src="/assets/images/arrow-long-right.svg"
                     alt="arrow-right"
                     style={{
-                      filter:
-                        curr + 1 >= totalSlides ? "grayscale(100%)" : "none",
+                      filter: curr + 1 >= totalSlides ? "grayscale(100%)" : "none",
                     }}
                   />
                 </Button>
@@ -493,9 +444,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </div>
           </div>
           <div className="mt-10">
-            <Label className="font-semibold text-[22px] flex mb-7">
-              Top Reviews
-            </Label>
+            <Label className="font-semibold text-[22px] flex mb-7">Top Reviews</Label>
             <ReviewGroupList
               reviews={[
                 {
@@ -532,10 +481,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             />
           </div>
           <div className="w-full py-[12px] border-b-[3px] border-t-[3px]">
-            <Link
-              className="w-[100%] h-[100%] text-blue-900"
-              href="/product/reviews/all"
-            >
+            <Link className="w-[100%] h-[100%] text-blue-900" href="/product/reviews/all">
               See more reviews
             </Link>
           </div>

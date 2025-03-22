@@ -89,17 +89,31 @@ export const ProductGroupList: React.FC<Props> = ({
       <Container className="w-[100%] bottom-5 relative flex justify-between items-center">
         <Button
           onClick={prev}
-          className={cn("bg-inherit ring-0 hover:bg-inherit shadow-none", curr === 0 ? "opacity-50 cursor-not-allowed" : "")}
+          className={cn(
+            "bg-inherit ring-0 hover:bg-inherit shadow-none",
+            curr === 0 ? "opacity-50 cursor-not-allowed" : ""
+          )}
           disabled={curr === 0}
         >
-          <img src="/assets/images/arrow-long-left.svg" alt="arrow-left" style={{ filter: curr === 0 ? "grayscale(100%)" : "none" }} />
+          <img
+            src="/assets/images/arrow-long-left.svg"
+            alt="arrow-left"
+            style={{ filter: curr === 0 ? "grayscale(100%)" : "none" }}
+          />
         </Button>
         <Button
           onClick={next}
-          className={cn("bg-inherit ring-0 hover:bg-inherit shadow-none", curr + 1 >= totalSlides ? "opacity-50 cursor-not-allowed" : "")}
+          className={cn(
+            "bg-inherit ring-0 hover:bg-inherit shadow-none",
+            curr + 1 >= totalSlides ? "opacity-50 cursor-not-allowed" : ""
+          )}
           disabled={curr + 1 >= totalSlides}
         >
-          <img src="/assets/images/arrow-long-right.svg" alt="arrow-right" style={{ filter: curr + 1 >= totalSlides ? "grayscale(100%)" : "none" }} />
+          <img
+            src="/assets/images/arrow-long-right.svg"
+            alt="arrow-right"
+            style={{ filter: curr + 1 >= totalSlides ? "grayscale(100%)" : "none" }}
+          />
         </Button>
       </Container>
     </div>

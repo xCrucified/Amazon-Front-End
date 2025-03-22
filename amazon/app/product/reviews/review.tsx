@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import StarRating from "@/components/ui/star-rating";
-import { cn } from "@/lib/utilities/utils";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface Props {
