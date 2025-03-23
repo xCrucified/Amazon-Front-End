@@ -91,6 +91,7 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
     setIsRed(newState);
     localStorage.setItem("isRed", JSON.stringify(newState));
   };
+  
   return (
     <Container className={cn(className, "mb-10 p-6")}>
       <div className="w-full h-full flex gap-[56px] mt-[20px]">

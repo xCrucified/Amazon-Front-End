@@ -28,8 +28,6 @@ export async function POST(req: NextRequest) {
       items,
     };
 
-    console.log(paymentData);
-
     const data = Buffer.from(JSON.stringify(paymentData)).toString("base64");
     const signature = crypto
       .createHash("sha1")
@@ -42,7 +40,6 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({ data, signature }),
     })
       .then((response) => response.json())
-      .then((result) => console.log(result))
       .catch((error) => console.error("Помилка:", error));
 
     return NextResponse.json({ response });

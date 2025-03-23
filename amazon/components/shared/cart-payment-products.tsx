@@ -159,8 +159,14 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
       {displayedProducts.map((item, index) => (
         <div
           key={index}
-          className={cn(controls ? "border-b-2" : "border-b border-[#7c7c7c]/60", "flex gap-4 p-4")}
+          className={cn(
+            controls ? "border-b-2" : "border-b border-[#7c7c7c]/60",
+            "flex gap-4 p-4 relative"
+          )}
         >
+          {controls && item.inStock === 0 && (
+            <div className="absolute z-10 top-0 left-0 w-full h-full opacity-50 bg-gray-50" />
+          )}
           <div
             className={cn(
               controls ? "mr-6 w-[120px] h-[120px]" : "w-[140px] h-[140px] pr-4",
@@ -228,14 +234,14 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
                 <Button
                   variant="ghost"
                   type="button"
-                  className="w-[fit-contet] text-[#37569E] hover:text-[#222935] rounded-full"
+                  className="w-[fit-contet] z-20 text-[#37569E] hover:text-[#222935] rounded-full"
                 >
                   Save for later
                 </Button>
                 <Button
                   variant="ghost"
                   type="button"
-                  className="w-[fit-contet] text-[#37569E] hover:text-[#222935] rounded-full"
+                  className="w-[fit-contet] z-20 text-[#37569E] hover:text-[#222935] rounded-full"
                   onClick={handleDelete(item.id)}
                 >
                   Delete
