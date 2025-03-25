@@ -84,8 +84,15 @@ export const authConfig: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account }) {
-      if (account && user) {
-        token = { ...token, ...user };
+      if (account && account.provider === "google") {
+        token.accessToken = account.access_token;
+      }
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.phoneNumber = user.phoneNumber;
+        token.username = user.username;
+        token.dateOfBirth = user.dateOfBirth;
       }
       return token;
     },
@@ -98,8 +105,27 @@ export const authConfig: NextAuthOptions = {
         phoneNumber: token.phoneNumber as string,
         username: token.username as string,
         dateOfBirth: token.dateOfBirth as string,
-      };  
+      };
       return session;
+    },
+    async signIn({ account }) {
+      if (account?.provider === "google") {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/GoogleAuth/login/google`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              token: account.access_token,
+            }),
+          }
+        );
+
+        if (!response.ok) return false;
+      }
+      return true;
     },
   },
 };

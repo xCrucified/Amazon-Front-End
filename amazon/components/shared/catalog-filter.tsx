@@ -41,8 +41,8 @@ export const CatalogFilter: React.FC<Props> = ({ className, categoryName }) => {
   }, [categoryName]);
 
   return (
-    <section className={cn("w-[290px] flex flex-col gap-3 p-6", className)}>
-      <label className="text-[32px] font-bold w-[fit-content]">Electronic Store</label>
+    <section className={cn("w-[200px] flex flex-col gap-3 p-6", className)}>
+      <label className="text-[32px] leading-[32px] font-bold w-[fit-content]">Electronic Store</label>
       <Collapse subcatogries={subcategories} />
     </section>
   );

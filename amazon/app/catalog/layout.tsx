@@ -9,7 +9,7 @@ export default function CatalogLayout({ children }: { children: React.ReactNode 
 
   return (
     <section className="w-[1492px] mx-auto flex justify-center">
-      <CatalogFilter className="mr-auto" categoryName={categoryName?.toString()} />
+      <CatalogFilter className="w-[fit-content] mr-auto" categoryName={categoryName?.toString()} />
       {children}
     </section>
   );

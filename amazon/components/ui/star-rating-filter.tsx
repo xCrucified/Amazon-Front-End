@@ -12,7 +12,7 @@ export const StarRatingFilter: React.FC<Props> = ({ className, initialRate }) =>
   const [rate, setRate] = useState<number>(initialRate);
 
   return (
-    <div className={cn("flex w-[100%]", className)}>
+    <div className={cn("flex w-[fit-content]", className)}>
       {initialItems.map((item) => (
         <img
           key={item}
