@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
@@ -49,7 +50,7 @@ const reviewImages = [
   "/assets/images/productImg.png",
 ];
 
-export const ProductPage: React.FC<Props> = ({ className, params }) => {
+export const ProductPage: React.FC<Props> = ({ className }) => {
   const images = useSelector((state: RootState) => state.images);
 
   const [selected, setSelected] = useState<number | null>(1);

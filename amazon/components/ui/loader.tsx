@@ -7,19 +7,18 @@ interface LoaderProps {
 }
 
 const Loader: React.FC<LoaderProps> = ({ text }) => {
-  const [visibleText, setText] = useState<string | undefined>(text);
+  const [visibleText, setText] = useState<string>(text || "");
 
-  if (visibleText) {
     useEffect(() => {
       setTimeout(() => {
-        if (visibleText.length < text!.length + 3) {
+        if (visibleText.length < (text || "").length + 3) {
           setText(visibleText + ".");
         } else {
-          setText(text);
+          setText(text || "");
         }
       }, 1000);
-    }, [visibleText]);
-  }
+    }, [text, visibleText]);
+  
 
   return (
     <div className="w-[fit-content] flex flex-col justify-center items-center">

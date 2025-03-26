@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { cardSchema } from "@/lib/schemas/cardSchema";
 import { addCard } from "@/store/slices/paymentCardsSlice";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";

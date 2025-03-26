@@ -37,7 +37,7 @@ export default function LoginPage({ className }: React.ComponentPropsWithoutRef<
     if (session.status === "authenticated") {
       replace("/");
     }
-  }, [session]);
+  }, [replace, session]);
 
   const [isPasswordInputVisible, setIsPasswordInputVisible] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

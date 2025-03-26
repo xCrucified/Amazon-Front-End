@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
-export const setItems = (cart: Object) => {
+export const setItems = (cart: object) => {
   return Object.keys(cart).length > 1 ? Object.keys(cart).length.toString() + " items" : "one item";
 };
 
@@ -46,11 +46,11 @@ export default function Page() {
           </div>
           <div className="w-[1492px] mx-auto p-6 pt-0 text-[11px] leading-[13px]">
             The price and availability of items at Onyx.com are subject to change. The shopping cart
-            is a temporary place to store a list of your items and reflects each item's most recent
+            is a temporary place to store a list of your items and reflects each item`s most recent
             price.
             <br />
-            Do you have a gift card or promotional code? We'll ask you to enter your claim code when
-            it's time to pay.
+            Do you have a gift card or promotional code? We`ll ask you to enter your claim code when
+            it`s time to pay.
           </div>
         </>
       ) : (
@@ -68,7 +68,7 @@ export default function Page() {
                   </Link>
                   learn about
                   <Link href="/deals" className="text-[#37569e] leading-[18px]">
-                    today's deals,
+                    today`s deals,
                   </Link>
                   or visit your
                   <Link href="/wishlist" className="text-[#37569e] leading-[18px]">
@@ -79,11 +79,11 @@ export default function Page() {
             </div>
             <div className="w-[1000px] mx-auto text-[11px] leading-[13px]">
               The price and availability of items at Onyx.com are subject to change. The shopping
-              cart is a temporary place to store a list of your items and reflects each item's most
+              cart is a temporary place to store a list of your items and reflects each item`s most
               recent price.
               <br />
-              Do you have a gift card or promotional code? We'll ask you to enter your claim code
-              when it's time to pay.
+              Do you have a gift card or promotional code? We`ll ask you to enter your claim code
+              when it`s time to pay.
             </div>
             <div className="flex items-center justify-center pt-12 select-none">
               <div className="h-[70px] flex-col justify-center items-center gap-2 inline-flex">

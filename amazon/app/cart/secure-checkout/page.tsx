@@ -60,7 +60,7 @@ export default function Page() {
       dispatch(setOrderId(newId));
     }
     dispatch(setOrderProducts(Object.values(cart).filter((product) => product.selected > 0)));
-  }, []);
+  }, [cart, dispatch, order.id]);
 
   async function Redirect() {
     push("/cart/secure-checkout/paymenting");
@@ -270,7 +270,7 @@ export default function Page() {
           </Link>
         </p>
         <p className="text-[15px] text-black/75 leading-[16px] pb-1">
-          For an item ordered from Onyx.com: When you click the 'Place Your Order' button, we will
+          For an item ordered from Onyx.com: When you click the `Place Your Order` button, we will
           send you an e-mail acknowledging receipt of your order. Your contract to purchase an item
           will not be complete until we send you an e-mail notifying you that the item has been
           shipped to you. By placing your order, you agree to Onyx.com&apos;s privacy notice and

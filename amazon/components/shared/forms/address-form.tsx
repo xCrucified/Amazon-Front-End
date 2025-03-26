@@ -29,8 +29,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/store/store";
-import { setOrderAddress, setOrderId } from "@/store/slices/orderSlice";
-import { v4 as uuid } from "uuid";
+import { setOrderAddress } from "@/store/slices/orderSlice";
 
 interface Props {
   className?: string;

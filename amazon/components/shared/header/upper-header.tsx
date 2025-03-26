@@ -5,8 +5,6 @@ import React from "react";
 import { Container } from "../container";
 import Link from "next/link";
 import { CountryDialog } from "../country-dialog";
-import ComboboxLanguage from "../checkbox-language";
-import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/store/store";

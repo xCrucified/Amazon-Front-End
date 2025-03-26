@@ -54,7 +54,8 @@ export const signUpSchema = z
           path: ["credential"],
         });
       }
-    } catch (e) {
+    } catch (e: any) {
+      console.error(e);
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Connection error",

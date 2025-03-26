@@ -12,14 +12,12 @@ import { Button } from "@/components/ui/button";
 import { SearchInput } from "../search-input";
 import { usePathname } from "next/navigation";
 import { setIsAuth } from "@/store/slices/headerSlice";
-// import { useSession } from "next-auth/react";
 
 interface Props {
   className?: string;
 }
 
 export const Header: React.FC<Props> = ({ className }) => {
-  // const session = useSession();
   const pathname = usePathname();
   const dispatch = useDispatch();
 

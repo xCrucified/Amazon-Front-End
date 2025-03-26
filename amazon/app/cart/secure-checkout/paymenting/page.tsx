@@ -56,7 +56,7 @@ export default function Page() {
     };
 
     fetchPaymentData();
-  }, []);
+  }, [isDate, order.card, order.id, order.products]);
 
   return response ? (
     <div className="flex flex-col items-center">
