@@ -32,7 +32,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/dist/client/components/navigation";
 
-export default function Page({ className }: React.ComponentPropsWithoutRef<"div">) {
+export default function Page() {
   const { push } = useRouter();
 
   const username = useSelector((state: RootState) => state.signup.username);
@@ -72,7 +72,7 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
   }
 
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("flex flex-col")}>
       <Card className="border-none shadow-none">
         <CardHeader className="text-center">
           <CardTitle className="text-[23px] font-bold">Create account</CardTitle>
