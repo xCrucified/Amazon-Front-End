@@ -25,7 +25,7 @@ import { Label } from "@/components/ui/label";
 import InputOTP from "@/components/ui/input-otp";
 import { decrementCooldown, setCooldown } from "@/store/slices/otpSlice";
 
-export default function Page({ className }: React.ComponentPropsWithoutRef<"div">) {
+export default function Page() {
   const { replace } = useRouter();
   const dispatch = useDispatch();
   const email = useSelector((state: RootState) => state.signup.email);
@@ -98,7 +98,7 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
   }
 
   return (
-    <div className={cn("flex flex-col w-[405px] h-[480px]", className)}>
+    <div className={cn("flex flex-col w-[405px] h-[480px]")}>
       <Card className="border-none shadow-none">
         <CardHeader className="text-center">
           <CardTitle className="text-[23px] font-bold">
