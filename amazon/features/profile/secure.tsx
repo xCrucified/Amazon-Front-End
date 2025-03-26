@@ -201,7 +201,7 @@ const UserSecure = () => {
                       className='w-full border-[#B8B8B8] border-b border-t p-2.5 text-[13px] pl-0 leading-[15px] mb-2'>More
                       about passkeys:
                     </div>
-                    <Accordion.Root type="multiple" defaultValue={["item-1", "item-2", "item-3", "item-4"]}
+                    <Accordion type="multiple" defaultValue={["item-1", "item-2", "item-3", "item-4"]}
                                     className='w-full'>
                       <AccordionItem value="item-1" className='w-full'>
                         <AccordionTrigger
@@ -265,7 +265,7 @@ const UserSecure = () => {
                           </ul>
                         </AccordionContent>
                       </AccordionItem>
-                    </Accordion.Root>
+                    </Accordion>
                   </div>
                 )
               }
