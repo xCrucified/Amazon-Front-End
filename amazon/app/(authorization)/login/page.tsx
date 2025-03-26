@@ -27,8 +27,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import React from 'react';
 
-export default function LoginPage({ className }: React.ComponentPropsWithoutRef<"div">) {
+interface Props {
+  className?: string;
+}
+
+export const LoginPage: React.FC<Props> = ({ className }) => {
   const { replace } = useRouter();
   const session = useSession();
   const dispatch = useDispatch();
@@ -323,3 +328,5 @@ export default function LoginPage({ className }: React.ComponentPropsWithoutRef<
     </div>
   );
 }
+
+export default LoginPage;
