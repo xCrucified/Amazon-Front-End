@@ -55,6 +55,7 @@ export const signUpSchema = z
         });
       }
     } catch (e) {
+      console.log(e);
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Connection error",
