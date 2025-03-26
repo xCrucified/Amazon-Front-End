@@ -29,7 +29,6 @@ interface Props {
     src: string;
   };
   className?: string;
-  params: { id: string };
 }
 
 const reviewImages = [
