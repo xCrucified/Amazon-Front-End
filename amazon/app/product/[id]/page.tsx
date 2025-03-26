@@ -15,12 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { cn } from "@/lib/utils";
 
-
-interface Props {
-  className?: string;
-}
-
-export const ProductPage: React.FC<Props> = ({ className }) => {
+export const ProductPage: React.FC = () => {
   const images = useSelector((state: RootState) => state.images);
   const reviewImages = Array(16).fill("/assets/images/productImg.png");
 
@@ -59,7 +54,7 @@ export const ProductPage: React.FC<Props> = ({ className }) => {
   };
 
   return (
-    <Container className={cn(className, "mb-10 p-6")}>
+    <Container className={cn("mb-10 p-6")}>
       <div className="flex gap-[56px] mt-[20px]">
         <div className="w-[696px] rounded-md">
           {images.images.slice(0, 1).map((image, index) => (
