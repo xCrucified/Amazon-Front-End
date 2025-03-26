@@ -17,7 +17,11 @@ export const setItems = (cart: object) => {
 export default function Page() {
   const cart = useSelector((state: RootState) => state.cart.products);
   const dispatch = useDispatch();
-
+  const setItems = (cart: object) => {
+    return Object.keys(cart).length > 1
+      ? Object.keys(cart).length.toString() + " items"
+      : "one item";
+  };
   const handleDelete = () => {
     dispatch(clearCart());
   };
