@@ -332,7 +332,7 @@ interface Props {
   className?: string;
 }
 
-const LoginPage: React.FC<Props> = ({ className }) => {
+export const LoginPage: React.FC<Props> = ({ className }) => {
   return (
     <div className={className}>
       Main
@@ -340,4 +340,3 @@ const LoginPage: React.FC<Props> = ({ className }) => {
   );
 };
 
-export default LoginPage;
