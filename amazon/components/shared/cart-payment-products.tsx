@@ -36,8 +36,8 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
   }
 
   const displayedProducts = controls
-    ? Object.values(cart)
-    : Object.values(cart).filter((item) => item.selected > 0);
+    ? cart
+    : cart.filter((item) => item.selected > 0);
 
   const getSubtotal = (): JSX.Element => {
     let total = 0;
@@ -130,7 +130,7 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
   };
 
   const handleDelete = (id: number) => () => {
-    const product = Object.values(cart).find((item) => item.id === id);
+    const product = cart.find((_, index) => index === id);
     if (product) {
       dispatch(removeFromCart(product));
     }
@@ -177,7 +177,7 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
           </div>
           <div className={cn(!controls && "justify-between", "w-full flex flex-col")}>
             <Label className={cn(controls ? "font-bold pb-1" : "text-[11px] pb-4")}>
-              {item.desc}
+              {item.title}
             </Label>
             {controls && <Label className="pb-3">{setStockLabel(item.inStock)}</Label>}
             <section className={cn(controls && "mt-1", "pb-3")}>
@@ -195,7 +195,7 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
                 <Checkbox
                   id="gift"
                   checked={item.isGift}
-                  onClick={() => handleGiftChange(item.id)}
+                  onClick={() => handleGiftChange(index)}
                   className="w-[13px] h-[13px] border-[2px] border-[#636366] rounded-[2px] data-[state=checked]:bg-[#5A6C8D] data-[state=checked]:border-none shadow-none"
                 />
                 <Label className="text-[12px]">
@@ -216,7 +216,7 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
                     className="hover:bg-transparent h-[fit-content]"
                     size="icon"
                     type="button"
-                    onClick={handleDecSelected(item.id)}
+                    onClick={handleDecSelected(index)}
                   >
                     <Minus />
                   </Button>
@@ -226,7 +226,7 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
                     className="hover:bg-transparent h-[fit-content]"
                     size="icon"
                     type="button"
-                    onClick={handleIncSelected(item.id)}
+                    onClick={handleIncSelected(index)}
                   >
                     <Plus />
                   </Button>
@@ -242,7 +242,7 @@ export const Products: React.FC<Props> = ({ className, controls }) => {
                   variant="ghost"
                   type="button"
                   className="w-[fit-contet] z-20 text-[#37569E] hover:text-[#222935] rounded-full"
-                  onClick={handleDelete(item.id)}
+                  onClick={handleDelete(index)}
                 >
                   Delete
                 </Button>

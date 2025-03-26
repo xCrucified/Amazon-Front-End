@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 
 interface Props {
   title: string;
+  titleClassName?: string;
   items: any[];
   categoryId: number;
   className?: string;
@@ -20,6 +21,7 @@ interface Props {
 export const ProductGroupList: React.FC<Props> = ({
   className,
   title,
+  titleClassName,
   items,
   listClassName,
   categoryId,
@@ -63,9 +65,9 @@ export const ProductGroupList: React.FC<Props> = ({
 
   return (
     <div className={cn("flex flex-col", className)} id={title} ref={intersectionRef}>
-      <Title text={title} size="lg" className="font-extrabold" />
+      <Title text={title} size="lg" className={cn("font-extrabold", titleClassName)} />
 
-      <div className={cn("overflow-hidden w-full", listClassName)}>
+      <div className={cn("overflow-hidden w-[fit-content]", listClassName)}>
         <div ref={listRef} className="flex w-full">
           {Array.from({ length: totalSlides }).map((_, slideIndex) => (
             <div key={slideIndex} className="flex min-w-full gap-[15px]">
@@ -86,7 +88,7 @@ export const ProductGroupList: React.FC<Props> = ({
         </div>
       </div>
 
-      <Container className="w-[100%] bottom-5 relative flex justify-between items-center">
+      <Container className="w-full bottom-5 relative flex justify-between items-center">
         <Button
           onClick={prev}
           className={cn(

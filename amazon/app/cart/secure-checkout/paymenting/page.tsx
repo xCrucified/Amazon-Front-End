@@ -82,7 +82,7 @@ export default function Page() {
         <ul className="text-[16px] self-start list-disc pl-4">
           {order.products.map((p) => (
             <li key={p.id} className="items-center">
-              {p.desc}
+              {p.title}
             </li>
           ))}
         </ul>

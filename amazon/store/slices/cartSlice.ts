@@ -7,55 +7,85 @@ interface ProductProperties {
 
 export interface Product {
   id: number;
-  desc: string;
+  title: string;
+  brand?: string;
+  top1Rated?: boolean;
+  rating?: number;
+  reviewsCount?: number;
+  features: string;
+  price: number;
+  oldPrice?: number | null;
+  priceFeatures?: string;
+  image: string;
   isGift: boolean;
   inStock: number;
   selected: number;
-  price: number;
   properties: ProductProperties[];
-  image: string;
 }
 
 interface Cart {
-  products: { [id: number]: Product };
+  products: Product[];
 }
 
 const initialState: Cart = {
-  products: {
-    1: {
+  products: [
+    {
       id: 1,
-      desc: 'Retrospec Solana Yoga Mat 1/2" Thick w/Nylon Strap for Men & Women - Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce',
+      title:
+        'Retrospec Solana Yoga Mat 1/2" Thick w/Nylon Strap for Men & Women - Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce',
+      brand: "",
+      top1Rated: false,
+      rating: 0,
+      reviewsCount: 0,
+      features: "Wild Spruce",
+      price: 19.99,
+      oldPrice: undefined,
+      priceFeatures: undefined,
+      image: "/assets/images/products/mat.svg",
       isGift: false,
       inStock: 10,
       selected: 1,
-      price: 19.99,
       properties: [
         { category: "Color name", value: "Wild Spruce" },
         { category: "Style", value: "½ Inch" },
       ],
-      image: "/assets/images/products/mat.svg",
     },
-    2: {
+    {
       id: 2,
-      desc: "Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR CamerasCanon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR Cameras",
+      title:
+        "Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR CamerasCanon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR Cameras",
+      brand: "",
+      top1Rated: false,
+      rating: 0,
+      reviewsCount: 0,
+      features: "Wild Spruce",
+      price: 120.0,
+      oldPrice: undefined,
+      priceFeatures: undefined,
+      image: "/assets/images/products/camera-lens.png",
       isGift: false,
       inStock: 2,
       selected: 1,
-      price: 120.0,
       properties: [{ category: "Color name", value: "Wild Spruce" }],
-      image: "/assets/images/products/camera-lens.png",
     },
-    3: {
+    {
       id: 3,
-      desc: "Camera Lens",
+      title: "Camera Lens",
+      brand: "",
+      top1Rated: false,
+      rating: 0,
+      reviewsCount: 0,
+      features: "Wild Spruce",
+      price: 190.0,
+      oldPrice: undefined,
+      priceFeatures: undefined,
+      image: "/assets/images/products/camera-lens.png",
       isGift: false,
       inStock: 0,
       selected: 0,
-      price: 190.0,
       properties: [{ category: "Color name", value: "Wild Spruce" }],
-      image: "/assets/images/products/camera-lens.png",
     },
-  },
+  ],
 };
 
 const cartSlice = createSlice({
@@ -63,38 +93,42 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<Product>) {
-      const product = action.payload;
-      state.products[product.id] = product;
+      const product = state.products.find((p) => p.id === action.payload.id);
+      if (product) {
+        product.selected++;
+      } else {
+        state.products.push(action.payload);
+      }
     },
     removeFromCart(state, action: PayloadAction<Product>) {
-      delete state.products[action.payload.id];
+      state.products = state.products.filter((p) => p.id !== action.payload.id);
     },
     markAsGift(state, action: PayloadAction<number>) {
-      const product = state.products[action.payload];
-      if (product && !product.isGift) {
+      const product = state.products.find((_, index) => index === action.payload);
+      if (product) {
         product.isGift = true;
       }
     },
     demarkAsGift(state, action: PayloadAction<number>) {
-      const product = state.products[action.payload];
-      if (product && product.isGift) {
+      const product = state.products.find((_, index) => index === action.payload);
+      if (product) {
         product.isGift = false;
       }
     },
     increaseSelectedVal(state, action: PayloadAction<number>) {
-      const product = state.products[action.payload];
+      const product = state.products.find((_, index) => index === action.payload);
       if (product && product.selected < product.inStock) {
         product.selected++;
       }
     },
     decreaseSelectedVal(state, action: PayloadAction<number>) {
-      const product = state.products[action.payload];
+      const product = state.products.find((_, index) => index === action.payload);
       if (product && product.selected > 0) {
         product.selected--;
       }
     },
     clearCart(state) {
-      state.products = {};
+      state.products = [];
     },
   },
 });

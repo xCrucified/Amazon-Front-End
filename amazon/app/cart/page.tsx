@@ -4,14 +4,14 @@ import Checkout from "@/components/shared/cards/checkout-card";
 import { Products } from "@/components/shared/cart-payment-products";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { clearCart } from "@/store/slices/cartSlice";
+import { clearCart, Product } from "@/store/slices/cartSlice";
 import { RootState } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
-export const setItems = (cart: Object) => {
-  return Object.keys(cart).length > 1 ? Object.keys(cart).length.toString() + " items" : "one item";
+export const setItems = (cart: Product[]) => {
+  return cart.length > 1 ? cart.length.toString() + " items" : "one item";
 };
 
 export default function Page() {
@@ -24,7 +24,7 @@ export default function Page() {
 
   return (
     <>
-      {Object.keys(cart).length > 0 ? (
+      {cart.length > 0 ? (
         <>
           <div className="w-[1492px] flex flex-row-reverse p-6 gap-8 mx-auto">
             <Checkout />
