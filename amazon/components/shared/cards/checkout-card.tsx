@@ -15,7 +15,7 @@ interface Props {
 export const Checkout: React.FC<Props> = ({ className }) => {
   const cart = useSelector((state: RootState) => state.cart.products);
 
-  const getSubtotal = (cart: Object) => {
+  const getSubtotal = (cart: object) => {
     let total = 0;
     Object.values(cart).forEach((item) => {
       total += item.price * item.selected;

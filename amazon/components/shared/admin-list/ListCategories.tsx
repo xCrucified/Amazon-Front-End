@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import router from "next/router";
+// import router from "next/router";
 import React, { useEffect, useState } from "react";
 
 interface Category {
@@ -34,31 +34,31 @@ const ListCategories = () => {
     fetchCategories();
   }, []);
 
-  const handleEdit = (categoryId: number) => {
-    // Redirect to the edit page
-    router.push(`/category/edit-category/${categoryId}`);
-  };
+  // const handleEdit = (categoryId: number) => {
+  //   // Redirect to the edit page
+  //   router.push(`/category/edit-category/${categoryId}`);
+  // };
 
-  const handleDelete = async (categoryId: number) => {
-    try {
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + `api/Category/${categoryId}`,
-        {
-          method: "DELETE",
-        }
-      );
+  // const handleDelete = async (categoryId: number) => {
+  //   try {
+  //     const response = await fetch(
+  //       process.env.NEXT_PUBLIC_API_URL + `api/Category/${categoryId}`,
+  //       {
+  //         method: "DELETE",
+  //       }
+  //     );
 
-      if (!response.ok) {
-        throw new Error("Failed to delete the product");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("Failed to delete the product");
+  //     }
 
-      setCategories(
-        categories.filter((category) => category.id !== categoryId)
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     setCategories(
+  //       categories.filter((category) => category.id !== categoryId)
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   if (loading) return <p>Loading categories...</p>;
 
