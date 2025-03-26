@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { cn } from "@/lib/utils";
 
-export const ProductPage: React.FC = () => {
+const ProductPage: React.FC = () => {
   const images = useSelector((state: RootState) => state.images);
   const reviewImages = Array(16).fill("/assets/images/productImg.png");
 
@@ -360,3 +360,5 @@ export const ProductPage: React.FC = () => {
     </Container>
   );
 };
+
+export default ProductPage;
