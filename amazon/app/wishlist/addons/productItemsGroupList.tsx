@@ -28,7 +28,7 @@ interface Filters {
 export const ProductItemsGroupList: React.FC<Props> = ({ items }) => {
   return (
     <div className="flex flex-col gap-12">
-      <div className="flex flex-col justify-center items-center outline rounded-xl">
+      <div className="flex flex-col justify-center items-center outline rounded-xl mb-10">
         <div className="flex justify-between w-full p-4 bg-white">
           <Label className="text-[32px]">Shopping List</Label>
 
@@ -87,7 +87,7 @@ export const ProductItemsGroupList: React.FC<Props> = ({ items }) => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center outline rounded-xl">
+      {/* <div className="flex flex-col justify-center items-center outline rounded-xl">
         <div className="flex justify-between w-full p-4 bg-white">
           <Label className="text-[32px]">Maybe later</Label>
 
@@ -131,7 +131,7 @@ export const ProductItemsGroupList: React.FC<Props> = ({ items }) => {
           <span className="px-3 text-gray-500 text-sm">End of list</span>
           <div className="flex-1 border-t-2 border-gray-300"></div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

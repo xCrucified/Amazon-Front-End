@@ -6,6 +6,8 @@ import { cn } from "@/lib/utilities/utils";
 import React, { useState } from "react";
 import CreateSection from "./addons/createSectionForm";
 import ProductItemsGroupList from "./addons/productItemsGroupList";
+import Section from "./addons/section";
+import { any } from "zod";
 
 interface Props {
   className?: string;
@@ -45,7 +47,8 @@ export const Page: React.FC<Props> = ({ className }) => {
           </div>
         </div>
       </div>
-      <ProductItemsGroupList
+      <Section item={any} />
+      {/* <ProductItemsGroupList
         items={[
           {
             id: 1,
@@ -65,8 +68,17 @@ export const Page: React.FC<Props> = ({ className }) => {
             properties: "HUND",
             createDate: "12.12.2001",
           },
+          {
+            id: 3,
+            name: "Retrospec Solana Yoga Mat 1/2 Thick w/Nylon Strap for Men & Women – Non Slip Excercise Mat for Yoga, Pilates, Stretching, Floor & Fitness Workouts, Wild Spruce",
+            rate: 4,
+            price: 33.33,
+            oldPrice: 55.55,
+            properties: "HUND",
+            createDate: "12.12.2001",
+          },
         ]}
-      />
+      /> */}
     </Container>
   );
 };

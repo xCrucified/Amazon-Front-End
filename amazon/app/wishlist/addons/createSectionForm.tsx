@@ -2,6 +2,7 @@
 import { Container } from "@/components/shared/container";
 import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
+import Section from "./section";
 
 interface Props {
   isOpen: boolean;
@@ -35,14 +36,14 @@ export const CreateSectionForm: React.FC<Props> = ({
   };
 
   const handleCreateSection = () => {
-    console.log("YO!!!");
+    <Section item={handleInputChange} />
   };
 
   if (!isOpen) return null;
 
   return (
     <>
-      <div className="fixed inset-0 bg-black opacity-25 h-full w-ful z-50"></div>
+      <div className="fixed inset-0 bg-black opacity-25 h-full w-ful z-[51]"></div>
       <Container
         className={
           "h-[425px] self-center w-[405px] z-[52] fixed inset-0 flex justify-center bg-[#f5f5f5] rounded-xl"
@@ -63,7 +64,7 @@ export const CreateSectionForm: React.FC<Props> = ({
               <p>List name (required)</p>
               <div className="flex items-center border-[3px] bg-white border-[#5A6C8D] rounded-lg px-3">
                 <p className="text-[14px] w-[170px] border-r-2 border-[#5A6C8D] mr-1">
-                  Shopping List 1
+                  Enter list name
                 </p>
                 <input
                   className="w-full focus:outline-none"
@@ -108,6 +109,7 @@ export const CreateSectionForm: React.FC<Props> = ({
             >
               Create
             </button>
+            
           </div>
         </div>
       </Container>
