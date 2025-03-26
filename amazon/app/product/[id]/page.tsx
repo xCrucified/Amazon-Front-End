@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { cn } from "@/lib/utils";
 
-const reviewImages = Array(16).fill("/assets/images/productImg.png");
 
 interface Props {
   className?: string;
@@ -23,6 +22,7 @@ interface Props {
 
 export const ProductPage: React.FC<Props> = ({ className }) => {
   const images = useSelector((state: RootState) => state.images);
+  const reviewImages = Array(16).fill("/assets/images/productImg.png");
 
   const [selected, setSelected] = useState<number | null>(1);
   const [isRed, setIsRed] = useState(false);
