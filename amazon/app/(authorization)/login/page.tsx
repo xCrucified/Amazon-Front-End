@@ -33,7 +33,7 @@ interface Props {
   className?: string;
 }
 
-export const LoginPage: React.FC<Props> = ({ className }) => {
+const LoginPage: React.FC<Props> = ({ className }) => {
   const { replace } = useRouter();
   const session = useSession();
   const dispatch = useDispatch();
