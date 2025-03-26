@@ -29,11 +29,8 @@ import {
 import { Label } from "@/components/ui/label";
 import React from 'react';
 
-interface Props {
-  className?: string;
-}
 
-const LoginPage: React.FC<Props> = ({ className }) => {
+const LoginPage: React.FC = () => {
   const { replace } = useRouter();
   const session = useSession();
   const dispatch = useDispatch();
