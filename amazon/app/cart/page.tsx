@@ -10,18 +10,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
-export const setItems = (cart: object) => {
-  return Object.keys(cart).length > 1 ? Object.keys(cart).length.toString() + " items" : "one item";
-};
-
 export default function Page() {
   const cart = useSelector((state: RootState) => state.cart.products);
   const dispatch = useDispatch();
+
+  // Remove export and define it as a normal function
   const setItems = (cart: object) => {
     return Object.keys(cart).length > 1
       ? Object.keys(cart).length.toString() + " items"
       : "one item";
   };
+
   const handleDelete = () => {
     dispatch(clearCart());
   };

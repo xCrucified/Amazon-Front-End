@@ -104,7 +104,7 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("flex flex-col")}>
       <Card className="border-none shadow-none">
         <CardHeader className="text-center">
           <CardTitle className="text-[23px] font-bold">

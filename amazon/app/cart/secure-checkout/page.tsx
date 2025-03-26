@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import { RootState } from "@/store/store";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { setItems } from "../page";
 import Products from "@/components/shared/cart-payment-products";
 import { useEffect, useState } from "react";
 import {
@@ -64,6 +63,10 @@ export default function Page() {
 
   async function Redirect() {
     push("/cart/secure-checkout/paymenting");
+  }
+
+  function setItems(arg0: import("../../../store/slices/cartSlice").Product[]): import("react").ReactNode {
+    throw new Error(arg0 + "Function not implemented.");
   }
 
   return (
