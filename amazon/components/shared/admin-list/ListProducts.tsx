@@ -14,7 +14,7 @@ interface Product {
   name: string;
   rate: number;
   price: number;
-  ProductImages: string[];
+  images: string[];
   oldPrice: number;
   userId: string;
 }
@@ -26,11 +26,12 @@ const ListCategories = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchProducts = async () => {
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}api/Product/all`
         );
+
         if (!response.ok) {
           throw new Error("Failed to load categories");
         }
@@ -43,8 +44,8 @@ const ListCategories = () => {
         setLoading(false);
       }
     };
-
-    fetchCategories();
+    
+    fetchProducts();
   }, []);
 
   const handleEdit = useCallback(
@@ -83,6 +84,7 @@ const ListCategories = () => {
     }).format(price);
   };
 
+  {console.log(products[0])}
   return (
     <>
       <Title text="Products" size="lg" className="font-extrabold" />
@@ -90,14 +92,11 @@ const ListCategories = () => {
         {products.map((product) => (
           <div className="relative w-[284px] h-[400px] mb-12" key={product.id}>
             <div className="bg-white rounded-2xl h-full w-full p-4">
-            {product.ProductImages?.[0] && (
-                <img
-                  key={product.id}
-                  src={product.ProductImages[0]}
-                  alt={product.name}
-                  className="w-full h-40 object-cover rounded-lg"
+              <img
+                src={`${process.env.NEXT_PUBLIC_API_URL}uploading/${product.images}`}
+                alt={product.name}
+                className="w-full h-40 object-cover rounded-lg"
                 />
-              )}
               <p className="text-sm text-gray-500">Mats</p>
               <Label className="text-xl font-bold">
                 {product.name.length > 24
