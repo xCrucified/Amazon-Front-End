@@ -80,7 +80,7 @@ const ListCategories = () => {
             <tr key={category.id} className="border-t border-gray-200">
               <td className="p-3">{category.id}</td>
               <td className="p-3">{category.name}</td>
-              <div className="flex justify-end mr-10 gap-3">
+              {/* <div className="flex justify-end mr-10 gap-3">
                 <Button
                   onClick={() => handleEdit(category.id)}
                   className="bg-purple-400 hover:opacity-80"
@@ -93,7 +93,7 @@ const ListCategories = () => {
                 >
                   Remove
                 </Button>
-              </div>
+              </div> */}
             </tr>
           ))}
         </tbody>

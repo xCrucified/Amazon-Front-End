@@ -2,10 +2,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Label } from "@/components/ui/label";
 import StarRating from "@/components/ui/star-rating";
-import router from "next/dist/client/router";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Title } from "@/components/ui/title";
 
@@ -14,6 +14,7 @@ interface Product {
   name: string;
   rate: number;
   price: number;
+  ProductImages: string[];
   oldPrice: number;
   userId: string;
 }
@@ -21,12 +22,14 @@ interface Product {
 const ListCategories = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          process.env.NEXT_PUBLIC_API_URL + "api/Product/all"
+          `${process.env.NEXT_PUBLIC_API_URL}api/Product/all`
         );
         if (!response.ok) {
           throw new Error("Failed to load categories");
@@ -34,7 +37,8 @@ const ListCategories = () => {
         const data = await response.json();
         setProducts(data);
       } catch (error) {
-        console.log(error);
+        setError("Error loading products. Please try again later.");
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -43,84 +47,79 @@ const ListCategories = () => {
     fetchCategories();
   }, []);
 
-  const handleEdit = (productId: number) => {
-    router.push(`/category/edit-product/${productId}`);
-  };
+  const handleEdit = useCallback(
+    (productId: number) => {
+      router.push(`/category/edit-product/${productId}`);
+    },
+    [router]
+  );
 
-  const handleDelete = async (productId: number) => {
+  const handleDelete = useCallback(async (productId: number) => {
     try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + `api/Product/${productId}`,
-        {
-          method: "DELETE",
-        }
+        `${process.env.NEXT_PUBLIC_API_URL}api/Product/${productId}`,
+        { method: "DELETE" }
       );
 
       if (!response.ok) {
         throw new Error("Failed to delete the product");
       }
 
-      setProducts(products.filter((products) => products.id !== productId));
+      setProducts((prev) => prev.filter((product) => product.id !== productId));
     } catch (error) {
-      console.log(error);
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product. Please try again.");
     }
-  };
+  }, []);
 
   if (loading) return <p>Loading categories...</p>;
+  if (error) return <p>{error}</p>;
+  if (!products.length) return <p>No products available.</p>;
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+    }).format(price);
+  };
 
   return (
     <>
-      <Title text={"Products"} size="lg" className="font-extrabold" />
-      <div className="flex w-full gap-10">
+      <Title text="Products" size="lg" className="font-extrabold" />
+      <div className="flex flex-wrap gap-10">
         {products.map((product) => (
-          <div
-            className={"relative w-[284px] h-[400px] mb-12"}
-            key={product.id}
-          >
-            <div className="bg-white rounded-2xl h-[100%] w-[100%]">
-              <div className="m-2.5">
+          <div className="relative w-[284px] h-[400px] mb-12" key={product.id}>
+            <div className="bg-white rounded-2xl h-full w-full p-4">
+            {product.ProductImages?.[0] && (
                 <img
-                  src={"/assets/images/products/mat.svg"}
+                  key={product.id}
+                  src={product.ProductImages[0]}
                   alt={product.name}
-                ></img>
+                  className="w-full h-40 object-cover rounded-lg"
+                />
+              )}
+              <p className="text-sm text-gray-500">Mats</p>
+              <Label className="text-xl font-bold">
+                {product.name.length > 24
+                  ? `${product.name.slice(0, 24)}...`
+                  : product.name}
+              </Label>
 
-                <div>
-                  <p className="text-sm text-[#757575]">Mats</p>
-                  <Label className="text-[20px] font-bold max-w-[252px] flex flex-col">
-                    {product.name.length > 24
-                      ? `${product.name.slice(
-                          0,
-                          product.name.lastIndexOf(" ")
-                        )}...`
-                      : product.name}
-                  </Label>
-                </div>
-
-                <div className="text-[#5a6b8c] gap-4 p-0">
-                  <StarRating
-                    key={product.id}
-                    rate={5}
-                    secondHalf
-                    icon
-                  ></StarRating>
-                  <div className="flex gap-[10px]">
-                    <div>
-                      <span className="text-lg">£</span>
-                      <Label className="text-3xl font-bold w-[82.4px] h-[23px] ">
-                        {Number(product.price)}
-                      </Label>
-                    </div>
-                    <div>
-                      <Label className="text-base text-[#a2a5ab]">
-                        {product.oldPrice ? (
-                          <del>£{product.oldPrice}</del>
-                        ) : null}
-                      </Label>
-                    </div>
-                  </div>
+              <div className="text-blue-800 gap-4 mt-2">
+                <StarRating rate={product.rate} secondHalf icon />
+                <div className="flex gap-4 mt-2">
+                  <span className="text-3xl font-bold">
+                    {formatPrice(product.price)}
+                  </span>
+                  {product.oldPrice && (
+                    <del className="text-base text-gray-400">
+                      {formatPrice(product.oldPrice)}
+                    </del>
+                  )}
                 </div>
               </div>
-              <div className="flex relative justify-between bottom-0">
+
+              <div className="flex justify-between mt-4">
                 <Button
                   onClick={() => handleEdit(product.id)}
                   className="bg-blue-400 hover:opacity-80"
@@ -128,10 +127,10 @@ const ListCategories = () => {
                   Edit
                 </Button>
                 <Link
+                  href={`/product/${product.id}`}
                   className="flex bg-green-600 hover:opacity-80 rounded-md text-white items-center p-1"
-                  href={`product/${product.id}`}
                 >
-                  Locate to product
+                  View Product
                 </Link>
                 <Button
                   onClick={() => handleDelete(product.id)}
