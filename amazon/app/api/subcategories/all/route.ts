@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
       throw new Error("Network response was not ok");
     }
 
-    const data = await response.json();
-    return NextResponse.json(data);
+    const { result } = await response.json();
+    return NextResponse.json(result);
   } catch (e) {
     console.error(e);
   }
