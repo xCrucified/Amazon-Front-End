@@ -549,10 +549,11 @@ export const Page: React.FC<Props> = ({ subcategoryName }) => {
           </section>
           <img src="/assets/images/products/baner-ad.png" className="w-full" alt="banner ad" />
           <ProductGroupList
-            className="border-y-2 border-y-[#c4c4c4] pt-6 pb-1 flex flex-col gap-6 overflow-hidden"
+            className="border-y-2 border-y-[#c4c4c4] pt-6 pb-1 flex flex-col gap-6 overflow-hidden max-w-[1192px]"
             title={"Get the latest Apple products"}
             titleClassName="font-bold text-[19px] leading-[21px]"
             items={appleLatestProducts}
+            itemsPerPage={4}
             categoryId={1}
           />
         </>

@@ -147,10 +147,12 @@ export const Main: React.FC<Props> = ({ className }) => {
               ],
             },
           ]}
+          itemsPerPage={5}
           categoryId={1}
         />
         <ProductGroupList
           title={"Best Sellers in Home & Kitchen"}  
+          itemsPerPage={5}
           items={[
             {
               id: 0,
@@ -287,6 +289,7 @@ export const Main: React.FC<Props> = ({ className }) => {
         />
         <ProductGroupList
           title={"Best Sellers in Clothing & Accessories"}
+          itemsPerPage={5}
           items={[
             {
               id: 0,

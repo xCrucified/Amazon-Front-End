@@ -13,6 +13,7 @@ interface Props {
   title: string;
   titleClassName?: string;
   items: any[];
+  itemsPerPage: number;
   categoryId: number;
   className?: string;
   listClassName?: string;
@@ -23,6 +24,7 @@ export const ProductGroupList: React.FC<Props> = ({
   title,
   titleClassName,
   items,
+  itemsPerPage,
   listClassName,
   categoryId,
 }) => {
@@ -31,7 +33,6 @@ export const ProductGroupList: React.FC<Props> = ({
   const listRef = useRef<HTMLDivElement | null>(null);
   const [curr, setCurr] = useState(0);
 
-  const itemsPerPage = 5;
   const totalSlides = Math.ceil(items.length / itemsPerPage);
 
   const next = useCallback(() => {
@@ -67,7 +68,7 @@ export const ProductGroupList: React.FC<Props> = ({
     <div className={cn("flex flex-col", className)} id={title} ref={intersectionRef}>
       <Title text={title} size="lg" className={cn("font-extrabold", titleClassName)} />
 
-      <div className={cn("overflow-hidden w-[fit-content]", listClassName)}>
+      <div className={cn("overflow-hidden", listClassName)}>
         <div ref={listRef} className="flex w-full">
           {Array.from({ length: totalSlides }).map((_, slideIndex) => (
             <div key={slideIndex} className="flex min-w-full gap-[15px]">
