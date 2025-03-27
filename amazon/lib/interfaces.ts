@@ -29,10 +29,15 @@ export interface Product {
   description: string;
   reviews: Review[];
   price: number;
-  image: string;
+  image: ProductImage[];
   inStock: number;
   selected: number;
   properties: ProductProperties[];
+}
+
+export interface ProductImage {
+  id: number;
+  url: string;
 }
 
 export interface ProductProperties {
@@ -47,3 +52,27 @@ export interface Review {
   rate: number;
   user: User;
 }
+
+export interface Address {
+  id: number;
+  name: string;
+  fullname: string;
+  phoneNumber: string;
+  country: string;
+  city: string;
+  street: string;
+  building: string;
+  postalCode: string;
+  isDefault: boolean;
+}
+
+export interface PaymentCard {
+  name: string;
+  cardNumber: string;
+  cardHolder: string;
+  expiry: string;
+  cardType: CardType;
+  cvv: string;
+}
+
+export type CardType = "visa" | "mastercard";

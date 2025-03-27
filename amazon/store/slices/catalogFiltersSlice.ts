@@ -24,8 +24,8 @@ const catalogFiltersSlice = createSlice({
       state.category = action.payload;
     },
     setSubcategory(state, action: PayloadAction<string | null>) {
-        state.subcategory = action.payload;
-      },
+      state.subcategory = action.payload;
+    },
     setPriceRange(state, action: PayloadAction<[number, number]>) {
       state.priceRange = action.payload;
     },

@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Address } from "./addressesSlice";
-import { PaymentCard } from "./paymentCardsSlice";
-import { Product } from "./cartSlice";
+import { Address, PaymentCard, Product } from "@/lib/interfaces";
 
 interface Order {
   id: string | null;

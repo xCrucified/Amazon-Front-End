@@ -1,15 +1,5 @@
+import { PaymentCard } from "@/lib/interfaces";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export type CardType = "visa" | "mastercard";
-
-export interface PaymentCard {
-  name: string;
-  cardNumber: string;
-  cardHolder: string;
-  expiry: string;
-  cardType: CardType;
-  cvv: string;
-}
 
 interface PaymentCardsState {
   cards: PaymentCard[];

@@ -1,17 +1,5 @@
+import { Address } from "@/lib/interfaces";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface Address {
-  id: number;
-  name: string;
-  fullname: string;
-  phoneNumber: string;
-  country: string;
-  city: string;
-  street: string;
-  building: string;
-  postalCode: string;
-  isDefault: boolean;
-}
 
 interface AddressesState {
   addresses: Address[];

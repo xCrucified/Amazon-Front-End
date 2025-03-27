@@ -1,9 +1,5 @@
+import { ProductImage } from '@/lib/interfaces';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface ProductImage {
-  id: number;
-  url: string;
-}
 
 interface ProductImagesState {
   images: ProductImage[];
