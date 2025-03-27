@@ -9,6 +9,7 @@ import paymentCardsReducer from "./slices/paymentCardsSlice";
 import deliveryDateReducer from "./slices/deliveryDateSlice";
 import productImagesReducer from "./slices/productImagesSlice";
 import orderReducer from "./slices/orderSlice";
+import catalogFilterReducer from "./slices/catalogFiltersSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     deliveryDate: deliveryDateReducer,
     images: productImagesReducer,
     order: orderReducer,
+    filter: catalogFilterReducer,
   },
 });
 
