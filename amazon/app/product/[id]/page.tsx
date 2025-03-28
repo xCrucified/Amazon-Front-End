@@ -24,12 +24,7 @@ import { RootState } from "@/store/store";
 import { cn } from "@/lib/utilities/utils";
 
 interface Props {
-  images: {
-    id: number;
-    src: string;
-  };
   className?: string;
-  params: { id: string };
 }
 
 const reviewImages = [
@@ -49,10 +44,11 @@ const reviewImages = [
   "/assets/images/productImg.png",
   "/assets/images/productImg.png",
 ];
+import { Product } from "@/lib/interfaces";
 
 export const ProductPage: React.FC<Props> = ({ className }) => {
   const images = useSelector((state: RootState) => state.images);
-
+  const [products, setProducts] = useState<Product[]>([]);
   const [selected, setSelected] = useState<number | null>(1);
   const [isRed, setIsRed] = useState(false);
   const [curr, setCurr] = useState(0);
@@ -60,6 +56,8 @@ export const ProductPage: React.FC<Props> = ({ className }) => {
   const itemsPerPage = 5;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const handleImageClick = (index: number) => {
     setSelectedIndex(index);
@@ -77,6 +75,26 @@ export const ProductPage: React.FC<Props> = ({ className }) => {
   }, []);
 
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}api/Product/all`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to load categories");
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        setError("Error loading products. Please try again later.");
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
     const savedState = localStorage.getItem("isRed");
     if (savedState) {
       setIsRed(JSON.parse(savedState));
@@ -92,6 +110,10 @@ export const ProductPage: React.FC<Props> = ({ className }) => {
     setIsRed(newState);
     localStorage.setItem("isRed", JSON.stringify(newState));
   };
+
+  if (loading) return <p>Loading categories...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <Container className={cn(className, "mb-10 p-6")}>
       <div className="w-full h-full flex gap-[56px] mt-[20px]">

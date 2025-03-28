@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Button } from "@/components/ui/button";
 import StarRating from "@/components/ui/star-rating";
 import { cn } from "@/lib/utilities/utils";
+import Link from "next/link";
 import React from "react";
 
 interface Props {
@@ -12,7 +12,6 @@ interface Props {
   rate: number;
   price: number;
   oldPrice: number;
-  properties: string[];
   createDate: string;
   className?: string;
 }
@@ -23,11 +22,10 @@ export const ProductItem: React.FC<Props> = ({
   rate,
   price,
   oldPrice,
-  properties,
   createDate,
   className,
 }) => {
-  // href={"product/" + id}
+
   return (
     <div className={cn("flex w-full h-full", className)}>
       <div
@@ -53,16 +51,6 @@ export const ProductItem: React.FC<Props> = ({
             </div>
             <p className="text-[12px] opacity-45">1K + bought this month</p>
           </div>
-          <div className="flex flex-col justify-between text-[14px]">
-            <div className="flex gap-1">
-              <p className="font-bold">Color:</p>
-              <p>{properties}</p>
-            </div>
-            <div className="flex gap-1">
-              <p className="font-bold">Style:</p>
-              <p>{properties}</p>
-            </div>
-          </div>
           <div className="flex text-[13px]">
             <p>Item added {createDate}</p>
           </div>
@@ -77,7 +65,7 @@ export const ProductItem: React.FC<Props> = ({
           </del>
           <p className="text-black self-end font-bold">£{price}</p>
         </div>
-        <div className="absolute grid place-items-center right-[456px] bottom-[292px]">
+        <div className="absolute grid place-items-center right-[317px] bottom-[322px]">
           <Link href={"product/" + id} className="absolute grid place-items-center bottom-2 right-0 z-10 w-[265px] h-[48px] bg-[#E16C60] rounded-lg font-bold text-white text-[19px]">
             Add to Card
           </Link>
