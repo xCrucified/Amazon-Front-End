@@ -14,16 +14,15 @@ const navItems = [
   { id: "users", label: "Users" },
 ] as const;
 
-const UserPage = () => {
+const Page = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("categories");
-
+  
   const tabs = {
     categories: () => <ListCategories />,
     products: () => <ListProducts />,
     subCategories: () => <ListSubCategories />,
     users: () => <ListUsers />,
   } as const;
-
   type TabKey = keyof typeof tabs;
   const ActiveComponent = tabs[activeTab];
 
@@ -61,4 +60,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default Page;

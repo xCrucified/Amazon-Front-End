@@ -8,18 +8,9 @@ import StarRating from "@/components/ui/star-rating";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Title } from "@/components/ui/title";
+import { Product } from "@/lib/interfaces";
 
-interface Product {
-  id: number;
-  name: string;
-  rate: number;
-  price: number;
-  images: string[];
-  oldPrice: number;
-  userId: string;
-}
-
-const ListCategories = () => {
+const ListProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +35,7 @@ const ListCategories = () => {
         setLoading(false);
       }
     };
-    
+
     fetchProducts();
   }, []);
 
@@ -83,8 +74,6 @@ const ListCategories = () => {
       currency: "GBP",
     }).format(price);
   };
-
-  {console.log(products[0])}
   return (
     <>
       <Title text="Products" size="lg" className="font-extrabold" />
@@ -93,26 +82,37 @@ const ListCategories = () => {
           <div className="relative w-[284px] h-[400px] mb-12" key={product.id}>
             <div className="bg-white rounded-2xl h-full w-full p-4">
               <img
-                src={`${process.env.NEXT_PUBLIC_API_URL}uploading/${product.images}`}
-                alt={product.name}
-                className="w-full h-40 object-cover rounded-lg"
-                />
+                src={`https://gosellbackupcooloarfish.blob.core.windows.net/onix/600_${product.images?.[0]?.image}`}
+                className="w-[252px] h-[272px] mx-auto object-contain"
+                alt="product image"
+                width={252}
+                height={272}
+              />
               <p className="text-sm text-gray-500">Mats</p>
               <Label className="text-xl font-bold">
-                {product.name.length > 24
+                {product.name
                   ? `${product.name.slice(0, 24)}...`
                   : product.name}
               </Label>
 
               <div className="text-blue-800 gap-4 mt-2">
-                <StarRating rate={product.rate} secondHalf icon />
+                <StarRating
+                  rate={Math.floor(
+                    product.reviews.reduce(
+                      (sum, review) => sum + review.rate,
+                      0
+                    ) / product.reviews.length
+                  )}
+                  secondHalf
+                  icon
+                />
                 <div className="flex gap-4 mt-2">
                   <span className="text-3xl font-bold">
                     {formatPrice(product.price)}
                   </span>
-                  {product.oldPrice && (
+                  {product.price && (
                     <del className="text-base text-gray-400">
-                      {formatPrice(product.oldPrice)}
+                      {formatPrice(product.price)}
                     </del>
                   )}
                 </div>
@@ -146,4 +146,4 @@ const ListCategories = () => {
   );
 };
 
-export default ListCategories;
+export default ListProducts;
