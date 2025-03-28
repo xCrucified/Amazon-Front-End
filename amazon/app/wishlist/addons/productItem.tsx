@@ -77,13 +77,11 @@ export const ProductItem: React.FC<Props> = ({
           </del>
           <p className="text-black self-end font-bold">£{price}</p>
         </div>
-        <div className="mt-[192px]">
-          <div className="absolute grid place-items-center right-[456px] z-50">
-            <Button className="absolute grid place-items-center bottom-2 right-0 z-10 w-[265px] h-[48px] bg-[#E16C60] rounded-lg font-bold text-white text-[19px]">
-              Add to Card
-            </Button>
-            <img src="/assets/images/Union.svg" alt="misc" />
-          </div>
+        <div className="absolute grid place-items-center right-[456px] bottom-[292px]">
+          <Link href={"product/" + id} className="absolute grid place-items-center bottom-2 right-0 z-10 w-[265px] h-[48px] bg-[#E16C60] rounded-lg font-bold text-white text-[19px]">
+            Add to Card
+          </Link>
+          <img  src="/assets/images/Union.svg" alt="misc" />
         </div>
       </div>
     </div>

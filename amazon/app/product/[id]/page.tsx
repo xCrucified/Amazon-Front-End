@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
@@ -49,7 +50,7 @@ const reviewImages = [
   "/assets/images/productImg.png",
 ];
 
-export const ProductPage: React.FC<Props> = ({ className, params }) => {
+export const ProductPage: React.FC<Props> = ({ className }) => {
   const images = useSelector((state: RootState) => state.images);
 
   const [selected, setSelected] = useState<number | null>(1);
@@ -388,9 +389,9 @@ export const ProductPage: React.FC<Props> = ({ className, params }) => {
             </div>
             <div className="h-[50%] flex items-center">
               <Label className="text-[16px]">
-                Would you like to 
+                Would you like to
                 <a href="test" className="text-blue-700 underline">
-                  tell us about a lower price? 
+                  tell us about a lower price?
                 </a>
               </Label>
             </div>

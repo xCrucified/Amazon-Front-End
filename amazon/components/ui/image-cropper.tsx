@@ -1,4 +1,6 @@
-import { useRef, useState } from "react";
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+import { useRef } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { Button } from "./button";
@@ -9,6 +11,7 @@ interface ImageCropperProps {
   onCancel: () => void;
 }
 
+// eslint-disable-next-line no-undef
 const ImageCropper: React.FC<ImageCropperProps> = ({ imageSrc, onCropComplete, onCancel }) => {
   const cropperRef = useRef<ReactCropperElement>(null);
 
