@@ -20,7 +20,7 @@ const ListProducts = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}api/Product/all`
+          `${process.env.NEXT_PUBLIC_API_URL}api/Product/all`,
         );
 
         if (!response.ok) {
@@ -82,7 +82,7 @@ const ListProducts = () => {
           <div className="relative w-[284px] h-[400px] mb-12" key={product.id}>
             <div className="bg-white rounded-2xl h-full w-full p-4">
               <img
-                src={`https://gosellbackupcooloarfish.blob.core.windows.net/onix/600_${product.images?.[0]?.image}`}
+                src={`https://gosellbackupadequatelocu.blob.core.windows.net/onyx/600_${product.images?.[0]?.image}`}
                 className="w-[252px] h-[272px] mx-auto object-contain"
                 alt="product image"
                 width={252}

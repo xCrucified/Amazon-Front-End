@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { cn } from "@/lib/utilities/utils";
-import Link from "next/link";
 import React from "react";
 import { Label } from "@/components/ui/label";
 import StarRating from "@/components/ui/star-rating";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   id: number;
@@ -24,18 +24,25 @@ export const ProductCard: React.FC<Props> = ({
   rate,
   className,
 }) => {
+  const handleLocateToProduct = () => {
+    window.location.href = `product/${id}`;
+  };
+
   return (
     <div className={cn("relative w-[284px] h-[400px] mb-12", className)}>
       <div className="bg-white rounded-2xl h-[100%] w-[100%]">
         <div className="m-2.5">
-          <img src={image} alt={name}></img>
+        <img
+            src={image}
+            className="w-[252px] h-[272px] mx-auto object-contain"
+            alt="product image"
+          />
 
           <div>
             <p className="text-sm text-[#757575]">Mats</p>
             <Label className="text-[20px] font-bold max-w-[252px] flex flex-col">
               {name.length > 24 ? `${name.slice(0, name.lastIndexOf(' '))}...` : name}
             </Label>
-          
           </div>
 
           <div className="text-[#5a6b8c] gap-4 p-0">
@@ -55,9 +62,9 @@ export const ProductCard: React.FC<Props> = ({
             </div>
           </div>
 
-          <Link
-            href={`product/${id}`}
-            className="absolute left-[207px] bottom-[-10px]"
+          <Button
+            onClick={handleLocateToProduct}
+            className="absolute left-[217px] bottom-[-10px] bg-inherit hover:bg-inherit shadow-none"
           >
             <img
               src="/assets/images/products/cart-btn.svg"
@@ -68,7 +75,7 @@ export const ProductCard: React.FC<Props> = ({
               src="/assets/images/products/btn-cart-product.svg"
               alt="add-cart"
             />
-          </Link>
+          </Button>
         </div>
       </div>
     </div>

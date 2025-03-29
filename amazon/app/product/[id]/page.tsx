@@ -19,8 +19,6 @@ import ReviewGroupList from "../reviews/review-group-list";
 import Link from "next/link";
 import ProductGroupList from "@/components/shared/cards/product-group-list";
 import { ModalImage } from "@/components/shared/modal/modalImage";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { cn } from "@/lib/utilities/utils";
 
 interface Props {
@@ -44,10 +42,11 @@ const reviewImages = [
   "/assets/images/productImg.png",
   "/assets/images/productImg.png",
 ];
+
 import { Product } from "@/lib/interfaces";
 
 export const ProductPage: React.FC<Props> = ({ className }) => {
-  const images = useSelector((state: RootState) => state.images);
+  // const images = useSelector((state: RootState) => state.images);
   const [products, setProducts] = useState<Product[]>([]);
   const [selected, setSelected] = useState<number | null>(1);
   const [isRed, setIsRed] = useState(false);
@@ -114,18 +113,20 @@ export const ProductPage: React.FC<Props> = ({ className }) => {
   if (loading) return <p>Loading categories...</p>;
   if (error) return <p>{error}</p>;
 
+  const selectedProduct = products.find(product => product.id === selected);
+
   return (
     <Container className={cn(className, "mb-10 p-6")}>
       <div className="w-full h-full flex gap-[56px] mt-[20px]">
         <div className="w-[696px] rounded-md">
-          {images.images
-            .map((image, index) => (
+        {products
+            .map((product) => (
               <button
-                key={index}
-                onClick={() => handleImageClick(index)}
+                key={product.id}
+                onClick={() => handleImageClick(product.id)}
                 className="h-[696px] rounded-lg"
               >
-                <img src={image.url} alt={`product-${index}`} />
+                <img src={`https://gosellbackupcooloarfish.blob.core.windows.net/onix/600_${product.images[0].image}`} alt={`product-${product.id}`} />
               </button>
             ))
             .slice(0, 1)}
@@ -133,7 +134,7 @@ export const ProductPage: React.FC<Props> = ({ className }) => {
             <ModalImage
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
-              images={images.images.map((img) => img.url)}
+              images={products.map((product) => product.images[0].image)}
               currentIndex={selectedIndex}
             />
           )}
@@ -141,8 +142,7 @@ export const ProductPage: React.FC<Props> = ({ className }) => {
         <div className="w-[740px] h-full">
           <div className="flex justify-between items-center">
             <Label className="text-[23px] font-bold w-[594px]">
-              Canon EF 75-300mm f/4-5.6 III Telephoto Zoom Lens for Canon SLR
-              Cameras
+              {selectedProduct ? selectedProduct.name : "Select a product"}
             </Label>
             <Button
               className="bg-inherit hover:bg-inherit shadow-none"
@@ -323,14 +323,14 @@ export const ProductPage: React.FC<Props> = ({ className }) => {
 
       <div className="mt-[32px] flex justify-between">
         <div className="grid grid-cols-3 grid-rows-5 gap-[36px] w-[672px] bg-[#f5f5f5]">
-          {images.images.map((image, index) => (
+          {products.map((product) => (
             <button
-              key={index}
-              onClick={() => handleImageClick(index)}
+              key={product.id}
+              onClick={() => handleImageClick(product.id)}
               className="w-[208px] h-[208px] rounded-lg"
             >
               <img
-                src={image.url}
+                src={product.images[0].image}
                 alt="img"
                 className="outline w-[100%] h-[100%]"
               />

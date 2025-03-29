@@ -65,7 +65,7 @@ export const ProductItem: React.FC<Props> = ({
           </del>
           <p className="text-black self-end font-bold">£{price}</p>
         </div>
-        <div className="absolute grid place-items-center right-[317px] bottom-[322px]">
+        <div className="absolute grid place-items-center right-[450px] bottom-[332px]">
           <Link href={"product/" + id} className="absolute grid place-items-center bottom-2 right-0 z-10 w-[265px] h-[48px] bg-[#E16C60] rounded-lg font-bold text-white text-[19px]">
             Add to Card
           </Link>

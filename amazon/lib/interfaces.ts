@@ -28,6 +28,7 @@ export interface User {
     id: number;
     name: string | null;
     subcategoryId: string;
+    categoryId: number;
     description: string;
     reviews: Review[];
     price: number;
@@ -78,4 +79,9 @@ export interface User {
     cvv: string;
   }
   
+  export interface Category {
+    id: number;
+    name: string;
+  }
+
   export type CardType = "visa" | "mastercard";

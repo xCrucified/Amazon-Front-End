@@ -5,29 +5,12 @@ import { Container } from "@/components/shared/container";
 import { cn } from "@/lib/utilities/utils";
 import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import CreateSection from "./addons/createSectionForm";
 import ProductItemsGroupList from "./addons/productItemsGroupList";
 
 interface Props {
   className?: string;
 }
-
-interface Filters {
-  id: number;
-  name: string;
-}
-
-const items: Filters[] = [
-  { id: 1, name: "Price (low to high)" },
-  { id: 2, name: "Price (high to low)" },
-];
 
 export const Page: React.FC<Props> = ({ className }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -88,28 +71,19 @@ export const Page: React.FC<Props> = ({ className }) => {
                 <img src="/assets/images/3lines.svg" alt="lines" />
               </button>
             </div>
-            <Select>
-              <SelectTrigger className="max-w-[200px] max-h-[100px] text-lg border-none">
-                <SelectValue placeholder={"Filter&Sort"} />
-              </SelectTrigger>
-              <SelectContent className="text-black">
-                {items.map((item) => (
-                  <SelectItem key={item.id} value={item.name}>
-                    {item.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
-
-          <ProductItemsGroupList items={[{
-           id: 0,
-           name: "Test",
-           rate: 3,
-           price: 123.45,
-           oldPrice: 221.22,
-           createDate: "12.12.2001",
-          }]}/>
+          <ProductItemsGroupList
+            items={[
+              {
+                id: 0,
+                name: "Test",
+                rate: 3,
+                price: 123.45,
+                oldPrice: 221.22,
+                createDate: "12.12.2001",
+              },
+            ]}
+          />
 
           <div className="flex items-center justify-center my-4 w-[97%]">
             <div className="flex-1 border-t-2 border-gray-300"></div>
@@ -143,18 +117,6 @@ export const Page: React.FC<Props> = ({ className }) => {
                 <img src="/assets/images/3lines.svg" alt="lines" />
               </button>
             </div>
-            <Select>
-              <SelectTrigger className="max-w-[200px] text-lg border-none">
-                <SelectValue placeholder={"Filter&Sort"} />
-              </SelectTrigger>
-              <SelectContent className="text-black">
-                {items.map((item) => (
-                  <SelectItem key={item.id} value={item.name}>
-                    {item.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           {/* <ProductItem
