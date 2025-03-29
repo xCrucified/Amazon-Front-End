@@ -26,18 +26,22 @@ export interface Order {
 
 export interface Product {
   id: number;
+  name: string | null;
+  categoryId: number;
+  subcategoryId: number;
   description: string;
   reviews: Review[];
   price: number;
-  image: ProductImage[];
+  images: ProductImage[];
   inStock: number;
-  selected: number;
-  properties: ProductProperties[];
+  selected: number | null;
+  properties: ProductProperties[] | null;
 }
 
 export interface ProductImage {
   id: number;
-  url: string;
+  image: string;
+  productId: number;
 }
 
 export interface ProductProperties {

@@ -12,7 +12,6 @@ declare module "next-auth" {
       email?: string;
       phoneNumber?: string;
       username?: string;
-      dateOfBirth?: string;
     };
   }
 
@@ -23,7 +22,6 @@ declare module "next-auth" {
     email?: string;
     phoneNumber?: string;
     username?: string;
-    dateOfBirth?: string;
   }
 }
 
@@ -64,8 +62,6 @@ export const authConfig: NextAuthOptions = {
             phoneNumber:
               decData["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/phonenumber"],
             username: decData["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
-            dateOfBirth:
-              decData["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth"],
             exp: decData.exp,
             iss: decData.iss,
             accessToken: data.accessToken,
@@ -92,7 +88,6 @@ export const authConfig: NextAuthOptions = {
         token.email = user.email;
         token.phoneNumber = user.phoneNumber;
         token.username = user.username;
-        token.dateOfBirth = user.dateOfBirth;
       }
       return token;
     },
@@ -104,7 +99,6 @@ export const authConfig: NextAuthOptions = {
         email: token.email as string,
         phoneNumber: token.phoneNumber as string,
         username: token.username as string,
-        dateOfBirth: token.dateOfBirth as string,
       };
       return session;
     },

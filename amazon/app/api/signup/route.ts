@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { email, phoneNumber, username, password, birthDate } = await req.json();
+  const { email, phoneNumber, username, password } = await req.json();
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const response = await fetch(API_URL + "/api/Account/register", {
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, phoneNumber, username, password, birthDate }),
+      body: JSON.stringify({ email, phoneNumber, username, password }),
     });
     if (response.ok) {
       return NextResponse.json({ status: 200 });

@@ -12,14 +12,14 @@ import { Button } from "@/components/ui/button";
 import { SearchInput } from "../search-input";
 import { usePathname } from "next/navigation";
 import { setIsAuth } from "@/store/slices/headerSlice";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 interface Props {
   className?: string;
 }
 
 export const Header: React.FC<Props> = ({ className }) => {
-  // const session = useSession();
+  const session = useSession();
   const pathname = usePathname();
   const dispatch = useDispatch();
 
@@ -41,7 +41,7 @@ export const Header: React.FC<Props> = ({ className }) => {
     const shouldHoverHideUserpage = pathname.startsWith("/userpage");
     setUsepage(!shouldHoverHideUserpage);
   }, [isWishlist, pathname]);
-  
+
   const isAuth = useSelector((state: RootState) => state.header.isAuth);
 
   if (isAuth) return null;
@@ -95,67 +95,63 @@ export const Header: React.FC<Props> = ({ className }) => {
             )}
           </Button>
         </Link>
-        <Link href="/wishlist">
-          <Button className="group relative bg-[#FFF] hover:bg-gray-300 h-[56px] w-[68px] p-4">
-            <div
-              className={cn(
-                isWishlist && "group-hover:opacity-0",
-                "flex items-center gap-1 duration-300 text-[#343a45]"
-              )}
-            >
-              <Image
-                src={
-                  isWishlist
-                    ? "/assets/images/heart-icon-outline.svg"
-                    : "/assets/images/heart-icon-filled.svg"
-                }
-                alt="wishlist icon"
-                width={0}
-                height={0}
-                className="w-7 h-7"
-              />
-            </div>
-            {isWishlist && (
-              <ArrowRight
-                size={20}
-                className="absolute transition duration-300 -translate-x-3 opacity-0 group-hover:text-black group-hover:opacity-100 group-hover:translate-x-0 top-5"
-              />
-            )}
-          </Button>
-        </Link>
-        <Link href="/userpage">
-          <Button className="group relative bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[fit-content] p-4">
-            <div
-              className={cn(
-                isUserpage && "group-hover:opacity-0",
-                "flex items-center gap-3 duration-300 text-[#343a45]"
-              )}
-            >
-              <Image
-                src="/assets/images/User.svg"
-                alt={""}
-                width={128}
-                height={128}
-                className="w-[30px]"
-              />
-              {
-                // session.data
-                true && (
-                  <div className="text-[16px]">
-                    {/* {session.data?.user?.username} */}
-                    Userevich
-                  </div>
-                )
-              }
-            </div>
-            {isUserpage && (
-              <ArrowRight
-                size={20}
-                className="absolute transition duration-300 -translate-x-3 opacity-0 group-hover:text-black group-hover:opacity-100 group-hover:translate-x-0 top-5"
-              />
-            )}
-          </Button>
-        </Link>
+        {session.data && (
+          <>
+            <Link href="/wishlist">
+              <Button className="group relative bg-[#FFF] hover:bg-gray-300 h-[56px] w-[68px] p-4">
+                <div
+                  className={cn(
+                    isWishlist && "group-hover:opacity-0",
+                    "flex items-center gap-1 duration-300 text-[#343a45]"
+                  )}
+                >
+                  <Image
+                    src={
+                      isWishlist
+                        ? "/assets/images/heart-icon-outline.svg"
+                        : "/assets/images/heart-icon-filled.svg"
+                    }
+                    alt="wishlist icon"
+                    width={0}
+                    height={0}
+                    className="w-7 h-7"
+                  />
+                </div>
+                {isWishlist && (
+                  <ArrowRight
+                    size={20}
+                    className="absolute transition duration-300 -translate-x-3 opacity-0 group-hover:text-black group-hover:opacity-100 group-hover:translate-x-0 top-5"
+                  />
+                )}
+              </Button>
+            </Link>
+            <Link href="/userpage">
+              <Button className="group relative bg-[#FFF] text-[#343a45] hover:bg-gray-300 h-[56px] w-[fit-content] p-4">
+                <div
+                  className={cn(
+                    isUserpage && "group-hover:opacity-0",
+                    "flex items-center gap-3 duration-300 text-[#343a45]"
+                  )}
+                >
+                  <Image
+                    src="/assets/images/User.svg"
+                    alt={""}
+                    width={128}
+                    height={128}
+                    className="w-[30px]"
+                  />
+                  <div className="text-[16px]">{session.data.user.username}</div>
+                </div>
+                {isUserpage && (
+                  <ArrowRight
+                    size={20}
+                    className="absolute transition duration-300 -translate-x-3 opacity-0 group-hover:text-black group-hover:opacity-100 group-hover:translate-x-0 top-5"
+                  />
+                )}
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
     </Container>
   );

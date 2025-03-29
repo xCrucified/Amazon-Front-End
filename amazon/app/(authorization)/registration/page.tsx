@@ -15,6 +15,7 @@ import {
   setPassword,
   setRPassword,
   setPhoneNumber,
+  clearData,
 } from "@/store/slices/signupSlice";
 
 import {
@@ -33,7 +34,7 @@ import Image from "next/image";
 import { useRouter } from "next/dist/client/components/navigation";
 
 export default function Page({ className }: React.ComponentPropsWithoutRef<"div">) {
-  const { push } = useRouter();
+  const { replace } = useRouter();
 
   const username = useSelector((state: RootState) => state.signup.username);
   const email = useSelector((state: RootState) => state.signup.email);
@@ -68,7 +69,26 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
     dispatch(setUsername(values.username));
     dispatch(setPassword(values.password));
     dispatch(setRPassword(values.rPassword));
-    push("/registration/verify");
+    try {
+      const user = {
+        email,
+        username,
+        password,
+        phoneNumber: "+380987536324",
+      };
+      const signupResponse = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+      const signupData = await signupResponse.json();
+      if (signupData.status === 200) {
+        dispatch(clearData());
+        replace("/login");
+      }
+    } catch (e) {
+      console.error("Error during sign up:", e);
+    }
   }
 
   return (
@@ -264,7 +284,7 @@ export default function Page({ className }: React.ComponentPropsWithoutRef<"div"
                   )}
                 />
                 <Button variant="figmaPrimary" type="submit">
-                  Verify
+                  Create your Onyx account
                 </Button>
                 <div className="text-[13px]">
                   By continuing, you agree to Onyx&apos;s{" "}

@@ -5,10 +5,7 @@ import React from "react";
 import { Container } from "../container";
 import Link from "next/link";
 import { CountryDialog } from "../country-dialog";
-import ComboboxLanguage from "../checkbox-language";
-import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 
@@ -28,10 +25,7 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
         </div>
         {session.status === "authenticated" ? (
           <>
-            <div className="text-white">Hello, {session.data.user.email}</div>
-            <Button variant="figmaPrimary" className="w-[300px]" onClick={() => signOut()}>
-              Log out
-            </Button>
+            
           </>
         ) : (
           !isAuth && (
@@ -43,10 +37,6 @@ export const UpperHeader: React.FC<Props> = ({ className }) => {
             </div>
           )
         )}
-        {/* <div className="w-[120px] flex justify-center hidden">
-          <Image src="/assets/images/Language.svg" alt="coord" width={20} height={20} />
-          <ComboboxLanguage className="text-white" />
-        </div> */}
       </Container>
     </div>
   );

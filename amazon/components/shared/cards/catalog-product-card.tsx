@@ -1,64 +1,82 @@
 import StarRating from "@/components/ui/star-rating";
+import { Product } from "@/lib/interfaces";
 import { cn } from "@/lib/utils";
-import { addToCart, Product } from "@/store/slices/cartSlice";
-import React from "react";
+import { addToCart } from "@/store/slices/cartSlice";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
 interface Props {
   className?: string;
   product: Product;
+  subcategory: string;
 }
 
-export const CatalogProductCard: React.FC<Props> = ({ className, product }) => {
+export const CatalogProductCard: React.FC<Props> = ({ className, product, subcategory }) => {
   const dispatch = useDispatch();
+  const [image, setImage] = useState("");
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (!product.images[0]) {
+      return;
+    }
+
+    setImage(product.images[0].image);
+  }, [product.images]);
 
   return (
     <div
       className={cn("p-4 flex flex-col justify-between gap-2 bg-[#f0f0f0] rounded-lg", className)}
     >
       <div className="flex flex-col gap-2">
-        <img
-          src={product.image}
-          className="w-[252px] h-[272px] mx-auto"
-          alt={product.brand!.toLowerCase()}
-        />
-        <label className="text-[19px] leding-[21px] font-bold text-wrap line-clamp-4">
-          {product.title}
+        {image && (
+          <img
+            src={`https://gosellbackupadequatelocu.blob.core.windows.net/onyx/600_${image}`}
+            className="w-[252px] h-[272px] mx-auto object-contain"
+            alt="product image"
+          />
+        )}
+        <label
+          className="text-[19px] leding-[21px] font-bold text-wrap line-clamp-4 hover:underline cursor-pointer"
+          onClick={() => {
+            push(`/product/${product.id}`);
+          }}
+        >
+          {product.name}
         </label>
-        <div className="text-[13px] leading-[15px] text-[#757575]">{product.brand}</div>
+        <div className="text-[13px] leading-[15px] text-[#757575]">{subcategory}</div>
         <div className="flex flex-col gap-1">
-          {product.top1Rated && (
-            <div className="text-[#5a6c8d] text-[16px] leading-[18px] font-bold">#1 Top Rated</div>
-          )}
           <div className="flex w-[fit-content] gap-4">
-            <StarRating rate={product.rating!} />
+            <StarRating
+              rate={Math.floor(
+                product.reviews.reduce((sum, review) => sum + review.rate, 0) /
+                  product.reviews.length
+              )}
+            />
             <span className="text-[#5a6c8d] text-[16px] leading-[18px]">
-              {product.reviewsCount!.toLocaleString()}
+              {product.reviews.length.toLocaleString()}
             </span>
           </div>
-          <div className="text-[13px] leading-[15px] text-[#757575]">{product.features}</div>
         </div>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex gap-3 items-start">
           <div className="text-[#5a6c8d] text-[32px] leading-[34px] font-bold">
-            £ {product.price}
+            £ {product.price.toLocaleString()}
           </div>
-          {product.oldPrice && (
-            <div className="text-[#757575] text-[16px] leading-[18px]">
-              £ <span className="line-through ">{product.oldPrice}</span>
-            </div>
-          )}
         </div>
-        <div className="text-[13px] leading-[15px]">{product.priceFeatures}</div>
         <button
           type="button"
           className="bg-[#353b46] rounded-full w-full text-white text-[16px] leading-[18px] py-2"
-          onClick={() => dispatch(addToCart(product))}
+          onClick={() => {
+            dispatch(addToCart(product));
+            toast.success("Added to cart!");
+          }}
         >
           Add to cart
         </button>
-        <label className="text-emerald-400">FREE delivery</label>
       </div>
     </div>
   );

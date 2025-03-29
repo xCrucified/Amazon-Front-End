@@ -20,6 +20,13 @@ module.exports = {
         pathname: "/**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "gosellbackupcooloarfish.blob.core.windows.net",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
     ],
   },
 };

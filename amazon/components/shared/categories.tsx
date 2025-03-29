@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuth } from "@/store/slices/headerSlice";
 import { RootState } from "@/store/store";
+import { setCategory } from "@/store/slices/catalogFiltersSlice";
 
 export interface Category {
   id: number;
@@ -41,13 +42,13 @@ export const Categories: React.FC<Props> = ({ className }) => {
             "Content-Type": "application/json",
           },
         });
+
         if (!response.ok) {
-          throw new Error("Failed to load categories");
+          throw new Error("Network response was not ok");
         }
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.log(error);
+        setCategories(await response.json());
+      } catch (e) {
+        console.error(e);
       }
     };
 
@@ -56,10 +57,15 @@ export const Categories: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={cn("flex gap-[12px]", className)}>
-      {categories.map((с, index) => (
-        <Link key={index} href={`/catalog/${с.name}`} replace>
+      {categories.map((c, index) => (
+        <Link
+          key={index}
+          href={`/catalog/${c.name}`}
+          onClick={() => dispatch(setCategory(c.name))}
+          replace
+        >
           <Button className="w-[150px] h-[56px] bg-white text-black hover:bg-gray-100 transition-all duration-124 transform hover:translate-y-1 text-[16px]">
-            {с.name}
+            {c.name}
           </Button>
         </Link>
       ))}
