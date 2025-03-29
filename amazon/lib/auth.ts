@@ -102,24 +102,24 @@ export const authConfig: NextAuthOptions = {
       };
       return session;
     },
-    async signIn({ account }) {
-      if (account?.provider === "google") {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/GoogleAuth/login/google`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              token: account.access_token,
-            }),
-          }
-        );
+    // async signIn({ account }) {
+    //   if (account?.provider === "google") {
+    //     const response = await fetch(
+    //       `${process.env.NEXT_PUBLIC_API_URL}/api/GoogleAuth/login/google`,
+    //       {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           token: account.access_token,
+    //         }),
+    //       }
+    //     );
 
-        if (!response.ok) return false;
-      }
-      return true;
-    },
+    //     if (!response.ok) return false;
+    //   }
+    //   return true;
+    // },
   },
 };

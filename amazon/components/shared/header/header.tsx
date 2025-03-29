@@ -140,7 +140,7 @@ export const Header: React.FC<Props> = ({ className }) => {
                     height={128}
                     className="w-[30px]"
                   />
-                  <div className="text-[16px]">{session.data.user.username}</div>
+                  <div className="text-[16px]">{session.data.user.email}</div>
                 </div>
                 {isUserpage && (
                   <ArrowRight
