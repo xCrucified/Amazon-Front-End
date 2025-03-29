@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import Collapse from "../ui/collapse";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface Props {
   className?: string;
@@ -15,6 +17,7 @@ export interface Subcategory {
 
 export const CatalogFilter: React.FC<Props> = ({ className, categoryName }) => {
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
+  const category = useSelector((state: RootState) => state.filter.category);
 
   useEffect(() => {
     const fetchSubcategories = async () => {
@@ -42,7 +45,7 @@ export const CatalogFilter: React.FC<Props> = ({ className, categoryName }) => {
 
   return (
     <section className={cn("w-[200px] flex flex-col gap-3 p-6", className)}>
-      <label className="text-[32px] leading-[32px] font-bold w-[fit-content]">Electronic Store</label>
+      <label className="text-[32px] leading-[32px] font-bold w-[fit-content]">{category} Store</label>
       <Collapse subcatogries={subcategories} />
     </section>
   );
