@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+
   images: {
     domains: ["lh3.googleusercontent.com"],
   },
@@ -22,6 +23,10 @@ module.exports = {
       },
     ],
   },
+
+  output: 'export',
+  /* config options here */
+
 };
 
 export default nextConfig;
